@@ -10,6 +10,8 @@ TARGET = QtWeb
 
 DESTDIR = ../lib/
 
+system(../scripts/create-include-files.rb)
+
 QT += core \
 network \
 xml
