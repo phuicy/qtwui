@@ -18,8 +18,7 @@ TestWebget.cpp
 HEADERS += TestWebget.h
 
 INCLUDEPATH += ../src \
-../src/webgets \
-../src/kernel
+../include
 LIBS += -L../lib \
 -lQtWeb
 TARGETDEPS += ../lib/libQtWeb.so

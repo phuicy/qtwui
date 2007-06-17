@@ -18,30 +18,34 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBHTTPSERVER_H
+#define QWEBHTTPSERVER_H
 
-#include <QtWeb/QWebWebget>
+#include <QtWeb/QWebAbstractHttpServer>
 
-class TestWebget : public QWebWebget
+class QWebTcpServer;
+
+class QWebHttpServer : public QWebAbstractHttpServer
 {
     Q_OBJECT
+
 public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QWebHttpServer(QObject* parent = NULL);
+    virtual ~QWebHttpServer();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+    void setPort(quint16 port);
+    quint16 port() const;
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual bool start();
+    virtual QString error() const;
+
+private slots:
+    void incommingConnection(int socketDescriptor);
 
 private:
-	int m_items;
+    QWebTcpServer* m_server;
+    QString m_lastError;
+    quint16 m_port;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBHTTPSERVER_H

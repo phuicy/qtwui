@@ -18,30 +18,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBRESSOURCEPROVIDERFACTORY_H
+#define QWEBRESSOURCEPROVIDERFACTORY_H
 
-#include <QtWeb/QWebWebget>
+#include <QtWeb/QWebAbstractRessourceProviderFactory>
 
-class TestWebget : public QWebWebget
+template <typename T>
+class QWebRessourceProviderFactory : public QWebAbstractRessourceProviderFactory
 {
-    Q_OBJECT
 public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QWebRessourceProviderFactory();
+    virtual ~QWebRessourceProviderFactory();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-
-private:
-	int m_items;
+    virtual QWebAbstractRessourceProvider* create(const QString& sessionId) const;
 };
 
-#endif // TESTWEBGET_H
+template <typename T>
+QWebRessourceProviderFactory<T>::QWebRessourceProviderFactory() :
+    QWebAbstractRessourceProviderFactory()
+{
+}
+
+template <typename T>
+QWebRessourceProviderFactory<T>::~QWebRessourceProviderFactory()
+{
+}
+
+template <typename T>
+QWebAbstractRessourceProvider* QWebRessourceProviderFactory<T>::create(const QString& sessionId) const
+{
+    return new T(sessionId);
+}
+
+#endif // QWEBRESSOURCEPROVIDERFACTORY_H

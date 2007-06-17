@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Eric ALBER                                      *
- *   eric.alber@gmail.com                                                  *
+ *   Copyright (C) 2007 by Eric ALBER   *
+ *   eric.alber@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,30 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBPARAMETERS_H
+#define QWEBPARAMETERS_H
 
-#include <QtWeb/QWebWebget>
+#include <QtCore/QHash>
+#include <QtCore/QString>
+#include <QtXml/QDomDocument>
 
-class TestWebget : public QWebWebget
+class QHttpRequestHeader;
+
+class QWebParameters
 {
-    Q_OBJECT
 public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QWebParameters(const QHttpRequestHeader& header, const QString& postContent = QString::null);
+    virtual ~QWebParameters();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    QString operator[](const QString& key) const;
+    bool contains(const QString& key) const;
+    QString get(const QString& key) const;
+    QString post(const QString& key) const;
+    QDomElement xmlElement() const;
+    QString postContent() const;
 
 private:
-	int m_items;
+    QHash<QString, QString> m_getParameters;
+    QHash<QString, QString> m_postParameters;
+    QDomDocument m_xmlDoc;
+    QString m_postContent;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBPARAMETERS_H

@@ -18,30 +18,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBAPPLICATION_H
+#define QWEBAPPLICATION_H
 
-#include <QtWeb/QWebWebget>
+#include <QtCore/QObject>
+#include <QtCore/QHash>
+#include <QtWeb/QWebAbstractRessourceProvider>
+#include <QtWeb/QWebParameters>
 
-class TestWebget : public QWebWebget
+class QBuffer;
+class QIODevice;
+class QHttpRequestHeader;
+class QThread;
+class QUrl;
+class QWebHttpServer;
+class QWebWebget;
+class QWebFileRessourceProvider;
+class QWebSession;
+
+class QWebApplication : public QWebAbstractRessourceProvider
 {
     Q_OBJECT
+
 public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QWebApplication(const QString& sessionId = QString::null);
+    virtual ~QWebApplication();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+    QWebAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent);
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    void setMainWebget(QWebWebget* w);
+    void setJavascriptDir(const QString& javascriptDir);
+    QString javascriptDir() const;
+    void setStyleSheetsDir(const QString& styleSheetsDir);
+    QString styleSheetDir() const;
 
 private:
-	int m_items;
+    QWebWebget* m_mainWebget;
+    QWebFileRessourceProvider* m_fileProvider;
+    QBuffer* m_buffer;
+    QString m_javascriptDir;
+    QString m_styleSheetsDir;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBAPPLICATION_H

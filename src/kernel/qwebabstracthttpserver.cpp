@@ -18,30 +18,29 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebAbstractHttpServer>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebAbstractHttpServer::QWebAbstractHttpServer(QObject* parent) :
+    QObject(parent),
+    m_server(NULL)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebAbstractHttpServer::~QWebAbstractHttpServer()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+void QWebAbstractHttpServer::setRessourceProviderServer(QWebRessourceProviderServer* server)
+{
+    m_server = server;
+}
 
-private:
-	int m_items;
-};
+QWebRessourceProviderServer* QWebAbstractHttpServer::ressourceProviderServer() const
+{
+    return m_server;
+}
 
-#endif // TESTWEBGET_H
+QString QWebAbstractHttpServer::error() const
+{
+    return QString::null;
+}

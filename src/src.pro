@@ -19,56 +19,56 @@ UI_DIR = .tmp/ui
 
 MOC_DIR = .tmp/moc
 
-SOURCES += kernel/QWebAbstractRessourceProvider.cpp \
-kernel/QWebApplication.cpp \
-kernel/QWebFileRessourceProvider.cpp \
-kernel/QWebHttpServer.cpp \
-kernel/QWebAbstractHttpServer.cpp \
-kernel/QWebAbstractRessource.cpp \
-kernel/QWebAbstractRessourceProviderFactory.cpp \
-kernel/QWebApplicationFactory.cpp \
-kernel/QWebApplicationServer.cpp \
-kernel/QWebBufferedRessource.cpp \
-kernel/QWebFcgiDevice.cpp \
-kernel/QWebFileRessource.cpp \
-kernel/QWebMessageRessource.cpp \
-kernel/QWebRessourceProviderServer.cpp \
-kernel/QWebTcpServer.cpp \
-kernel/QWebHttpServerDelegate.cpp \
-kernel/QWebAbstractHttpServerDelegate.cpp \
-webgets/QWebLink.cpp \
-webgets/QWebMainWebget.cpp \
-webgets/QWebWebget.cpp \
-kernel/QWebParameters.cpp
-HEADERS += kernel/QWebAbstractRessourceProvider.h \
-kernel/QWebApplication.h \
-kernel/QWebFileRessourceProvider.h \
-kernel/QWebGlobal.h \
-kernel/QWebHttpServer.h \
-kernel/QWebAbstractHttpServer.h \
-kernel/QWebAbstractRessource.h \
-kernel/QWebAbstractRessourceProviderFactory.h \
-kernel/QWebApplicationCreator.h \
-kernel/QWebApplicationFactory.h \
-kernel/QWebApplicationServer.h \
-kernel/QWebBufferedRessource.h \
-kernel/QWebFcgiDevice.h \
-kernel/QWebFileRessource.h \
-kernel/QWebMessageRessource.h \
-kernel/QWebParameters.h \
-kernel/QWebRessourceProviderFactory.h \
-kernel/QWebRessourceProviderServer.h \
-kernel/QWebTcpServer.h \
-kernel/QWebHttpServerDelegate.h \
-kernel/QWebAbstractHttpServerDelegate.h \
-webgets/QWebLink.h \
-webgets/QWebMainWebget.h \
-webgets/QWebWebget.h
+SOURCES += kernel/qwebtcpserver.cpp \
+kernel/qwebfileressource.cpp \
+kernel/qwebmessageressource.cpp \
+kernel/qwebhttpserver.cpp \
+kernel/qwebfcgidevice.cpp \
+kernel/qwebapplicationfactory.cpp \
+kernel/qwebparameters.cpp \
+kernel/qwebapplication.cpp \
+kernel/qwebapplicationserver.cpp \
+kernel/qwebabstracthttpserver.cpp \
+kernel/qwebbufferedressource.cpp \
+kernel/qwebabstractressource.cpp \
+kernel/qwebressourceproviderserver.cpp \
+kernel/qwebhttpserverdelegate.cpp \
+kernel/qwebabstractressourceproviderfactory.cpp \
+kernel/qwebabstracthttpserverdelegate.cpp \
+kernel/qwebfileressourceprovider.cpp \
+kernel/qwebabstractressourceprovider.cpp \
+webgets/qwebwebget.cpp \
+webgets/qweblink.cpp \
+webgets/qwebmainwebget.cpp
+HEADERS += kernel/qwebhttpserverdelegate.h \
+kernel/qwebabstractressourceproviderfactory.h \
+kernel/qwebfcgidevice.h \
+kernel/qwebapplicationcreator.h \
+kernel/qwebtcpserver.h \
+kernel/qwebabstracthttpserver.h \
+kernel/qwebglobal.h \
+kernel/qwebparameters.h \
+kernel/qwebhttpserver.h \
+kernel/qwebapplicationserver.h \
+kernel/qwebmessageressource.h \
+kernel/qwebfileressourceprovider.h \
+kernel/qwebfileressource.h \
+kernel/qwebapplicationfactory.h \
+kernel/qwebabstractressource.h \
+kernel/qwebressourceproviderserver.h \
+kernel/qwebbufferedressource.h \
+kernel/qwebabstracthttpserverdelegate.h \
+kernel/qwebressourceproviderfactory.h \
+kernel/qwebapplication.h \
+kernel/qwebabstractressourceprovider.h \
+webgets/qwebwebget.h \
+webgets/qwebmainwebget.h \
+webgets/qweblink.h
 INSTALLS += target
 
 target.path = ../bin
 DISTFILES += ../javascript/qweblink.js \
 ../stylesheets/qtweb.css \
 .
-INCLUDEPATH += webgets \
-kernel
+INCLUDEPATH += ../include
+

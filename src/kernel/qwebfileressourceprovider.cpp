@@ -18,30 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebFileRessourceProvider>
+#include <QtNetwork/QHttpRequestHeader>
+#include <QtWeb/QWebFileRessource>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebFileRessourceProvider::QWebFileRessourceProvider(const QString& sessionId) :
+    QWebAbstractRessourceProvider(sessionId),
+    m_rootDir(".")
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebFileRessourceProvider::~QWebFileRessourceProvider()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+QWebAbstractRessource* QWebFileRessourceProvider::provide(const QHttpRequestHeader& header, const QString& postContent)
+{
+    Q_UNUSED(postContent);
 
-private:
-	int m_items;
-};
+    return new QWebFileRessource(m_rootDir + header.path());
+}
 
-#endif // TESTWEBGET_H
+void QWebFileRessourceProvider::setRootDirectory(const QString& path)
+{
+    m_rootDir = path;
+}
+
+QString QWebFileRessourceProvider::rootDirectory() const
+{
+    return m_rootDir;
+}

@@ -18,30 +18,34 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebFcgiDevice>
+//#include <fcgi_stdio.h>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebFcgiDevice::QWebFcgiDevice(QObject* parent) :
+    QIODevice(parent)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebFcgiDevice::~QWebFcgiDevice()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+// QIODevice::eof == false -> stream is never eof
+// QIODevice::bytesAvailable == feof(stdin)
+// QIODevice::bytesToWrite == O;
 
-private:
-	int m_items;
-};
+qint64 QWebFcgiDevice::readData(char* data, qint64 maxSize)
+{
+    Q_UNUSED(data);
+    Q_UNUSED(maxSize);
+//    return (quint64) fread(data, sizeof(char), maxSize, stdout);
+    return 0;
+}
 
-#endif // TESTWEBGET_H
+qint64 QWebFcgiDevice::writeData(const char * data, qint64 maxSize)
+{
+    Q_UNUSED(data);
+    Q_UNUSED(maxSize);
+//    return (quint64) fwrite(data, sizeof(char), maxSize, stdout);
+    return 0;
+}

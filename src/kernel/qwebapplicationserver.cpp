@@ -18,30 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebApplicationServer>
+#include <QtCore/QTimer>
+#include <QtCore/QCoreApplication>
+#include <QtWeb/QWebHttpServer>
+#include <QtWeb/QWebApplicationFactory>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebApplicationServer::QWebApplicationServer(QWebApplicationCreator creatorFunction, QObject* parent) :
+    QWebRessourceProviderServer(parent)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    setRessourceProviderFactory(new QWebApplicationFactory(creatorFunction, QCoreApplication::arguments()));
+    QWebHttpServer* server = new QWebHttpServer(this);
+    server->setRessourceProviderServer(this);
+    setHttpServer(server);
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebApplicationServer::~QWebApplicationServer()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+void QWebApplicationServer::setBuiltInServerPort(quint16 port)
+{
+    qobject_cast<QWebHttpServer*>(httpServer())->setPort(port);
+}
 
-private:
-	int m_items;
-};
+void QWebApplicationServer::exec()
+{
+    QTimer::singleShot(0, this, SLOT(initialize()));
+}
 
-#endif // TESTWEBGET_H
+void QWebApplicationServer::initialize()
+{
+    if (!start()) {
+        qWarning(qobject_cast<QWebHttpServer*>(httpServer())->error().toAscii().data());
+    }
+}

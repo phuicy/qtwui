@@ -18,30 +18,31 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebBufferedRessource>
+#include <QtCore/QIODevice>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebBufferedRessource::QWebBufferedRessource(const QString& path, const QString& mimeType, const QByteArray& source) :
+    QWebAbstractRessource(path),
+    m_mimeType(mimeType),
+    m_source(source)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebBufferedRessource::~QWebBufferedRessource()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+QString QWebBufferedRessource::mimeType() const
+{
+    return m_mimeType;
+}
 
-private:
-	int m_items;
-};
+qint64 QWebBufferedRessource::length() const
+{
+    return m_source.length();
+}
 
-#endif // TESTWEBGET_H
+void QWebBufferedRessource::sendToDevice(QIODevice* dev) const
+{
+    dev->write(m_source);
+}

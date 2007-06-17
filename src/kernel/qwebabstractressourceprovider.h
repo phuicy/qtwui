@@ -18,30 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBABSTRACTRESSOURCEPROVIDER_H
+#define QWEBABSTRACTRESSOURCEPROVIDER_H
 
-#include <QtWeb/QWebWebget>
+#include <QtCore/QObject>
+#include <QtCore/QDateTime>
 
-class TestWebget : public QWebWebget
+class QHttpRequestHeader;
+class QWebAbstractRessource;
+
+class QWebAbstractRessourceProvider : public QObject
 {
     Q_OBJECT
+
 public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QWebAbstractRessourceProvider(const QString& sessionId = QString::null);
+    virtual ~QWebAbstractRessourceProvider();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual QWebAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
+    QString sessionId() const;
+    bool keepSessions() const;
+    void setKeepSessions(bool keep);
+    QDateTime sessionTimeoutDate() const;
+    void resetSessionTimeoutDate();
+    bool isSessionTimedOut() const;
+    int sessionLifeTime() const;
+    void setSessionLifeTime(int secs);
 
 private:
-	int m_items;
+    bool m_keepSessions;
+    QDateTime m_sessionTimeoutDate;
+    int m_sessionLifeTime;
+    QString m_sessionId;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBABSTRACTRESSOURCEPROVIDER_H

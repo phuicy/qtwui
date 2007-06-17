@@ -18,30 +18,24 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBAPPLICATIONFACTORY_H
+#define QWEBAPPLICATIONFACTORY_H
 
-#include <QtWeb/QWebWebget>
+#include <QtWeb/QWebAbstractRessourceProviderFactory>
+#include <QtCore/QStringList>
+#include <QtWeb/QWebApplicationCreator>
 
-class TestWebget : public QWebWebget
+class QWebApplicationFactory : public QWebAbstractRessourceProviderFactory
 {
-    Q_OBJECT
 public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QWebApplicationFactory(QWebApplicationCreator creatorFunction, const QStringList& args);
+    virtual ~QWebApplicationFactory();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual QWebAbstractRessourceProvider* create(const QString& sessionId) const;
 
 private:
-	int m_items;
+    QWebApplicationCreator m_creatorFunction;
+    QStringList m_args;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBAPPLICATIONFACTORY_H

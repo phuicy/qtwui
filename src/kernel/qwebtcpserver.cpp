@@ -18,30 +18,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebTcpServer>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebTcpServer::QWebTcpServer(QObject* parent) :
+    QTcpServer(parent)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebTcpServer::~QWebTcpServer()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-
-private:
-	int m_items;
-};
-
-#endif // TESTWEBGET_H
+void QWebTcpServer::incomingConnection(int socketDescriptor)
+{
+    emit newConnection(socketDescriptor);
+}

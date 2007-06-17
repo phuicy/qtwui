@@ -18,30 +18,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebFileRessource>
+#include <QtCore/QUrl>
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 
-#include <QtWeb/QWebWebget>
+#define READ_BUFFER_SIZE 4096
 
-class TestWebget : public QWebWebget
+QWebFileRessource::QWebFileRessource(const QString& path) :
+    QWebAbstractRessource(path)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebFileRessource::~QWebFileRessource()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+QString QWebFileRessource::mimeType() const
+{
+    return "";
+    //return "application/octet-stream";
+}
 
-private:
-	int m_items;
-};
+qint64 QWebFileRessource::length() const
+{
+    QUrl fileUrl(path());
+    QFileInfo fi(fileUrl.path());
+    if (fi.exists() && fi.isFile()) {
+        return fi.size();
+    }
+    return -1;
+}
 
-#endif // TESTWEBGET_H
+void QWebFileRessource::sendToDevice(QIODevice* dev) const
+{
+    QUrl fileUrl(path());
+    if (exists()) {
+        QFile file(fileUrl.path());
+        if (file.open(QIODevice::ReadOnly)) {
+            char data[READ_BUFFER_SIZE];
+            qint64 bytesRead = file.read(data, READ_BUFFER_SIZE);
+            while (bytesRead != 0) {
+                if (!dev->isOpen()) {
+                    qDebug("Aborting");
+                    return;
+                }
+                if (dev->write(data, bytesRead) != bytesRead) {
+                    return;
+                }
+                bytesRead = file.read(data, READ_BUFFER_SIZE);
+            }
+        }
+    }
+}

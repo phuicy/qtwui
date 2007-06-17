@@ -18,30 +18,29 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBHTTPSERVERWORKINGTHREAD_H
+#define QWEBHTTPSERVERWORKINGTHREAD_H
 
-#include <QtWeb/QWebWebget>
+#include <QtWeb/QWebAbstractHttpServerDelegate>
 
-class TestWebget : public QWebWebget
+class QWebHttpServerDelegate : public QWebAbstractHttpServerDelegate
 {
     Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+public:
+    QWebHttpServerDelegate(QWebRessourceProviderServer* providerServer = NULL, int socketDescriptor = 0);
+    virtual ~QWebHttpServerDelegate();
 
 protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual QIODevice* createDevice();
+    virtual void deleteDevice(QIODevice* device);
+    virtual QHttpRequestHeader readHttpRequestHeader();
+    virtual QString readHttpRequestContent();
+    virtual void writeHttpResponseHeader(const QHttpResponseHeader& responseHeader);
 
 private:
-	int m_items;
+    int m_socketDescriptor;
+    uint m_requestContentLength;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBHTTPSERVERWORKINGTHREAD_H

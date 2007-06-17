@@ -18,30 +18,57 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebAbstractRessourceProvider>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebAbstractRessourceProvider::QWebAbstractRessourceProvider(const QString& sessionId) :
+    QObject(NULL),
+    m_keepSessions(false),
+    m_sessionLifeTime(1800),
+    m_sessionId(sessionId)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    resetSessionTimeoutDate();
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebAbstractRessourceProvider::~QWebAbstractRessourceProvider()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+QString QWebAbstractRessourceProvider::sessionId() const
+{
+    return m_sessionId;
+}
 
-private:
-	int m_items;
-};
+bool QWebAbstractRessourceProvider::keepSessions() const
+{
+    return m_keepSessions;
+}
 
-#endif // TESTWEBGET_H
+void QWebAbstractRessourceProvider::setKeepSessions(bool keep)
+{
+    m_keepSessions = keep;
+}
+
+QDateTime QWebAbstractRessourceProvider::sessionTimeoutDate() const
+{
+    return m_sessionTimeoutDate;
+}
+
+void QWebAbstractRessourceProvider::resetSessionTimeoutDate()
+{
+    m_sessionTimeoutDate = QDateTime::currentDateTime().addSecs(m_sessionLifeTime);
+}
+
+bool QWebAbstractRessourceProvider::isSessionTimedOut() const
+{
+    return m_sessionTimeoutDate <= QDateTime::currentDateTime();
+}
+
+int QWebAbstractRessourceProvider::sessionLifeTime() const
+{
+    return m_sessionLifeTime;
+}
+
+void QWebAbstractRessourceProvider::setSessionLifeTime(int secs)
+{
+    m_sessionLifeTime = secs;
+}

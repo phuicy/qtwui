@@ -18,30 +18,51 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebHttpServer>
+#include <QtWeb/QWebTcpServer>
+#include <QtWeb/QWebHttpServerDelegate>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebHttpServer::QWebHttpServer(QObject* parent) :
+    QWebAbstractHttpServer(parent),
+    m_server(NULL),
+    m_port(80)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    m_server = new QWebTcpServer(this);
+    connect(m_server, SIGNAL(newConnection(int)), this, SLOT(incommingConnection(int)));
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebHttpServer::~QWebHttpServer()
+{
+    delete m_server;
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+void QWebHttpServer::setPort(quint16 port)
+{
+    m_port = port;
+}
 
-private:
-	int m_items;
-};
+quint16 QWebHttpServer::port() const
+{
+    return m_port;
+}
 
-#endif // TESTWEBGET_H
+bool QWebHttpServer::start()
+{
+    if (!m_server->listen(QHostAddress::Any, m_port)) {
+        m_lastError = QString("Unable to start server on port %1").arg(m_port);
+        return false;
+    }
+    m_lastError = QString::null;
+    return true;
+}
+
+QString QWebHttpServer::error() const
+{
+    return m_lastError;
+}
+
+void QWebHttpServer::incommingConnection(int socketDescriptor)
+{
+    QWebHttpServerDelegate* thread = new QWebHttpServerDelegate(ressourceProviderServer(), socketDescriptor);
+    thread->start();
+}

@@ -18,30 +18,22 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBFCGIDEVICE_H
+#define QWEBFCGIDEVICE_H
 
-#include <QtWeb/QWebWebget>
+#include <QtCore/QIODevice>
 
-class TestWebget : public QWebWebget
+class QWebFcgiDevice : public QIODevice
 {
     Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+public:
+    QWebFcgiDevice(QObject* parent = NULL);
+    virtual ~QWebFcgiDevice();
 
 protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-
-private:
-	int m_items;
+    virtual qint64 readData(char* data, qint64 maxSize);
+    virtual qint64 writeData(const char * data, qint64 maxSize);
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBFCGIDEVICE_H

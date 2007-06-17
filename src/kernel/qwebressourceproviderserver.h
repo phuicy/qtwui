@@ -18,30 +18,54 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBRESSOURCEPROVIDERSERVER_H
 
-#include <QtWeb/QWebWebget>
+#include <QtCore/QObject>
+#include <QtCore/QHash>
 
-class TestWebget : public QWebWebget
+class QTimer;
+class QReadWriteLock;
+class QWebAbstractRessourceProviderFactory;
+class QWebAbstractHttpServer;
+class QWebAbstractRessourceProvider;
+
+class QWebRessourceProviderServer : public QObject
 {
     Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+public:
+    QWebRessourceProviderServer(QObject* parent = NULL);
+    virtual ~QWebRessourceProviderServer();
+
+    void setRessourceProviderFactory(QWebAbstractRessourceProviderFactory* factory);
+    QWebAbstractRessourceProviderFactory* ressourceProviderFactory() const;
+    void setHttpServer(QWebAbstractHttpServer* server);
+    QWebAbstractHttpServer* httpServer() const;
+    void setDefaultSessionLifeTime(int secs);
+    int defaultSessionLifeTime() const;
+
+    virtual QWebAbstractRessourceProvider* takeSession(const QString& sessionId);
+    virtual void releaseSession(QWebAbstractRessourceProvider* session);
+    virtual QWebAbstractRessourceProvider* newSession();
+
+    virtual bool start();
 
 protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual void customEvent(QEvent* event);
 
 private:
-	int m_items;
+    void pullToCurrentThread(QObject* obj);
+
+private slots:
+    void cleanupSessions();
+
+private:
+    QHash<QString, QWebAbstractRessourceProvider*> m_sessions;
+    QWebAbstractRessourceProviderFactory* m_factory;
+    QWebAbstractHttpServer* m_server;
+    QTimer* m_sessionCleanupTimer;
+    QReadWriteLock* m_lock;
+    int m_defaultSessionLifeTime;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBRESSOURCEPROVIDERSERVER_H

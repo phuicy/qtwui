@@ -18,30 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBABSTRACTRESSOURCE_H
+#define QWEBABSTRACTRESSOURCE_H
 
-#include <QtWeb/QWebWebget>
+#include <QtCore/QString>
 
-class TestWebget : public QWebWebget
+class QIODevice;
+
+class QWebAbstractRessource
 {
-    Q_OBJECT
 public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QWebAbstractRessource(const QString& path = QString::null);
+    virtual ~QWebAbstractRessource();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual QString mimeType() const = 0;
+    virtual qint64 length() const = 0;
+    virtual QString path() const;
+    virtual bool exists() const;
+    virtual void sendToDevice(QIODevice* dev) const = 0;
 
 private:
-	int m_items;
+    QString m_path;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBABSTRACTRESSOURCE_H

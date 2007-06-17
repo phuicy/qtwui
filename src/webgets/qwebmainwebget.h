@@ -18,30 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBMAINWEBGET_H
+#define QWEBMAINWEBGET_H
 
 #include <QtWeb/QWebWebget>
 
-class TestWebget : public QWebWebget
+class QWebMainWebget : public QWebWebget
 {
     Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+public:
+    QWebMainWebget(QWebWebget* parent = NULL, const QString& webName = QString::null);
+    virtual ~QWebMainWebget();
+    void setTitle(const QString& title);
+    QString title() const;
 
 protected:
     virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
     virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
 
 private:
-	int m_items;
+    QString m_title;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBMAINWEBGET_H

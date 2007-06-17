@@ -18,30 +18,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWeb/QWebMessageRessource>
+#include <QtCore/QTextStream>
 
-#include <QtWeb/QWebWebget>
-
-class TestWebget : public QWebWebget
+QWebMessageRessource::QWebMessageRessource(const QString& path) :
+    QWebAbstractRessource(path)
 {
-    Q_OBJECT
-public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+QWebMessageRessource::~QWebMessageRessource()
+{
+}
 
-protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+QString QWebMessageRessource::mimeType() const
+{
+    return "text/html";
+}
 
-private:
-	int m_items;
-};
+qint64 QWebMessageRessource::length() const
+{
+    return message().length();
+}
 
-#endif // TESTWEBGET_H
+void QWebMessageRessource::sendToDevice(QIODevice* dev) const
+{
+    QTextStream stream(dev);
+    stream << message();
+}
+
+void QWebMessageRessource::setMessage(const QString& message)
+{
+    m_message = message;
+}
+
+QString QWebMessageRessource::message() const
+{
+    return m_message;
+}

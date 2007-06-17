@@ -18,30 +18,64 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWEBWEBGET_H
+#define QWEBWEBGET_H
 
-#include <QtWeb/QWebWebget>
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QHash>
+#include <QtCore/QSet>
+#include <QtWeb/QWebParameters>
 
-class TestWebget : public QWebWebget
+class QIODevice;
+class QTextStream;
+class QWebApplication;
+
+class QWebWebget : public QObject
 {
     Q_OBJECT
+
 public:
-    TestWebget(QWebWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QWebWebget(QWebWebget* parent = NULL, const QString& webName = QString::null);
+    virtual ~QWebWebget();
+
+    void setWebName(const QString& webName);
+    QString webName() const;
+    QString webPath() const;
+    void setWebId(const QString& webId);
+    QString webId() const;
+    void setWebClass(const QString& webClass);
+    QString webClass() const;
+    virtual QString invoke(const QString& call, const QWebParameters& parameters, QIODevice* dev);
+    virtual QString startTag(const QString& tag);
+    virtual QString endTag(const QString& tag);
+    void addStyleSheet(const QString& css);
+    void addJavascriptFile(const QString& js);
+    QSet<QString> styleSheets() const;
+    QSet<QString> javascriptFiles() const;
+    QWebApplication* webApp() const;
 
 public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+    void render(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
 
 protected:
+    virtual void render(const QWebParameters& parameters, QIODevice* dev);
     virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual void renderChild(const QWebParameters& parameters, QTextStream& stream, QWebWebget* child);
     virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
 
 private:
-	int m_items;
+    void setWebApp(QWebApplication* app);
+
+private:
+    QString m_webName;
+    QString m_webId;
+    QString m_webClass;
+    QWebApplication* m_webApp;
+    QSet<QString> m_jsFiles;
+    QSet<QString> m_cssFiles;
+
+    friend class QWebApplication;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWEBWEBGET_H

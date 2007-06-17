@@ -18,12 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QStringList>
-#include "QWebApplicationServer.h"
-#include "QWebApplication.h"
-#include "QWebMainWebget.h"
+#include <QtCore/QCoreApplication>
+#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
+#include <QtWeb/QWebApplicationServer>
+#include <QtWeb/QWebApplication>
+#include <QtWeb/QWebMainWebget>
 #include "TestWebget.h"
 
 void printUsage()

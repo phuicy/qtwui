@@ -19,10 +19,10 @@
  ***************************************************************************/
 
 #include "TestWebget.h"
-#include <QTextStream>
-#include <QIODevice>
-#include "QWebLink.h"
-#include "QWebApplication.h"
+#include <QtCore/QTextStream>
+#include <QtCore/QIODevice>
+#include <QtWeb/QWebLink>
+#include <QtWeb/QWebApplication>
 
 TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName),
