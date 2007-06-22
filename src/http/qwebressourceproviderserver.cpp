@@ -183,10 +183,12 @@ void QWebRessourceProviderServer::customEvent(QEvent* event)
 
 void QWebRessourceProviderServer::pullToCurrentThread(QObject* obj)
 {
-    QSemaphore sem(0);
-    QWebObjectThreadChangeEvent* event = new QWebObjectThreadChangeEvent(obj, QThread::currentThread(), &sem);
-    QCoreApplication::postEvent(this, event);
-    sem.acquire(1);
+    if (obj->thread() != QThread::currentThread()) {
+        QSemaphore sem(0);
+        QWebObjectThreadChangeEvent* event = new QWebObjectThreadChangeEvent(obj, QThread::currentThread(), &sem);
+        QCoreApplication::postEvent(this, event);
+        sem.acquire(1);
+    }
 }
 
 void QWebRessourceProviderServer::cleanupSessions()

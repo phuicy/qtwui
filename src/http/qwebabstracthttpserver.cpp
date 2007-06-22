@@ -19,10 +19,12 @@
  ***************************************************************************/
 
 #include <QtWeb/QWebAbstractHttpServer>
+#include <QtWeb/QWebAbstractHttpServerDelegate>
 
 QWebAbstractHttpServer::QWebAbstractHttpServer(QObject* parent) :
     QObject(parent),
-    m_server(NULL)
+    m_server(NULL),
+    m_type(ThreadedProcessing)
 {
 }
 
@@ -40,7 +42,33 @@ QWebRessourceProviderServer* QWebAbstractHttpServer::ressourceProviderServer() c
     return m_server;
 }
 
+void QWebAbstractHttpServer::setRequestProcessingType(RequestProcessingType t)
+{
+    m_type = t;
+}
+
+QWebAbstractHttpServer::RequestProcessingType QWebAbstractHttpServer::requestProcessingType() const
+{
+    return m_type;
+}
+
 QString QWebAbstractHttpServer::error() const
 {
     return QString::null;
+}
+
+void QWebAbstractHttpServer::process(QWebAbstractHttpServerDelegate* delegate)
+{
+    switch (m_type) {
+        case QueuedProcessing:
+            delegate->doRun();
+            delete delegate;
+            break;
+        case ThreadedProcessing:
+            delegate->start();
+            break;
+        default:
+            delete delegate;
+            break;
+    }
 }

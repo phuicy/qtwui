@@ -63,6 +63,5 @@ QString QWebHttpServer::error() const
 
 void QWebHttpServer::incommingConnection(int socketDescriptor)
 {
-    QWebHttpServerDelegate* thread = new QWebHttpServerDelegate(ressourceProviderServer(), socketDescriptor);
-    thread->start();
+    process(new QWebHttpServerDelegate(ressourceProviderServer(), socketDescriptor));
 }

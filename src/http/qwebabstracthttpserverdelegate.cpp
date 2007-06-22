@@ -189,5 +189,7 @@ void QWebAbstractHttpServerDelegate::doRun()
 
     deleteDevice(m_device);
     m_device = NULL;
-    quit();
+    if (isRunning()) {
+        quit();
+    }
 }

@@ -66,6 +66,8 @@ private:
     QWebMessageRessource* m_notFoundRessource;
     QWebAbstractRessource* m_ressource;
     QTimer* m_timer;
+
+    friend class QWebAbstractHttpServer;
 };
 
 #endif // QWEBABSTRACTHTTPSERVERWORKINGTHREAD_H

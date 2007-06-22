@@ -24,10 +24,17 @@
 #include <QtCore/QObject>
 
 class QWebRessourceProviderServer;
+class QWebAbstractHttpServerDelegate;
 
 class QWebAbstractHttpServer : public QObject
 {
     Q_OBJECT
+
+public:
+    enum RequestProcessingType {
+        QueuedProcessing,
+        ThreadedProcessing
+    };
 
 public:
     QWebAbstractHttpServer(QObject* parent = NULL);
@@ -35,12 +42,18 @@ public:
 
     void setRessourceProviderServer(QWebRessourceProviderServer* server);
     QWebRessourceProviderServer* ressourceProviderServer() const;
+    void setRequestProcessingType(RequestProcessingType t);
+    RequestProcessingType requestProcessingType() const;
 
     virtual bool start() = 0;
     virtual QString error() const;
 
+protected:
+    void process(QWebAbstractHttpServerDelegate* delegate);
+
 private:
     QWebRessourceProviderServer* m_server;
+    RequestProcessingType m_type;
 };
 
 #endif // QWEBABSTRACTHTTPSERVER_H

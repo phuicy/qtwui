@@ -22,6 +22,7 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QStringList>
 #include <QtWeb/QWebApplicationServer>
+#include <QtWeb/QWebAbstractHttpServer>
 #include <QtWeb/QWebApplication>
 #include <QtWeb/QWebMainWebget>
 #include "TestWebget.h"
@@ -56,6 +57,7 @@ int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
     QWebApplicationServer webAppServer(webMain);
+    webAppServer.httpServer()->setRequestProcessingType(QWebAbstractHttpServer::QueuedProcessing);
 
     QString option = QCoreApplication::arguments().at(1);
     if ((option == "-p") || (option == "--port")) {
