@@ -27,14 +27,9 @@
 #include <QtWeb/QWebParameters>
 
 class QBuffer;
-class QIODevice;
 class QHttpRequestHeader;
-class QThread;
-class QUrl;
-class QWebHttpServer;
 class QWebWebget;
 class QWebFileRessourceProvider;
-class QWebSession;
 
 class QWebApplication : public QWebAbstractRessourceProvider
 {

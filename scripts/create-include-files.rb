@@ -17,8 +17,8 @@ def printUsage()
 end
 
 def addDirIdentifiers(ids, dir)
-    puts 'Scanning ' + dir + ' ...'
-    ctags = IO.popen('ctags --c-types=gtc --fields=k -f - ' + File.join(dir, '*.h'))
+    puts "Scanning #{dir} ..."
+    ctags = IO.popen("ctags --c-types=gtc --fields=k -f - #{File.join(dir, '*.h')}")
     ctags.each { |line|
         items = line.split(/\s/)
         if (items.length > 1) then
