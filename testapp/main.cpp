@@ -45,9 +45,6 @@ QWebApplication* webMain(const QString& sessionId, const QStringList& args)
     QWebMainWebget* mw = new QWebMainWebget(NULL, "mw");
     mw->setTitle("QtWeb Test");
     TestWebget* test1 = new TestWebget(mw, "test1");
-    TestWebget* test2 = new TestWebget(test1, "test2");
-    TestWebget* test3 = new TestWebget(test1, "test3");
-    TestWebget* test4 = new TestWebget(test2, "test4");
     webApp->setMainWebget(mw);
 
     return webApp;

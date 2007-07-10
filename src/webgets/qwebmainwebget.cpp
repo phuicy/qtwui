@@ -25,6 +25,7 @@
 QWebMainWebget::QWebMainWebget(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName)
 {
+    addStyleSheet("qwebmainwindow.css");
 }
 
 QWebMainWebget::~QWebMainWebget()

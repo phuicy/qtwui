@@ -1,0 +1,16 @@
+table.QWebLayout {
+    width: 100%;
+    padding: 0;
+    margin:0;
+    border-collapse: collapse;
+}
+tr.QWebLayout {
+    padding: 0;
+    margin:0;
+}
+td.QWebLayout {
+    padding: 0;
+    margin:0;
+    background: #FA0;
+    border: 1px solid #000;
+}

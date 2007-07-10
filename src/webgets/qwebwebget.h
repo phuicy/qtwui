@@ -30,6 +30,7 @@
 class QIODevice;
 class QTextStream;
 class QWebApplication;
+class QWebLayout;
 
 class QWebWebget : public QObject
 {
@@ -54,6 +55,8 @@ public:
     QSet<QString> styleSheets() const;
     QSet<QString> javascriptFiles() const;
     QWebApplication* webApp() const;
+    void setLayout(QWebLayout* l);
+    QWebLayout* layout() const;
 
 public slots:
     void render(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
@@ -61,7 +64,6 @@ public slots:
 protected:
     virtual void render(const QWebParameters& parameters, QIODevice* dev);
     virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void renderChild(const QWebParameters& parameters, QTextStream& stream, QWebWebget* child);
     virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
 
 private:
@@ -74,8 +76,11 @@ private:
     QWebApplication* m_webApp;
     QSet<QString> m_jsFiles;
     QSet<QString> m_cssFiles;
+    QWebLayout* m_layout;
 
     friend class QWebApplication;
+    friend class QWebLayout;
+    friend class QWebWebgetItem;
 };
 
 #endif // QWEBWEBGET_H

@@ -23,6 +23,8 @@
 #include <QtCore/QIODevice>
 #include <QtWeb/QWebLink>
 #include <QtWeb/QWebApplication>
+#include <QtWeb/QWebHBoxLayout>
+#include <QtWeb/QWebVBoxLayout>
 
 TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName),
@@ -31,6 +33,14 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     qDebug("YYYYYYYYEEEEEEEEEHHHHHHHHHHHHHHAAAAAAAAAAAAHHHHH !!!!");
     QWebLink* link = new QWebLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
     connect(link, SIGNAL(clicked(QString&, const QWebParameters&, QIODevice*)), this, SLOT(linkClicked(QString&, const QWebParameters&, QIODevice*)));
+    if (webName == "test1") {
+        QWebHBoxLayout* hbox = new QWebHBoxLayout(this);
+        hbox->addWebget(new TestWebget(this, "test2"), 1);
+        QWebVBoxLayout* vbox = new QWebVBoxLayout(QWebLayout::Em);
+        hbox->addLayout(vbox, 2);
+        vbox->addWebget(new TestWebget(this, "test3"), 30);
+        vbox->addWebget(new TestWebget(this, "test4"));
+    }
     link->addParameter("toto", "toto-param");
     link->addParameter("toto2", "toto-param-second");
 }

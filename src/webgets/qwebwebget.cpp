@@ -22,16 +22,20 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QIODevice>
 #include <QtWeb/QWebApplication>
+#include <QtWeb/QWebLayout>
 
 QWebWebget::QWebWebget(QWebWebget* parent, const QString& webName) :
     QObject(parent),
-    m_webApp(NULL)
+    m_webApp(NULL),
+    m_layout(NULL)
 {
     setWebName(webName);
+    addStyleSheet("qwebwebget.css");
 }
 
 QWebWebget::~QWebWebget()
 {
+    delete m_layout;
 }
 
 void QWebWebget::setWebName(const QString& webName)
@@ -190,6 +194,20 @@ QWebApplication* QWebWebget::webApp() const
     return NULL;
 }
 
+void QWebWebget::setLayout(QWebLayout* l)
+{
+    delete m_layout;
+    m_layout = l;
+    if (m_layout != NULL) {
+        m_layout->m_parent = this;
+    }
+}
+
+QWebLayout* QWebWebget::layout() const
+{
+    return m_layout;
+}
+
 void QWebWebget::render(QString& mimeType, const QWebParameters& parameters, QIODevice* dev)
 {
     mimeType = "text/html";
@@ -204,10 +222,14 @@ void QWebWebget::render(const QWebParameters& parameters, QIODevice* dev)
 
     beforeRenderChildren(parameters, stream);
     stream.flush();
+    if (m_layout != NULL) {
+        m_layout->render(parameters, dev);
+        stream.flush();
+    }
     while (it.hasNext()) {
         w = qobject_cast<QWebWebget*>(it.next());
-        if (w != NULL) {
-            renderChild(parameters, stream, w);
+        if (w != NULL && (m_layout == NULL || !m_layout->contains(w))) {
+            w->render(parameters, stream.device());
             stream.flush();
         }
     }
@@ -219,11 +241,6 @@ void QWebWebget::beforeRenderChildren(const QWebParameters& parameters, QTextStr
 {
     Q_UNUSED(parameters);
     stream << startTag("div");
-}
-
-void QWebWebget::renderChild(const QWebParameters& parameters, QTextStream& stream, QWebWebget* child)
-{
-    child->render(parameters, stream.device());
 }
 
 void QWebWebget::afterRenderChildren(const QWebParameters& parameters, QTextStream& stream)
