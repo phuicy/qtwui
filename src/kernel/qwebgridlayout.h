@@ -31,16 +31,53 @@ public:
     QWebGridLayout(QWebWebget* parent, Unit unit = RelativeStrength);
     QWebGridLayout(Unit unit = RelativeStrength);
     virtual ~QWebGridLayout();
-/*    virtual LayoutType type() const;
-    virtual void addItem(QWebLayoutItem* item);
-    void addItem(QWebLayoutItem* item, int row, int column, int rowSpan = 1, int columnSpan = 1);
-    void addWebget(QWebWebget* w, int row, int column, int rowSpan = 1, int columnSpan = 1);
+    virtual LayoutType type() const;
+    virtual void insertItem(QWebLayoutItem* item, int row, int column, int rowSpan = 1, int columnSpan = 1);
+    void insertWebget(QWebWebget* w, int row, int column, int rowSpan = 1, int columnSpan = 1);
+    void insertStretch(int row, int column, int rowSpan = 1, int columnSpan = 1);
     virtual void removeItem(QWebLayoutItem* item);
+    void setRowSize(int row, int size);
+    int rowSize(int row);
+    void setColumnSize(int column, int size);
+    int columnSize(int column);
+    int rowCount() const;
+    int columnCount() const;
     virtual int count() const;
     virtual int indexOf(QWebWebget* w) const;
+    QPair<int, int> coordsOf(QWebLayoutItem* item) const;
+    virtual bool contains(QWebWebget* w) const;
     virtual QWebLayoutItem* itemAt(int index) const;
     virtual QWebLayoutItem* takeAt(int index);
-*/
+    virtual void render(const QWebParameters& parameters, QIODevice* dev);
+
+private:
+    void expandTo(int rows, int columns);
+    void reduce();
+
+private:
+    class Item
+    {
+    public:
+        Item() :
+            m_item(NULL),
+            m_rowSpan(0),
+            m_columnSpan(0)
+        {
+        }
+        ~Item()
+        {
+            delete m_item;
+        }
+        QWebLayoutItem* m_item;
+        int m_rowSpan;
+        int m_columnSpan;
+    };
+    typedef QList<Item> ItemList;
+    typedef QList<ItemList> ItemMatrix;
+    ItemMatrix m_items;
+    QList<int> m_rowSizes;
+    QList<int> m_columnSizes;
+    int m_count;
 };
 
 #endif // QWEBGRIDLAYOUT_H
