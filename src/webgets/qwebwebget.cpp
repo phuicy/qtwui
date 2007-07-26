@@ -35,7 +35,6 @@ QWebWebget::QWebWebget(QWebWebget* parent, const QString& webName) :
 
 QWebWebget::~QWebWebget()
 {
-    delete m_layout;
 }
 
 void QWebWebget::setWebName(const QString& webName)

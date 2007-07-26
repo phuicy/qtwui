@@ -27,6 +27,7 @@
 
 class QWebBoxLayout : public QWebLayout
 {
+    Q_OBJECT
 public:
     QWebBoxLayout(QWebWebget* parent, Unit unit = RelativeStrength);
     QWebBoxLayout(Unit unit = RelativeStrength);
@@ -57,6 +58,7 @@ private:
 
 class QWebHBoxLayout : public QWebBoxLayout
 {
+    Q_OBJECT
 public:
     QWebHBoxLayout(QWebWebget* parent, Unit unit = RelativeStrength);
     QWebHBoxLayout(Unit unit = RelativeStrength);
@@ -67,6 +69,7 @@ public:
 
 class QWebVBoxLayout : public QWebBoxLayout
 {
+    Q_OBJECT
 public:
     QWebVBoxLayout(QWebWebget* parent, Unit unit = RelativeStrength);
     QWebVBoxLayout(Unit unit = RelativeStrength);

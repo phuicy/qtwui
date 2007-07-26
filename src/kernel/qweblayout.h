@@ -21,13 +21,15 @@
 #ifndef QWEBLAYOUT_H
 #define QWEBLAYOUT_H
 
+#include <QtCore/QObject>
 #include <QtWeb/QWebLayoutItem>
 
 class QWebParameters;
 class QIODevice;
 
-class QWebLayout : public QWebLayoutItem
+class QWebLayout : public QObject, public QWebLayoutItem
 {
+    Q_OBJECT
 public:
     enum LayoutType {
         HBoxLayout,
@@ -53,7 +55,6 @@ public:
     virtual bool contains(QWebWebget* w) const = 0;
     virtual QWebLayoutItem* itemAt(int index) const = 0;
     virtual QWebLayoutItem* takeAt(int index) = 0;
-    QWebWebget* parentWebget() const;
     bool isEnabled() const;
     void setEnabled(bool enable);
     void setSpacing(int s);
@@ -65,7 +66,6 @@ public:
     QString unitToString() const;
 
 private:
-    QWebWebget* m_parent;
     bool m_enabled;
     int m_spacing;
     Unit m_unit;

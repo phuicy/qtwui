@@ -21,17 +21,48 @@
 #include "TestWebget.h"
 #include <QtCore/QTextStream>
 #include <QtCore/QIODevice>
+#include <QtGui/QImage>
 #include <QtWeb/QWebLink>
 #include <QtWeb/QWebApplication>
 #include <QtWeb/QWebHBoxLayout>
 #include <QtWeb/QWebVBoxLayout>
 #include <QtWeb/QWebGridLayout>
+#include <QtWeb/QWebLabel>
 
 TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName),
     m_items(0)
 {
     qDebug("YYYYYYYYEEEEEEEEEHHHHHHHHHHHHHHAAAAAAAAAAAAHHHHH !!!!");
+
+    QWebLabel* l1 = new QWebLabel(this, "l1");
+    l1->setText("Label 1");
+    QWebLabel* l2 = new QWebLabel(this, "l2");
+    l2->setText("Label 2");
+    QWebLabel* l3 = new QWebLabel(this, "l3");
+    //l3->setPixmap(QPixmap(100, 100));
+    l3->setText("Label 3");
+    QWebLabel* l4 = new QWebLabel(this, "l4");
+    QImage img(100, 100, QImage::Format_RGB32);
+    img.fill(qRgb(189, 149, 39));
+    l4->setImage(img);
+    QWebLabel* l5 = new QWebLabel(this, "l5");
+    l5->setImageFile("bin/coin.jpg");
+    QWebLink* link = new QWebLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
+    link->addParameter("toto", "toto-param");
+    link->addParameter("toto2", "toto-param-second");
+
+    QWebGridLayout* l = new QWebGridLayout(this);
+    l->insertWebget(l1, 0, 0);
+    l->insertWebget(l2, 0, 1);
+    l->insertWebget(l3, 1, 0);
+    l->insertWebget(l4, 1, 1);
+    l->insertWebget(l5, 2, 0);
+    l->insertWebget(link, 2, 1);
+
+    connect(link, SIGNAL(clicked(QString&, const QWebParameters&, QIODevice*)), this, SLOT(linkClicked(QString&, const QWebParameters&, QIODevice*)));
+
+#if 0
     QWebLink* link = new QWebLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
     connect(link, SIGNAL(clicked(QString&, const QWebParameters&, QIODevice*)), this, SLOT(linkClicked(QString&, const QWebParameters&, QIODevice*)));
     if (webName == "test1") {
@@ -41,14 +72,13 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
         hbox->addLayout(vbox, 2);
         vbox->addWebget(new TestWebget(this, "test3"), 30);
         vbox->addWebget(new TestWebget(this, "test4"));*/
-        QWebGridLayout* l = new QWebGridLayout(this);
+
         l->insertWebget(new TestWebget(this, "test2"), 0, 0, 1, 2);
         //l->insertWebget(new TestWebget(this, "test3"), 0, 1);
         l->insertWebget(new TestWebget(this, "test4"), 1, 0);
         l->insertWebget(new TestWebget(this, "test5"), 1, 1);
     }
-    link->addParameter("toto", "toto-param");
-    link->addParameter("toto2", "toto-param-second");
+#endif //0
 }
 
 TestWebget::~TestWebget()

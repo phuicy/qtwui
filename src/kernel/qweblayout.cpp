@@ -22,18 +22,17 @@
 #include <QtWeb/QWebWebget>
 
 QWebLayout::QWebLayout(QWebWebget* parent, Unit unit) :
-    m_parent(parent),
+    QObject(parent),
     m_enabled(true),
     m_spacing(4),
     m_unit(unit)
 {
-    if (m_parent != NULL) {
-        m_parent->setLayout(this);
+    if (parent != NULL) {
+        parent->setLayout(this);
     }
 }
 
 QWebLayout::QWebLayout(Unit unit) :
-    m_parent(NULL),
     m_enabled(true),
     m_spacing(4),
     m_unit(unit)
@@ -50,11 +49,6 @@ void QWebLayout::removeWebget(QWebWebget* w)
     if (i != -1) {
         removeItem(itemAt(i));
     }
-}
-
-QWebWebget* QWebLayout::parentWebget() const
-{
-    return m_parent;
 }
 
 bool QWebLayout::isEnabled() const

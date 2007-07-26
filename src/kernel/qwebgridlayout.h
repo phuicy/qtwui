@@ -27,6 +27,7 @@
 
 class QWebGridLayout : public QWebLayout
 {
+    Q_OBJECT
 public:
     QWebGridLayout(QWebWebget* parent, Unit unit = RelativeStrength);
     QWebGridLayout(Unit unit = RelativeStrength);
