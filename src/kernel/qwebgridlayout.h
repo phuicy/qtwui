@@ -49,7 +49,7 @@ public:
     virtual bool contains(QWebWebget* w) const;
     virtual QWebLayoutItem* itemAt(int index) const;
     virtual QWebLayoutItem* takeAt(int index);
-    virtual void render(const QWebParameters& parameters, QIODevice* dev);
+    virtual void render(QIODevice* dev);
 
 private:
     void expandTo(int rows, int columns);

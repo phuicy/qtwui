@@ -25,7 +25,7 @@
 QWebMainWebget::QWebMainWebget(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName)
 {
-    addStyleSheet("qwebmainwindow.css");
+    addStyleSheet("qwebmainwebget.css");
 }
 
 QWebMainWebget::~QWebMainWebget()
@@ -42,10 +42,8 @@ QString QWebMainWebget::title() const
     return m_title;
 }
 
-void QWebMainWebget::beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream)
+void QWebMainWebget::beforeRenderChildren(QTextStream& stream)
 {
-    Q_UNUSED(parameters);
-
     QString jsDir(".");
     QString cssDir(".");
     QWebApplication* app = webApp();
@@ -80,10 +78,8 @@ void QWebMainWebget::beforeRenderChildren(const QWebParameters& parameters, QTex
     stream << endTag("head") << "\n" << startTag("body") << "\n";
 }
 
-void QWebMainWebget::afterRenderChildren(const QWebParameters& parameters, QTextStream& stream)
+void QWebMainWebget::afterRenderChildren(QTextStream& stream)
 {
-    Q_UNUSED(parameters);
-
     stream << endTag("body")
            << endTag("html");
 }

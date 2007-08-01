@@ -25,7 +25,6 @@
 #include <QtCore/QString>
 #include <QtCore/QHash>
 #include <QtCore/QSet>
-#include <QtWeb/QWebParameters>
 
 class QIODevice;
 class QTextStream;
@@ -47,7 +46,7 @@ public:
     QString webId() const;
     void setWebClass(const QString& webClass);
     QString webClass() const;
-    virtual QString invoke(const QString& call, const QWebParameters& parameters, QIODevice* dev);
+    virtual QString invoke(const QString& call, QIODevice* dev);
     virtual QString startTag(const QString& tag);
     virtual QString endTag(const QString& tag);
     void addStyleSheet(const QString& css);
@@ -59,12 +58,12 @@ public:
     QWebLayout* layout() const;
 
 public slots:
-    void render(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+    void render(QString& mimeType, QIODevice* dev);
 
 protected:
-    virtual void render(const QWebParameters& parameters, QIODevice* dev);
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual void render(QIODevice* dev);
+    virtual void beforeRenderChildren(QTextStream& stream);
+    virtual void afterRenderChildren(QTextStream& stream);
 
 private:
     void setWebApp(QWebApplication* app);

@@ -23,9 +23,6 @@
 
 #include <QtWeb/QWebWebget>
 #include <QtWeb/QWebGlobal>
-#include <QtWeb/QWebParameters>
-
-class QDomElement;
 
 class QWebLink : public QWebWebget
 {
@@ -62,22 +59,18 @@ public:
     QString parameter(const QString& name) const;
 
 protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual void beforeRenderChildren(QTextStream& stream);
+    virtual void afterRenderChildren(QTextStream& stream);
 
 private:
     QString serializeAjaxParameters() const;
     QString serializeParameters() const;
 
 private slots:
-    void handleClick(QString& mimeType, const QString& params, QIODevice* dev);
-    void handleClick(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void handleClick(QString& mimeType, const QDomElement& xml, QIODevice* dev);
+    void handleClick(QString& mimeType, QIODevice* dev);
 
 signals:
-    void clicked(QString& mimeType, const QString& params, QIODevice* dev);
-    void clicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void clicked(QString& mimeType, const QDomElement& xml, QIODevice* dev);
+    void clicked(QString& mimeType, QIODevice* dev);
 
 private:
     Qt::QWebAjaxInsertion m_updateMethod;

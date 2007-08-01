@@ -191,11 +191,15 @@ QWebBoxLayout::LayoutType QWebHBoxLayout::type() const
     return HBoxLayout;
 }
 
-void QWebHBoxLayout::render(const QWebParameters& parameters, QIODevice* dev)
+void QWebHBoxLayout::render(QIODevice* dev)
 {
     if (count() != 0) {
         QTextStream stream(dev);
-        stream << "<table class=\"QWebLayout\">\n";
+        stream << "<table class=\"QWebLayout\"";
+        if (spacing() >= 0) {
+            stream << " cellspacing=\"" << spacing() << "\"";
+        }
+        stream << ">\n";
         stream << "<tr class=\"QWebLayout\">\n";
         int max = 0;
         if (unit() == RelativeStrength) {
@@ -220,7 +224,7 @@ void QWebHBoxLayout::render(const QWebParameters& parameters, QIODevice* dev)
             }
             stream << ">\n";
             stream.flush();
-            boxItem.first->render(parameters, dev);
+            boxItem.first->render(dev);
             stream.flush();
             stream << "</td>\n";
         }
@@ -249,11 +253,15 @@ QWebBoxLayout::LayoutType QWebVBoxLayout::type() const
     return VBoxLayout;
 }
 
-void QWebVBoxLayout::render(const QWebParameters& parameters, QIODevice* dev)
+void QWebVBoxLayout::render(QIODevice* dev)
 {
     if (count() != 0) {
         QTextStream stream(dev);
-        stream << "<table class=\"QWebLayout\">\n";
+        stream << "<table class=\"QWebLayout\"";
+        if (spacing() >= 0) {
+            stream << " cellspacing=\"" << spacing() << "\"";
+        }
+        stream << ">\n";
         int max = 0;
         if (unit() == RelativeStrength) {
             for (int i = 0; i < count(); ++i) {
@@ -277,7 +285,7 @@ void QWebVBoxLayout::render(const QWebParameters& parameters, QIODevice* dev)
             }
             stream << ">\n<td class=\"QWebLayout\">\n";
             stream.flush();
-            boxItem.first->render(parameters, dev);
+            boxItem.first->render(dev);
             stream.flush();
             stream << "</td>\n";
             stream << "</tr>\n";

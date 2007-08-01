@@ -31,14 +31,14 @@ public:
     virtual ~TestWebget();
 
 public slots:
-    void coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
-    void linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev);
+    void coucou(QString& mimeType, QIODevice* dev);
+    void empty(QString& mimeType, QIODevice* dev);
+    void ajaxcall(QString& mimeType, QIODevice* dev);
+    void linkClicked(QString& mimeType, QIODevice* dev);
 
 protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual void beforeRenderChildren(QTextStream& stream);
+    virtual void afterRenderChildren(QTextStream& stream);
 
 private:
 	int m_items;

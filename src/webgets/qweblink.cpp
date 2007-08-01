@@ -155,10 +155,8 @@ QString QWebLink::parameter(const QString& name) const
     return QString::null;
 }
 
-void QWebLink::beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream)
+void QWebLink::beforeRenderChildren(QTextStream& stream)
 {
-    Q_UNUSED(parameters);
-
     stream << "<a href=\"";
     switch (m_linkType) {
         case AjaxLink:
@@ -204,10 +202,8 @@ void QWebLink::beforeRenderChildren(const QWebParameters& parameters, QTextStrea
     stream << "\">";
 }
 
-void QWebLink::afterRenderChildren(const QWebParameters& parameters, QTextStream& stream)
+void QWebLink::afterRenderChildren(QTextStream& stream)
 {
-    Q_UNUSED(parameters);
-
     stream << m_label << "</a>";
 }
 
@@ -238,17 +234,7 @@ QString QWebLink::serializeParameters() const
     return params;
 }
 
-void QWebLink::handleClick(QString& mimeType, const QString& params, QIODevice* dev)
+void QWebLink::handleClick(QString& mimeType, QIODevice* dev)
 {
-    emit clicked(mimeType, params, dev);
-}
-
-void QWebLink::handleClick(QString& mimeType, const QWebParameters& parameters, QIODevice* dev)
-{
-    emit clicked(mimeType, parameters, dev);
-}
-
-void QWebLink::handleClick(QString& mimeType, const QDomElement& xml, QIODevice* dev)
-{
-    emit clicked(mimeType, xml, dev);
+    emit clicked(mimeType, dev);
 }

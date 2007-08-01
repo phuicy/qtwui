@@ -34,8 +34,8 @@ public:
     QString title() const;
 
 protected:
-    virtual void beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream);
-    virtual void afterRenderChildren(const QWebParameters& parameters, QTextStream& stream);
+    virtual void beforeRenderChildren(QTextStream& stream);
+    virtual void afterRenderChildren(QTextStream& stream);
 
 private:
     QString m_title;

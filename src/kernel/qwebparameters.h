@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Eric ALBER   *
- *   eric.alber@gmail.com   *
+ *   Copyright (C) 2007 by Eric ALBER                                      *
+ *   eric.alber@gmail.com                                                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,9 +30,11 @@ class QHttpRequestHeader;
 class QWebParameters
 {
 public:
-    QWebParameters(const QHttpRequestHeader& header, const QString& postContent = QString::null);
+    QWebParameters();
     virtual ~QWebParameters();
 
+    void init(const QHttpRequestHeader& header, const QString& postContent = QString::null);
+    void clear();
     QString operator[](const QString& key) const;
     bool contains(const QString& key) const;
     QString get(const QString& key) const;

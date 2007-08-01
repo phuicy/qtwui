@@ -22,8 +22,18 @@
 #include <QtCore/QUrl>
 #include <QtNetwork/QHttpRequestHeader>
 
-QWebParameters::QWebParameters(const QHttpRequestHeader& header, const QString& postContent)
+QWebParameters::QWebParameters()
 {
+}
+
+QWebParameters::~QWebParameters()
+{
+}
+
+void QWebParameters::init(const QHttpRequestHeader& header, const QString& postContent)
+{
+    clear();
+
     m_postContent = postContent;
 
     QUrl url(header.path());
@@ -50,8 +60,12 @@ QWebParameters::QWebParameters(const QHttpRequestHeader& header, const QString& 
     }
 }
 
-QWebParameters::~QWebParameters()
+void QWebParameters::clear()
 {
+    m_getParameters.clear();
+    m_postParameters.clear();
+    m_xmlDoc.clear();
+    m_postContent = QString::null;
 }
 
 QString QWebParameters::operator[](const QString& key) const

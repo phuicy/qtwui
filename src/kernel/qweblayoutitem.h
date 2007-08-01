@@ -39,7 +39,7 @@ public:
     QWebLayoutItem();
     virtual ~QWebLayoutItem();
     virtual ItemType itemType() const = 0;
-    virtual void render(const QWebParameters& parameters, QIODevice* dev) = 0;
+    virtual void render(QIODevice* dev) = 0;
 };
 
 class QWebWebgetItem : public QWebLayoutItem
@@ -49,7 +49,7 @@ public:
     virtual ~QWebWebgetItem();
     QWebWebget* webget() const;
     virtual ItemType itemType() const;
-    virtual void render(const QWebParameters& parameters, QIODevice* dev);
+    virtual void render(QIODevice* dev);
 
 private:
     QWebWebget* m_webget;
@@ -61,7 +61,7 @@ public:
     QWebSpacerItem();
     virtual ~QWebSpacerItem();
     virtual ItemType itemType() const;
-    virtual void render(const QWebParameters& parameters, QIODevice* dev);
+    virtual void render(QIODevice* dev);
 };
 
 #endif // QWEBLAYOUTITEM_H

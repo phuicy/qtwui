@@ -181,7 +181,33 @@ QPair<int, int> QWebGridLayout::coordsOf(QWebLayoutItem* item) const
 
 bool QWebGridLayout::contains(QWebWebget* w) const
 {
-    return indexOf(w) != -1;
+    ItemMatrix::ConstIterator rowIt = m_items.begin();
+    ItemMatrix::ConstIterator rowItEnd = m_items.end();
+    for (; rowIt != rowItEnd; ++rowIt) {
+        ItemList::ConstIterator it = rowIt->begin();
+        ItemList::ConstIterator itEnd = rowIt->end();
+        for (; it != itEnd; ++it) {
+            if (it->m_item != NULL) {
+                switch (it->m_item->itemType()) {
+                    case QWebLayoutItem::WebgetItem:
+                        if (static_cast<QWebWebgetItem*>(it->m_item)->webget() == w) {
+                            return true;
+                        }
+                        break;
+                    case QWebLayoutItem::LayoutItem:
+                        if (static_cast<QWebLayout*>(it->m_item)->contains(w)) {
+                            return true;
+                        }
+                        break;
+                    case QWebLayoutItem::SpacerItem:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 QWebLayoutItem* QWebGridLayout::itemAt(int index) const
@@ -216,7 +242,7 @@ QWebLayoutItem* QWebGridLayout::takeAt(int index)
     return NULL;
 }
 
-void QWebGridLayout::render(const QWebParameters& parameters, QIODevice* dev)
+void QWebGridLayout::render(QIODevice* dev)
 {
     if (m_items.isEmpty()) {
         return;
@@ -250,7 +276,11 @@ void QWebGridLayout::render(const QWebParameters& parameters, QIODevice* dev)
     }
 
     QTextStream stream(dev);
-    stream << "<table class=\"QWebLayout\">\n";
+    stream << "<table class=\"QWebLayout\"";
+    if (spacing() >= 0) {
+        stream << " cellpadding=\"" << spacing() << "\"";
+    }
+    stream << ">\n";
     stream << "<colgroup span=\"" << columnCount() << "\">\n";
     QString value;
     intIt = m_columnSizes.begin();
@@ -289,7 +319,7 @@ void QWebGridLayout::render(const QWebParameters& parameters, QIODevice* dev)
                 }
                 stream << ">\n";
                 stream.flush();
-                colIt->m_item->render(parameters, dev);
+                colIt->m_item->render(dev);
                 stream.flush();
                 stream << "</td>\n";
             }
@@ -310,13 +340,13 @@ void QWebGridLayout::expandTo(int rows, int columns)
         line.append(item);
     }
 
-    for (int row = nRows; row <= rows; ++row) {
+    for (int row = nRows; row < rows; ++row) {
         m_items.append(line);
         m_rowSizes.append(1);
     }
 
     nRows = rowCount();
-    for (int col = nCols; col <= columns; ++col) {
+    for (int col = nCols; col < columns; ++col) {
         Item item;
         for (int row = 0; row < nRows; ++row) {
             m_items[row].append(item);

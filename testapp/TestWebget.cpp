@@ -40,8 +40,9 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     QWebLabel* l2 = new QWebLabel(this, "l2");
     l2->setText("Label 2");
     QWebLabel* l3 = new QWebLabel(this, "l3");
-    //l3->setPixmap(QPixmap(100, 100));
     l3->setText("Label 3");
+    QWebLabel* l31 = new QWebLabel(this, "l31");
+    l31->setText("Label 31");
     QWebLabel* l4 = new QWebLabel(this, "l4");
     QImage img(100, 100, QImage::Format_RGB32);
     img.fill(qRgb(189, 149, 39));
@@ -53,14 +54,17 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     link->addParameter("toto2", "toto-param-second");
 
     QWebGridLayout* l = new QWebGridLayout(this);
+    QWebHBoxLayout* hbox = new QWebHBoxLayout();
     l->insertWebget(l1, 0, 0);
     l->insertWebget(l2, 0, 1);
-    l->insertWebget(l3, 1, 0);
+    l->insertItem(hbox, 1, 0);
     l->insertWebget(l4, 1, 1);
     l->insertWebget(l5, 2, 0);
     l->insertWebget(link, 2, 1);
+    hbox->addWebget(l3);
+    hbox->addWebget(l31);
 
-    connect(link, SIGNAL(clicked(QString&, const QWebParameters&, QIODevice*)), this, SLOT(linkClicked(QString&, const QWebParameters&, QIODevice*)));
+    connect(link, SIGNAL(clicked(QString&, QIODevice*)), this, SLOT(linkClicked(QString&, QIODevice*)));
 
 #if 0
     QWebLink* link = new QWebLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
@@ -85,42 +89,36 @@ TestWebget::~TestWebget()
 {
     qDebug("AAAAAAAAAAAAAAAAAAAARRRRRGGGGGGGGGGGG !!!!");
 }
-void TestWebget::beforeRenderChildren(const QWebParameters& parameters, QTextStream& stream)
+void TestWebget::beforeRenderChildren(QTextStream& stream)
 {
-    QWebWebget::beforeRenderChildren(parameters, stream);
-    Q_UNUSED(parameters);
+    QWebWebget::beforeRenderChildren(stream);
 /*    QString str("<script type=\"text/javascript\">function test1update(){new Ajax.Updater('testajax', '?call=");
     str += webPath() + ".ajaxcall', { method: 'get', insertion: Insertion.Bottom } );}</script>\n<a href=\"javascript:test1update()\">Add</a><ul id=\"testajax\"></ul>";
     stream << str;*/
 }
 
-void TestWebget::afterRenderChildren(const QWebParameters& parameters, QTextStream& stream)
+void TestWebget::afterRenderChildren(QTextStream& stream)
 {
-    QWebWebget::afterRenderChildren(parameters, stream);
-    Q_UNUSED(parameters);
-    Q_UNUSED(stream);
+    QWebWebget::afterRenderChildren(stream);
 }
 
-void TestWebget::coucou(QString& mimeType, const QWebParameters& parameters, QIODevice* dev)
+void TestWebget::coucou(QString& mimeType, QIODevice* dev)
 {
-    Q_UNUSED(parameters);
     mimeType = "text/plain";
     QString s("Hello World from %1 method !");
     s = s.arg(webPath());
     dev->write(s.toAscii(), s.length());
 }
 
-void TestWebget::empty(QString& mimeType, const QWebParameters& parameters, QIODevice* dev)
+void TestWebget::empty(QString& mimeType, QIODevice* dev)
 {
     mimeType = "text/html";
-    Q_UNUSED(parameters);
     Q_UNUSED(dev);
 }
 
-void TestWebget::ajaxcall(QString& mimeType, const QWebParameters& parameters, QIODevice* dev)
+void TestWebget::ajaxcall(QString& mimeType, QIODevice* dev)
 {
     mimeType = "text/html";
-    Q_UNUSED(parameters);
     qDebug("AJAX Call !!!");
     QString s1("<ul class=\"testajax\">");
     QString s2("<li>Item %1</li>");
@@ -135,8 +133,9 @@ void TestWebget::ajaxcall(QString& mimeType, const QWebParameters& parameters, Q
     //dev->write(s3.toAscii(), s3.length());
 }
 
-void TestWebget::linkClicked(QString& mimeType, const QWebParameters& parameters, QIODevice* dev)
+void TestWebget::linkClicked(QString& mimeType, QIODevice* dev)
 {
+    QWebParameters parameters = webApp()->parameters();
     mimeType = "text/plain";
     QTextStream stream(dev);
     stream << "coucou " << m_items << " " << webApp()->sessionId() << " " << parameters["toto"] << " " << parameters["toto2"] << "<br />";

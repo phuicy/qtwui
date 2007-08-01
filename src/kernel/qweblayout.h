@@ -60,7 +60,7 @@ public:
     void setSpacing(int s);
     int spacing() const;
     ItemType itemType() const;
-    virtual void render(const QWebParameters& parameters, QIODevice* dev) = 0;
+    virtual void render(QIODevice* dev) = 0;
     Unit unit() const;
     void setUnit(Unit u);
     QString unitToString() const;

@@ -46,6 +46,7 @@ public:
     QString javascriptDir() const;
     void setStyleSheetsDir(const QString& styleSheetsDir);
     QString styleSheetDir() const;
+    QWebParameters parameters() const;
 
 private:
     QWebWebget* m_mainWebget;
@@ -53,6 +54,7 @@ private:
     QBuffer* m_buffer;
     QString m_javascriptDir;
     QString m_styleSheetsDir;
+    QWebParameters m_parameters;
 };
 
 #endif // QWEBAPPLICATION_H

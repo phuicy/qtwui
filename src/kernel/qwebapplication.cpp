@@ -58,14 +58,16 @@ QWebAbstractRessource* QWebApplication::provide(const QHttpRequestHeader& header
         QBuffer buffer(&data);
         buffer.open(QIODevice::WriteOnly);
 
-        QWebParameters params(header, postContent);
+        m_parameters.init(header, postContent);
 
         QString call = url.queryItemValue("call");
         if (call.isEmpty()) {
             call = m_mainWebget->webName() + ".render";
         }
 
-        QString mimeType = m_mainWebget->invoke(call, params, &buffer);
+        QString mimeType = m_mainWebget->invoke(call, &buffer);
+
+        m_parameters.clear();
 
         if (mimeType != QString::null) {
             return new QWebBufferedRessource(header.path(), mimeType, data);
@@ -100,4 +102,9 @@ void QWebApplication::setStyleSheetsDir(const QString& styleSheetsDir)
 QString QWebApplication::styleSheetDir() const
 {
     return m_styleSheetsDir;
+}
+
+QWebParameters QWebApplication::parameters() const
+{
+    return m_parameters;
 }
