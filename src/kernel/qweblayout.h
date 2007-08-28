@@ -47,6 +47,7 @@ public:
     QWebLayout(Unit unit = RelativeStrength);
     QWebLayout();
     virtual ~QWebLayout();
+    QWebWebget* parentWebget() const;
     virtual LayoutType type() const = 0;
     virtual void removeItem(QWebLayoutItem* item) = 0;
     void removeWebget(QWebWebget* w);
@@ -60,7 +61,7 @@ public:
     void setSpacing(int s);
     int spacing() const;
     ItemType itemType() const;
-    virtual void render(QIODevice* dev) = 0;
+    virtual void render() = 0;
     Unit unit() const;
     void setUnit(Unit u);
     QString unitToString() const;

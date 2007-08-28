@@ -21,6 +21,7 @@
 #include <QtWeb/QWebBoxLayout>
 #include <QtCore/QIODevice>
 #include <QtCore/QTextStream>
+#include <QtWeb/QWebWebget>
 
 QWebBoxLayout::QWebBoxLayout(QWebWebget* parent, Unit unit) :
     QWebLayout(parent, unit)
@@ -34,13 +35,6 @@ QWebBoxLayout::QWebBoxLayout(Unit unit) :
 
 QWebBoxLayout::~QWebBoxLayout()
 {
-    ItemList::Iterator it = m_items.begin();
-    ItemList::Iterator itEnd = m_items.end();
-    for (; it != itEnd; ++it) {
-        if (it->first->itemType() == QWebLayoutItem::LayoutItem) {
-            delete it->first;
-        }
-    }
 }
 
 void QWebBoxLayout::addItem(QWebLayoutItem* item, int size)
@@ -65,6 +59,9 @@ void QWebBoxLayout::addStretch(int size)
 
 void QWebBoxLayout::insertItem(int index, QWebLayoutItem* item, int size)
 {
+    if (item->itemType() == QWebLayoutItem::LayoutItem) {
+        static_cast<QWebLayout*>(item)->setParent(this);
+    }
     m_items.insert(index, qMakePair(item, size));
 }
 
@@ -191,9 +188,15 @@ QWebBoxLayout::LayoutType QWebHBoxLayout::type() const
     return HBoxLayout;
 }
 
-void QWebHBoxLayout::render(QIODevice* dev)
+void QWebHBoxLayout::render()
 {
     if (count() != 0) {
+        QWebWebget* p = parentWebget();
+        if (p == NULL) {
+            return;
+        }
+        QIODevice* dev = p->device();
+
         QTextStream stream(dev);
         stream << "<table class=\"QWebLayout\"";
         if (spacing() >= 0) {
@@ -224,7 +227,7 @@ void QWebHBoxLayout::render(QIODevice* dev)
             }
             stream << ">\n";
             stream.flush();
-            boxItem.first->render(dev);
+            boxItem.first->render();
             stream.flush();
             stream << "</td>\n";
         }
@@ -253,9 +256,15 @@ QWebBoxLayout::LayoutType QWebVBoxLayout::type() const
     return VBoxLayout;
 }
 
-void QWebVBoxLayout::render(QIODevice* dev)
+void QWebVBoxLayout::render()
 {
     if (count() != 0) {
+        QWebWebget* p = parentWebget();
+        if (p == NULL) {
+            return;
+        }
+        QIODevice* dev = p->device();
+
         QTextStream stream(dev);
         stream << "<table class=\"QWebLayout\"";
         if (spacing() >= 0) {
@@ -285,7 +294,7 @@ void QWebVBoxLayout::render(QIODevice* dev)
             }
             stream << ">\n<td class=\"QWebLayout\">\n";
             stream.flush();
-            boxItem.first->render(dev);
+            boxItem.first->render();
             stream.flush();
             stream << "</td>\n";
             stream << "</tr>\n";

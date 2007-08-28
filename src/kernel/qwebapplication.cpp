@@ -32,7 +32,7 @@
 QWebApplication::QWebApplication(const QString& sessionId) :
     QWebAbstractRessourceProvider(sessionId),
     m_mainWebget(NULL),
-    m_buffer(NULL),
+    m_device(NULL),
     m_javascriptDir("javascript"),
     m_styleSheetsDir("stylesheets")
 {
@@ -65,7 +65,9 @@ QWebAbstractRessource* QWebApplication::provide(const QHttpRequestHeader& header
             call = m_mainWebget->webName() + ".render";
         }
 
-        QString mimeType = m_mainWebget->invoke(call, &buffer);
+        m_device = &buffer;
+        QString mimeType = m_mainWebget->invoke(call);
+        m_device = NULL;
 
         m_parameters.clear();
 
@@ -107,4 +109,9 @@ QString QWebApplication::styleSheetDir() const
 QWebParameters QWebApplication::parameters() const
 {
     return m_parameters;
+}
+
+QIODevice* QWebApplication::device()
+{
+    return m_device;
 }

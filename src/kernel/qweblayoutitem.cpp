@@ -49,9 +49,9 @@ QWebLayoutItem::ItemType QWebWebgetItem::itemType() const
     return WebgetItem;
 }
 
-void QWebWebgetItem::render(QIODevice* dev)
+void QWebWebgetItem::render()
 {
-    m_webget->render(dev);
+    m_webget->render();
 }
 
 QWebSpacerItem::QWebSpacerItem() :
@@ -68,7 +68,6 @@ QWebLayoutItem::ItemType QWebSpacerItem::itemType() const
     return SpacerItem;
 }
 
-void QWebSpacerItem::render(QIODevice* dev)
+void QWebSpacerItem::render()
 {
-    Q_UNUSED(dev);
 }

@@ -46,7 +46,7 @@ public:
     QString webId() const;
     void setWebClass(const QString& webClass);
     QString webClass() const;
-    virtual QString invoke(const QString& call, QIODevice* dev);
+    virtual QString invoke(const QString& call);
     virtual QString startTag(const QString& tag);
     virtual QString endTag(const QString& tag);
     void addStyleSheet(const QString& css);
@@ -56,12 +56,13 @@ public:
     QWebApplication* webApp() const;
     void setLayout(QWebLayout* l);
     QWebLayout* layout() const;
+    QIODevice* device() const;
 
 public slots:
-    void render(QString& mimeType, QIODevice* dev);
+    void render(QString& mimeType);
 
 protected:
-    virtual void render(QIODevice* dev);
+    virtual void render();
     virtual void beforeRenderChildren(QTextStream& stream);
     virtual void afterRenderChildren(QTextStream& stream);
 

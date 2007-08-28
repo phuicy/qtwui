@@ -20,6 +20,7 @@
 
 #include <QtWeb/QWebGridLayout>
 #include <QtCore/QTextStream>
+#include <QtWeb/QWebWebget>
 
 QWebGridLayout::QWebGridLayout(QWebWebget* parent, Unit unit) :
     QWebLayout(parent, unit),
@@ -46,6 +47,10 @@ void QWebGridLayout::insertItem(QWebLayoutItem* item, int row, int column, int r
 {
     if (item == NULL || row < 0 || column < 0 || rowSpan < 1 || columnSpan < 1) {
         return;
+    }
+
+    if (item->itemType() == QWebLayoutItem::LayoutItem) {
+        static_cast<QWebLayout*>(item)->setParent(this);
     }
 
     expandTo(row + rowSpan, column + columnSpan);
@@ -242,11 +247,17 @@ QWebLayoutItem* QWebGridLayout::takeAt(int index)
     return NULL;
 }
 
-void QWebGridLayout::render(QIODevice* dev)
+void QWebGridLayout::render()
 {
     if (m_items.isEmpty()) {
         return;
     }
+
+    QWebWebget* p = parentWebget();
+    if (p == NULL) {
+        return;
+    }
+    QIODevice* dev = p->device();
 
     QList<int>::ConstIterator intIt;
     QList<int>::ConstIterator intItEnd;
@@ -319,7 +330,7 @@ void QWebGridLayout::render(QIODevice* dev)
                 }
                 stream << ">\n";
                 stream.flush();
-                colIt->m_item->render(dev);
+                colIt->m_item->render();
                 stream.flush();
                 stream << "</td>\n";
             }

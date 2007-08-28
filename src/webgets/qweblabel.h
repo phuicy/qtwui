@@ -18,49 +18,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWEBLAYOUTITEM_H
-#define QWEBLAYOUTITEM_H
+#ifndef QWEBLABEL_H
+#define QWEBLABEL_H
 
-#include <QtCore/QString>
+#include <QtWeb/QWebWebget>
 
-class QWebWebget;
-class QWebParameters;
+class QImage;
 
-class QWebLayoutItem
+class QWebLabel : public QWebWebget
 {
+    Q_OBJECT
+
 public:
-    enum ItemType {
-        WebgetItem,
-        SpacerItem,
-        LayoutItem
+    enum ImageType {
+        JpegImage,
+        PngImage
     };
-public:
-    QWebLayoutItem();
-    virtual ~QWebLayoutItem();
-    virtual ItemType itemType() const = 0;
-    virtual void render() = 0;
-};
 
-class QWebWebgetItem : public QWebLayoutItem
-{
 public:
-    QWebWebgetItem(QWebWebget* w);
-    virtual ~QWebWebgetItem();
-    QWebWebget* webget() const;
-    virtual ItemType itemType() const;
+    QWebLabel(QWebWebget* parent = NULL, const QString& webName = QString::null);
+    virtual ~QWebLabel();
+
+    QString text() const;
+    QString imageFile() const;
+    const QImage* image() const;
+    ImageType imageType() const;
+    void setImageType(ImageType p);
+
+public slots:
+    void clear();
+    void setNum(int num);
+    void setNum(double num);
+    void setImageFile(const QString& f);
+    void setImage(const QImage& p);
+    void setText(const QString& t);
+
+protected:
     virtual void render();
+
+private slots:
+    void image(QString& mimeType);
 
 private:
-    QWebWebget* m_webget;
+    QString m_text;
+    QString m_imageFile;
+    ImageType m_imageType;
+    QImage* m_image;
 };
 
-class QWebSpacerItem : public QWebLayoutItem
-{
-public:
-    QWebSpacerItem();
-    virtual ~QWebSpacerItem();
-    virtual ItemType itemType() const;
-    virtual void render();
-};
-
-#endif // QWEBLAYOUTITEM_H
+#endif // QWEBLABEL_H

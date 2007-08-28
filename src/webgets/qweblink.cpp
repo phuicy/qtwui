@@ -234,7 +234,7 @@ QString QWebLink::serializeParameters() const
     return params;
 }
 
-void QWebLink::handleClick(QString& mimeType, QIODevice* dev)
+void QWebLink::handleClick(QString& mimeType)
 {
-    emit clicked(mimeType, dev);
+    emit clicked(mimeType);
 }

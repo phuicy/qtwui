@@ -43,6 +43,19 @@ QWebLayout::~QWebLayout()
 {
 }
 
+QWebWebget* QWebLayout::parentWebget() const
+{
+    QWebWebget* w = qobject_cast<QWebWebget*>(parent());
+    if (w != NULL) {
+        return w;
+    }
+    QWebLayout* l = qobject_cast<QWebLayout*>(parent());
+    if (l != NULL) {
+        return l->parentWebget();
+    }
+    return NULL;
+}
+
 void QWebLayout::removeWebget(QWebWebget* w)
 {
     int i = indexOf(w);

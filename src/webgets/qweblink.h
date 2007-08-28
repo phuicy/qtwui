@@ -67,10 +67,10 @@ private:
     QString serializeParameters() const;
 
 private slots:
-    void handleClick(QString& mimeType, QIODevice* dev);
+    void handleClick(QString& mimeType);
 
 signals:
-    void clicked(QString& mimeType, QIODevice* dev);
+    void clicked(QString& mimeType);
 
 private:
     Qt::QWebAjaxInsertion m_updateMethod;

@@ -31,10 +31,10 @@ public:
     virtual ~TestWebget();
 
 public slots:
-    void coucou(QString& mimeType, QIODevice* dev);
-    void empty(QString& mimeType, QIODevice* dev);
-    void ajaxcall(QString& mimeType, QIODevice* dev);
-    void linkClicked(QString& mimeType, QIODevice* dev);
+    void coucou(QString& mimeType);
+    void empty(QString& mimeType);
+    void ajaxcall(QString& mimeType);
+    void linkClicked(QString& mimeType);
 
 protected:
     virtual void beforeRenderChildren(QTextStream& stream);

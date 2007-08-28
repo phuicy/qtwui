@@ -55,16 +55,20 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
 
     QWebGridLayout* l = new QWebGridLayout(this);
     QWebHBoxLayout* hbox = new QWebHBoxLayout();
-    l->insertWebget(l1, 0, 0);
-    l->insertWebget(l2, 0, 1);
+    //l->insertWebget(l1, 0, 0);
+    //l->insertWebget(l2, 0, 1);
     l->insertItem(hbox, 1, 0);
     l->insertWebget(l4, 1, 1);
     l->insertWebget(l5, 2, 0);
-    l->insertWebget(link, 2, 1);
+    //l->insertWebget(link, 2, 1);
+
+    l->insertWebget(link, 0, 0, 1, 2);
+    l->insertWebget(l2, 2, 1);
+
     hbox->addWebget(l3);
     hbox->addWebget(l31);
 
-    connect(link, SIGNAL(clicked(QString&, QIODevice*)), this, SLOT(linkClicked(QString&, QIODevice*)));
+    connect(link, SIGNAL(clicked(QString&)), this, SLOT(linkClicked(QString&)));
 
 #if 0
     QWebLink* link = new QWebLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
@@ -102,21 +106,20 @@ void TestWebget::afterRenderChildren(QTextStream& stream)
     QWebWebget::afterRenderChildren(stream);
 }
 
-void TestWebget::coucou(QString& mimeType, QIODevice* dev)
+void TestWebget::coucou(QString& mimeType)
 {
     mimeType = "text/plain";
     QString s("Hello World from %1 method !");
     s = s.arg(webPath());
-    dev->write(s.toAscii(), s.length());
+    device()->write(s.toAscii(), s.length());
 }
 
-void TestWebget::empty(QString& mimeType, QIODevice* dev)
+void TestWebget::empty(QString& mimeType)
 {
     mimeType = "text/html";
-    Q_UNUSED(dev);
 }
 
-void TestWebget::ajaxcall(QString& mimeType, QIODevice* dev)
+void TestWebget::ajaxcall(QString& mimeType)
 {
     mimeType = "text/html";
     qDebug("AJAX Call !!!");
@@ -124,7 +127,7 @@ void TestWebget::ajaxcall(QString& mimeType, QIODevice* dev)
     QString s2("<li>Item %1</li>");
     QString s3("</ul>");
 
-    dev->write(s2.arg(++m_items).toAscii(), s2.length());
+    device()->write(s2.arg(++m_items).toAscii(), s2.length());
     //dev->write(s1.toAscii(), s1.length());
     /*++m_items;
     for (int i = 0; i < m_items; ++i) {
@@ -133,11 +136,11 @@ void TestWebget::ajaxcall(QString& mimeType, QIODevice* dev)
     //dev->write(s3.toAscii(), s3.length());
 }
 
-void TestWebget::linkClicked(QString& mimeType, QIODevice* dev)
+void TestWebget::linkClicked(QString& mimeType)
 {
     QWebParameters parameters = webApp()->parameters();
     mimeType = "text/plain";
-    QTextStream stream(dev);
+    QTextStream stream(device());
     stream << "coucou " << m_items << " " << webApp()->sessionId() << " " << parameters["toto"] << " " << parameters["toto2"] << "<br />";
     m_items = m_items + 1;
 }

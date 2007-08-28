@@ -35,6 +35,12 @@ QWebWebget::QWebWebget(QWebWebget* parent, const QString& webName) :
 
 QWebWebget::~QWebWebget()
 {
+    QWebWebget* p = qobject_cast<QWebWebget*>(parent());
+    if (p != NULL) {
+        if (p->layout() != NULL) {
+            p->layout()->removeWebget(this);
+        }
+    }
 }
 
 void QWebWebget::setWebName(const QString& webName)
@@ -85,7 +91,7 @@ QString QWebWebget::webClass() const
     return m_webClass;
 }
 
-QString QWebWebget::invoke(const QString& call, QIODevice* dev)
+QString QWebWebget::invoke(const QString& call)
 {
     int sep = call.indexOf('.');
     if (sep == -1) {
@@ -97,7 +103,7 @@ QString QWebWebget::invoke(const QString& call, QIODevice* dev)
 
     if (thisPath == webName()) {
         if (nextPath.isEmpty()) {
-            render(mimeType, dev);
+            render(mimeType);
             return mimeType;
         } else {
             QListIterator<QObject*> it(children());
@@ -106,13 +112,13 @@ QString QWebWebget::invoke(const QString& call, QIODevice* dev)
             while (it.hasNext()) {
                 w = qobject_cast<QWebWebget*>(it.next());
                 if (w != NULL) {
-                    mimeType = w->invoke(nextPath, dev);
+                    mimeType = w->invoke(nextPath);
                     if (!mimeType.isNull()) {
                         return mimeType;
                     }
                 }
             }
-            if (QMetaObject::invokeMethod(this, nextPath.toAscii(), QArgument<QString>("QString&", mimeType), Q_ARG(QIODevice*, dev))) {
+            if (QMetaObject::invokeMethod(this, nextPath.toAscii(), QArgument<QString>("QString&", mimeType))) {
                 return mimeType;
             }
         }
@@ -207,14 +213,18 @@ QWebLayout* QWebWebget::layout() const
     return m_layout;
 }
 
-void QWebWebget::render(QString& mimeType, QIODevice* dev)
+void QWebWebget::render(QString& mimeType)
 {
     mimeType = "text/html";
-    render(dev);
+    render();
 }
 
-void QWebWebget::render(QIODevice* dev)
+void QWebWebget::render()
 {
+    QIODevice* dev = device();
+    if (dev == NULL) {
+        return;
+    }
     QTextStream stream(dev);
     QListIterator<QObject*> it(children());
     QWebWebget* w;
@@ -222,13 +232,13 @@ void QWebWebget::render(QIODevice* dev)
     beforeRenderChildren(stream);
     stream.flush();
     if (m_layout != NULL) {
-        m_layout->render(dev);
+        m_layout->render();
         stream.flush();
     }
     while (it.hasNext()) {
         w = qobject_cast<QWebWebget*>(it.next());
         if (w != NULL && (m_layout == NULL || !m_layout->contains(w))) {
-            w->render(stream.device());
+            w->render();
             stream.flush();
         }
     }
@@ -249,4 +259,9 @@ void QWebWebget::afterRenderChildren(QTextStream& stream)
 void QWebWebget::setWebApp(QWebApplication* app)
 {
     m_webApp = app;
+}
+
+QIODevice* QWebWebget::device() const
+{
+    return webApp()->device();
 }

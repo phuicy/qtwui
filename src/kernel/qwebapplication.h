@@ -26,7 +26,7 @@
 #include <QtWeb/QWebAbstractRessourceProvider>
 #include <QtWeb/QWebParameters>
 
-class QBuffer;
+class QIODevice;
 class QHttpRequestHeader;
 class QWebWebget;
 class QWebFileRessourceProvider;
@@ -47,11 +47,12 @@ public:
     void setStyleSheetsDir(const QString& styleSheetsDir);
     QString styleSheetDir() const;
     QWebParameters parameters() const;
+    QIODevice* device();
 
 private:
     QWebWebget* m_mainWebget;
     QWebFileRessourceProvider* m_fileProvider;
-    QBuffer* m_buffer;
+    QIODevice* m_device;
     QString m_javascriptDir;
     QString m_styleSheetsDir;
     QWebParameters m_parameters;

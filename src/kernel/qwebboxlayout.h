@@ -64,7 +64,7 @@ public:
     QWebHBoxLayout(Unit unit = RelativeStrength);
     virtual ~QWebHBoxLayout();
     virtual LayoutType type() const;
-    virtual void render(QIODevice* dev);
+    virtual void render();
 };
 
 class QWebVBoxLayout : public QWebBoxLayout
@@ -75,7 +75,7 @@ public:
     QWebVBoxLayout(Unit unit = RelativeStrength);
     virtual ~QWebVBoxLayout();
     virtual LayoutType type() const;
-    virtual void render(QIODevice* dev);
+    virtual void render();
 };
 
 #endif // QWEBBOXLAYOUT_H
