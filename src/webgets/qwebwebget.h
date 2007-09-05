@@ -22,9 +22,11 @@
 #define QWEBWEBGET_H
 
 #include <QtCore/QObject>
+#include <QtWeb/QWebGlobal>
 #include <QtCore/QString>
 #include <QtCore/QHash>
 #include <QtCore/QSet>
+#include <QtGui/QColor>
 
 class QIODevice;
 class QTextStream;
@@ -47,8 +49,6 @@ public:
     void setWebClass(const QString& webClass);
     QString webClass() const;
     virtual QString invoke(const QString& call);
-    virtual QString startTag(const QString& tag);
-    virtual QString endTag(const QString& tag);
     void addStyleSheet(const QString& css);
     void addJavascriptFile(const QString& js);
     QSet<QString> styleSheets() const;
@@ -57,14 +57,27 @@ public:
     void setLayout(QWebLayout* l);
     QWebLayout* layout() const;
     QIODevice* device() const;
+    void setStyleItem(const QString& item, const QString& value);
+    QString styleItem(const QString& item) const;
+    void setBorderWidth(int w);
+    int borderWidth() const;
+    void setBorderColor(const QColor& c);
+    QColor borderColor() const;
+    void setBackgroundColor(const QColor& c);
+    QColor backgroundColor() const;
+    void setBorderStyle(Qt::QWebBorderStyle s);
+    Qt::QWebBorderStyle borderStyle() const;
+    void setTextColor(const QColor& c);
+    QColor textColor() const;
+    void setTextAlignment(const Qt::Alignment a);
+    Qt::Alignment textAlignment() const;
 
 public slots:
     void render(QString& mimeType);
 
 protected:
     virtual void render();
-    virtual void beforeRenderChildren(QTextStream& stream);
-    virtual void afterRenderChildren(QTextStream& stream);
+    virtual void renderContent();
 
 private:
     void setWebApp(QWebApplication* app);
@@ -77,10 +90,12 @@ private:
     QSet<QString> m_jsFiles;
     QSet<QString> m_cssFiles;
     QWebLayout* m_layout;
+    QHash<QString, QString> m_styleItems;
 
     friend class QWebApplication;
     friend class QWebLayout;
     friend class QWebWebgetItem;
+    friend class QWebTag;
 };
 
 #endif // QWEBWEBGET_H

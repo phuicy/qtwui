@@ -33,6 +33,19 @@ enum QWebAjaxInsertion {
     AjaxInsertionBottom
 };
 
+enum QWebBorderStyle {
+    NoneStyle,
+    HiddenStyle,
+    DottedStyle,
+    DashedStyle,
+    SolidStyle,
+    DoubleStyle,
+    GrooveStyle,
+    RidgeStyle,
+    InsetStyle,
+    OutsetStyle
+};
+
 }
 
 #endif // QWEB_GLOBAL_H

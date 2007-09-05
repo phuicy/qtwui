@@ -23,6 +23,7 @@
 #include <QtCore/QIODevice>
 #include <QtWeb/QWebApplication>
 #include <QtWeb/QWebLayout>
+#include <QtWeb/QWebTag>
 
 QWebWebget::QWebWebget(QWebWebget* parent, const QString& webName) :
     QObject(parent),
@@ -127,24 +128,6 @@ QString QWebWebget::invoke(const QString& call)
     return QString::null;
 }
 
-QString QWebWebget::startTag(const QString& tag)
-{
-    QString wc;
-    QString wid;
-    if (!webClass().isEmpty()) {
-        wc = QString(" class=\"%1\"").arg(webClass());
-    }
-    if (!webId().isEmpty()) {
-        wid = QString(" id=\"%1\"").arg(webId());
-    }
-    return QString("<%1%2%3>\n").arg(tag).arg(wc).arg(wid);
-}
-
-QString QWebWebget::endTag(const QString& tag)
-{
-    return QString("</%1>\n").arg(tag);
-}
-
 void QWebWebget::addStyleSheet(const QString& css)
 {
     m_cssFiles.insert(css);
@@ -213,6 +196,170 @@ QWebLayout* QWebWebget::layout() const
     return m_layout;
 }
 
+QIODevice* QWebWebget::device() const
+{
+    return webApp()->device();
+}
+
+void QWebWebget::setStyleItem(const QString& item, const QString& value)
+{
+    m_styleItems[item] = value;
+}
+
+QString QWebWebget::styleItem(const QString& item) const
+{
+    QHash<QString, QString>::ConstIterator it = m_styleItems.find(item);
+    if (it == m_styleItems.end()) {
+        return QString::null;
+    }
+    return it.value();
+}
+
+void QWebWebget::setBorderWidth(int w)
+{
+    setStyleItem("border-width", QString::number(w));
+}
+
+int QWebWebget::borderWidth() const
+{
+    QString s = styleItem("border-width");
+    bool ok = false;
+    int w = s.toInt(&ok);
+    if (!ok) {
+        return 0;
+    }
+    return w;
+}
+
+void QWebWebget::setBorderColor(const QColor& c)
+{
+    setStyleItem("border-color", c.name());
+}
+
+QColor QWebWebget::borderColor() const
+{
+    return styleItem("border-width");
+}
+
+void QWebWebget::setBackgroundColor(const QColor& c)
+{
+    setStyleItem("background-color", c.name());
+}
+
+QColor QWebWebget::backgroundColor() const
+{
+    return styleItem("background-color");
+}
+
+void QWebWebget::setBorderStyle(Qt::QWebBorderStyle s)
+{
+    switch (s) {
+        case Qt::NoneStyle:
+            setStyleItem("border-style", "none");
+            break;
+        case Qt::HiddenStyle:
+            setStyleItem("border-style", "hidden");
+            break;
+        case Qt::DottedStyle:
+            setStyleItem("border-style", "dotted");
+            break;
+        case Qt::DashedStyle:
+            setStyleItem("border-style", "dashed");
+            break;
+        case Qt::SolidStyle:
+            setStyleItem("border-style", "solid");
+            break;
+        case Qt::DoubleStyle:
+            setStyleItem("border-style", "double");
+            break;
+        case Qt::GrooveStyle:
+            setStyleItem("border-style", "groove");
+            break;
+        case Qt::RidgeStyle:
+            setStyleItem("border-style", "ridge");
+            break;
+        case Qt::InsetStyle:
+            setStyleItem("border-style", "inset");
+            break;
+        case Qt::OutsetStyle:
+            setStyleItem("border-style", "outset");
+            break;
+        default:
+            setStyleItem("border-style", "none");
+            break;
+    }
+}
+
+Qt::QWebBorderStyle QWebWebget::borderStyle() const
+{
+    QString s = styleItem("border-style");
+    if (s == "none") {
+        return Qt::NoneStyle;
+    } else if (s == "hidden") {
+        return Qt::HiddenStyle;
+    } else if (s == "dotted") {
+        return Qt::DottedStyle;
+    } else if (s == "dashed") {
+        return Qt::DashedStyle;
+    } else if (s == "solid") {
+        return Qt::SolidStyle;
+    } else if (s == "double") {
+        return Qt::DoubleStyle;
+    } else if (s == "groove") {
+        return Qt::GrooveStyle;
+    } else if (s == "ridge") {
+        return Qt::RidgeStyle;
+    } else if (s == "inset") {
+        return Qt::InsetStyle;
+    } else if (s == "outset") {
+        return Qt::OutsetStyle;
+    }
+    return Qt::NoneStyle;
+}
+
+void QWebWebget::setTextColor(const QColor& c)
+{
+    setStyleItem("color", c.name());
+}
+
+QColor QWebWebget::textColor() const
+{
+    return styleItem("color");
+}
+
+void QWebWebget::setTextAlignment(const Qt::Alignment a)
+{
+    switch (a) {
+        case Qt::AlignLeft:
+            setStyleItem("text-align", "left");
+            break;
+        case Qt::AlignRight:
+            setStyleItem("text-align", "right");
+            break;
+        case Qt::AlignHCenter:
+            setStyleItem("text-align", "center");
+            break;
+        case Qt::AlignJustify:
+            setStyleItem("text-align", "justify");
+            break;
+    }
+}
+
+Qt::Alignment QWebWebget::textAlignment() const
+{
+    QString s = styleItem("text-align");
+    if (s == "left") {
+        return Qt::AlignLeft;
+    } else if (s == "right") {
+        return Qt::AlignRight;
+    } else if (s == "center") {
+        return Qt::AlignHCenter;
+    } else if (s == "justify") {
+        return Qt::AlignJustify;
+    }
+    return Qt::AlignLeft;
+}
+
 void QWebWebget::render(QString& mimeType)
 {
     mimeType = "text/html";
@@ -220,6 +367,11 @@ void QWebWebget::render(QString& mimeType)
 }
 
 void QWebWebget::render()
+{
+    QWebTag tag(this, "div");
+}
+
+void QWebWebget::renderContent()
 {
     QIODevice* dev = device();
     if (dev == NULL) {
@@ -229,8 +381,6 @@ void QWebWebget::render()
     QListIterator<QObject*> it(children());
     QWebWebget* w;
 
-    beforeRenderChildren(stream);
-    stream.flush();
     if (m_layout != NULL) {
         m_layout->render();
         stream.flush();
@@ -242,26 +392,9 @@ void QWebWebget::render()
             stream.flush();
         }
     }
-    afterRenderChildren(stream);
-    stream.flush();
-}
-
-void QWebWebget::beforeRenderChildren(QTextStream& stream)
-{
-    stream << startTag("div");
-}
-
-void QWebWebget::afterRenderChildren(QTextStream& stream)
-{
-    stream << endTag("div");
 }
 
 void QWebWebget::setWebApp(QWebApplication* app)
 {
     m_webApp = app;
-}
-
-QIODevice* QWebWebget::device() const
-{
-    return webApp()->device();
 }

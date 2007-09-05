@@ -36,10 +36,6 @@ public slots:
     void ajaxcall(QString& mimeType);
     void linkClicked(QString& mimeType);
 
-protected:
-    virtual void beforeRenderChildren(QTextStream& stream);
-    virtual void afterRenderChildren(QTextStream& stream);
-
 private:
 	int m_items;
 };

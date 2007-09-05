@@ -59,8 +59,7 @@ public:
     QString parameter(const QString& name) const;
 
 protected:
-    virtual void beforeRenderChildren(QTextStream& stream);
-    virtual void afterRenderChildren(QTextStream& stream);
+    virtual void render();
 
 private:
     QString serializeAjaxParameters() const;

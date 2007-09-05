@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include <QtWeb/QWebLink>
-#include <QtCore/QTextStream>
+#include <QtWeb/QWebTag>
 
 QWebLink::QWebLink(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName),
@@ -155,56 +155,53 @@ QString QWebLink::parameter(const QString& name) const
     return QString::null;
 }
 
-void QWebLink::beforeRenderChildren(QTextStream& stream)
+void QWebLink::render()
 {
-    stream << "<a href=\"";
+    QWebTag tag(this, "a");
+    QString href;
     switch (m_linkType) {
         case AjaxLink:
-            stream << "javascript:handleAjaxClick('?call=" << webPath() << ".handleClick','" << serializeParameters() << "',";
+            href += QString("javascript:handleAjaxClick('?call=") + webPath() + ".handleClick','" + serializeParameters() + "',";
             switch (m_updateMethod) {
                 case Qt::AjaxInsertionNone:
-                    stream << "null, null)";
+                    href += "null, null)";
                     break;
                 case Qt::AjaxInsertionReplace:
-                    stream << "'" << m_webget->webId() << "',null)";
+                    href += QString("'") + m_webget->webId() + "',null)";
                     break;
                 case Qt::AjaxInsertionBefore:
-                    stream << "'" << m_webget->webId() << "',Insertion.Before)";
+                    href += QString("'") + m_webget->webId() + "',Insertion.Before)";
                     break;
                 case Qt::AjaxInsertionAfter:
-                    stream << "'" << m_webget->webId() << "',Insertion.After)";
+                    href += QString("'") + m_webget->webId() + "',Insertion.After)";
                     break;
                 case Qt::AjaxInsertionTop:
-                    stream << "'" << m_webget->webId() << "',Insertion.Top)";
+                    href += QString("'") + m_webget->webId() + "',Insertion.Top)";
                     break;
                 case Qt::AjaxInsertionBottom:
-                    stream << "'" << m_webget->webId() << "',Insertion.Bottom)";
+                    href += QString("'") + m_webget->webId() + "',Insertion.Bottom)";
                     break;
             }
             break;
         case WebgetLink:
             if (m_webget != NULL) {
-                stream << "?call=" << m_webget->webPath();
+                href += QString("?call=") + m_webget->webPath();
                 QString params = serializeParameters();
                 if (!params.isEmpty()) {
-                    stream << "&" << params;
+                    href += QString("&") + params;
                 }
             }
             break;
         case StandardLink:
-            stream << m_standard;
+            href += m_standard;
             QString params = serializeParameters();
             if (!params.isEmpty()) {
-                stream << "&" << params;
+                href += QString("&") + params;
             }
             break;
     }
-    stream << "\">";
-}
-
-void QWebLink::afterRenderChildren(QTextStream& stream)
-{
-    stream << m_label << "</a>";
+    tag.setAttribute("href", href);
+    tag.setText(m_label);
 }
 
 QString QWebLink::serializeAjaxParameters() const

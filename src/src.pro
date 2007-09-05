@@ -46,7 +46,8 @@ kernel/qweblayout.cpp \
 kernel/qwebboxlayout.cpp \
 kernel/qweblayoutitem.cpp \
 kernel/qwebgridlayout.cpp \
-webgets/qweblabel.cpp
+webgets/qweblabel.cpp \
+kernel/qwebtag.cpp
 HEADERS += http/qwebressourceproviderserver.h \
 http/qwebressourceproviderfactory.h \
 http/qwebtcpserver.h \
@@ -75,7 +76,8 @@ kernel/qweblayout.h \
 kernel/qwebboxlayout.h \
 kernel/qwebgridlayout.h \
 kernel/qweblayoutitem.h \
-webgets/qweblabel.h
+webgets/qweblabel.h \
+kernel/qwebtag.h
 INSTALLS += target
 
 target.path = ../bin

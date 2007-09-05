@@ -42,8 +42,13 @@ QString QWebMainWebget::title() const
     return m_title;
 }
 
-void QWebMainWebget::beforeRenderChildren(QTextStream& stream)
+void QWebMainWebget::render()
 {
+    if (device() == NULL) {
+        return;
+    }
+    QTextStream stream(device());
+
     QString jsDir(".");
     QString cssDir(".");
     QWebApplication* app = webApp();
@@ -51,10 +56,10 @@ void QWebMainWebget::beforeRenderChildren(QTextStream& stream)
         jsDir = app->javascriptDir();
         cssDir = app->styleSheetDir();
     }
-
-    stream << "<html>\n"
+    stream << "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+            << "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
             << "<head>\n"
-            << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n"
+            << "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />\n"
             << "<title>" << title() << "</title>\n";
 
     QSet<QString> cssFiles = styleSheets();
@@ -75,12 +80,11 @@ void QWebMainWebget::beforeRenderChildren(QTextStream& stream)
                 << "\" type=\"text/javascript\"></script>\n";
     }
 
-    stream << endTag("head") << "\n" << startTag("body") << "\n";
-}
+    stream << "</head>\n<body class=\"" << webClass() << "\" id=\"" << webId() << "\">\n";
+    stream.flush();
 
-void QWebMainWebget::afterRenderChildren(QTextStream& stream)
-{
-    stream << endTag("body")
-           << endTag("html");
-}
+    renderContent();
 
+    stream << "</body>\n</html>\n";
+    stream.flush();
+}

@@ -18,26 +18,32 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWEBMAINWEBGET_H
-#define QWEBMAINWEBGET_H
+#ifndef QWEBTAG_H
+#define QWEBTAG_H
 
-#include <QtWeb/QWebWebget>
+#include <QtCore/QHash>
+#include <QtCore/QString>
 
-class QWebMainWebget : public QWebWebget
+class QWebWebget;
+
+class QWebTag
 {
-    Q_OBJECT
-
 public:
-    QWebMainWebget(QWebWebget* parent = NULL, const QString& webName = QString::null);
-    virtual ~QWebMainWebget();
-    void setTitle(const QString& title);
-    QString title() const;
+    QWebTag(QWebWebget* w, const QString& tag, bool emptyTag = false);
+    virtual ~QWebTag();
 
-protected:
-    virtual void render();
+    void setAttribute(const QString& name, const QString& value);
+    QString attribute(const QString& name) const;
+
+    void setText(const QString& text);
+    QString text() const;
 
 private:
-    QString m_title;
+    QString m_tag;
+    QWebWebget* m_webget;
+    bool m_emptyTag;
+    QString m_text;
+    QHash<QString, QString> m_attributes;
 };
 
-#endif // QWEBMAINWEBGET_H
+#endif // QWEBTAG_H

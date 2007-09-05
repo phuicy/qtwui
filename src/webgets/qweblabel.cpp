@@ -20,7 +20,7 @@
 
 #include <QtWeb/QWebLabel>
 #include <QtGui/QImage>
-#include <QtCore/QTextStream>
+#include <QtWeb/QWebTag>
 
 QWebLabel::QWebLabel(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName),
@@ -119,16 +119,16 @@ void QWebLabel::image(QString& mimeType)
 
 void QWebLabel::render()
 {
-    QIODevice* dev = device();
-    if (dev == NULL) {
-        return;
-    }
-    QTextStream stream(dev);
     if (m_image != NULL) {
-        stream << "<img src=\"?call=" << webPath() << ".image\" width=\"" << m_image->width() << "px\" height=\"" << m_image->height() << "px\" />";
+        QWebTag tag(this, "img", false);
+        tag.setAttribute("src", QString("?call=") + webPath() + ".image");
+        tag.setAttribute("width", QString::number(m_image->width()) + "px");
+        tag.setAttribute("height", QString::number(m_image->height()) +  "px");
     } else if (!m_imageFile.isEmpty()) {
-        stream << "<img src=\"" << m_imageFile << "\" />";
+        QWebTag tag(this, "img", false);
+        tag.setAttribute("src", m_imageFile);
     } else if (!m_text.isNull()) {
-        stream << m_text;
+        QWebTag tag(this, "p");
+        tag.setText(m_text);
     }
 }

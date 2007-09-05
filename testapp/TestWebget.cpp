@@ -35,14 +35,21 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
 {
     qDebug("YYYYYYYYEEEEEEEEEHHHHHHHHHHHHHHAAAAAAAAAAAAHHHHH !!!!");
 
-    QWebLabel* l1 = new QWebLabel(this, "l1");
-    l1->setText("Label 1");
+    //QWebLabel* l1 = new QWebLabel(this, "l1");
+    //l1->setText("Label 1");
     QWebLabel* l2 = new QWebLabel(this, "l2");
     l2->setText("Label 2");
+    l2->setTextColor(QColor(0, 0, 200));
+    l2->setTextAlignment(Qt::AlignRight);
     QWebLabel* l3 = new QWebLabel(this, "l3");
     l3->setText("Label 3");
+    l3->setBackgroundColor(QColor(200, 0, 10));
+    l3->setBorderStyle(Qt::DashedStyle);
+    l3->setBorderColor(QColor(0, 200, 50));
+    l3->setBorderWidth(10);
     QWebLabel* l31 = new QWebLabel(this, "l31");
     l31->setText("Label 31");
+    l31->setTextAlignment(Qt::AlignHCenter);
     QWebLabel* l4 = new QWebLabel(this, "l4");
     QImage img(100, 100, QImage::Format_RGB32);
     img.fill(qRgb(189, 149, 39));
@@ -92,18 +99,6 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
 TestWebget::~TestWebget()
 {
     qDebug("AAAAAAAAAAAAAAAAAAAARRRRRGGGGGGGGGGGG !!!!");
-}
-void TestWebget::beforeRenderChildren(QTextStream& stream)
-{
-    QWebWebget::beforeRenderChildren(stream);
-/*    QString str("<script type=\"text/javascript\">function test1update(){new Ajax.Updater('testajax', '?call=");
-    str += webPath() + ".ajaxcall', { method: 'get', insertion: Insertion.Bottom } );}</script>\n<a href=\"javascript:test1update()\">Add</a><ul id=\"testajax\"></ul>";
-    stream << str;*/
-}
-
-void TestWebget::afterRenderChildren(QTextStream& stream)
-{
-    QWebWebget::afterRenderChildren(stream);
 }
 
 void TestWebget::coucou(QString& mimeType)
