@@ -100,6 +100,9 @@ void QWebGridLayout::removeItem(QWebLayoutItem* item)
 void QWebGridLayout::setRowSize(int row, int size)
 {
     if (row >= 0 && row < m_rowSizes.count()) {
+        if (size < 1) {
+            size = 1;
+        }
         m_rowSizes[row] = size;
     }
 }
@@ -115,6 +118,9 @@ int QWebGridLayout::rowSize(int row)
 void QWebGridLayout::setColumnSize(int column, int size)
 {
     if (column >= 0 && column < m_columnSizes.count()) {
+        if (size < 1) {
+            size = 1;
+        }
         m_columnSizes[column] = size;
     }
 }
@@ -287,25 +293,12 @@ void QWebGridLayout::render()
     }
 
     QTextStream stream(dev);
-    stream << "<table class=\"QWebLayout\"";
+    stream << "<table class=\"QWebGridLayout\"";
     if (spacing() >= 0) {
         stream << " cellpadding=\"" << spacing() << "\"";
     }
     stream << ">\n";
-    stream << "<colgroup span=\"" << columnCount() << "\">\n";
     QString value;
-    intIt = m_columnSizes.begin();
-    intItEnd = m_columnSizes.end();
-    for (; intIt != intItEnd; ++intIt) {
-        if (unit() == RelativeStrength) {
-            value = QString::number(((float) *intIt / (float) maxColSize) * 100.0, 'f', 2);
-        } else {
-            value = QString::number(*intIt);
-        }
-
-        stream << "<col width=\"" << value << unitToString() << "\" />\n";
-    }
-    stream << "</colgroup>\n";
 
     ItemMatrix::Iterator rowIt = m_items.begin();
     ItemMatrix::Iterator rowItEnd = m_items.end();
@@ -316,24 +309,33 @@ void QWebGridLayout::render()
         } else {
             value = QString::number(m_rowSizes[rowIndex]);
         }
-        stream << "<tr class=\"QWebLayout\" style=\"height:" << value << unitToString() << ";\">\n";
+        QString style = " style=\"height:" + value + unitToString() + ";";
+        stream << "<tr class=\"QWebGridLayout\"" << style << "\">\n";
         ItemList::Iterator colIt = rowIt->begin();
         ItemList::Iterator colItEnd = rowIt->end();
+        int colIndex = 0;
         for (; colIt != colItEnd; ++colIt) {
             if (colIt->m_item != NULL) {
-                stream << "<td class=\"QWebLayout\"";
+                stream << "<td class=\"QWebGridLayout\"";
                 if (colIt->m_rowSpan > 1) {
                     stream << " rowspan=\"" << colIt->m_rowSpan << "\"";
                 }
                 if (colIt->m_columnSpan > 1) {
                     stream << " colspan=\"" << colIt->m_columnSpan << "\"";
                 }
-                stream << ">\n";
+                if (unit() == RelativeStrength) {
+                    value = QString::number(((float) m_columnSizes[colIndex] / (float) maxColSize) * 100.0, 'f', 2);
+                } else {
+                    value = QString::number(m_columnSizes[colIndex]);
+                }
+                style += "width:" + value + unitToString() + ";";
+                stream << style << "\">\n";
                 stream.flush();
                 colIt->m_item->render();
                 stream.flush();
                 stream << "</td>\n";
             }
+            ++colIndex;
         }
         stream << "</tr>\n";
         ++rowIndex;

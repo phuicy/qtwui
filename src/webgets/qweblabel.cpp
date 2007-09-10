@@ -27,6 +27,7 @@ QWebLabel::QWebLabel(QWebWebget* parent, const QString& webName) :
     m_imageType(PngImage),
     m_image(NULL)
 {
+    addStyleSheet("qweblabel.css");
 }
 
 QWebLabel::~QWebLabel()

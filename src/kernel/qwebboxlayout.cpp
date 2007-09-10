@@ -62,6 +62,9 @@ void QWebBoxLayout::insertItem(int index, QWebLayoutItem* item, int size)
     if (item->itemType() == QWebLayoutItem::LayoutItem) {
         static_cast<QWebLayout*>(item)->setParent(this);
     }
+    if (size < 1) {
+        size = 1;
+    }
     m_items.insert(index, qMakePair(item, size));
 }
 
@@ -198,12 +201,12 @@ void QWebHBoxLayout::render()
         QIODevice* dev = p->device();
 
         QTextStream stream(dev);
-        stream << "<table class=\"QWebLayout\"";
+        stream << "<table class=\"QWebHBoxLayout\"";
         if (spacing() >= 0) {
             stream << " cellspacing=\"" << spacing() << "\"";
         }
         stream << ">\n";
-        stream << "<tr class=\"QWebLayout\">\n";
+        stream << "<tr class=\"QWebHBoxLayout\">\n";
         int max = 0;
         if (unit() == RelativeStrength) {
             for (int i = 0; i < count(); ++i) {
@@ -215,16 +218,14 @@ void QWebHBoxLayout::render()
         }
         for (int i = 0; i < count(); ++i) {
             QPair<QWebLayoutItem*, int> boxItem = boxItemAt(i);
-            stream << "<td class=\"QWebLayout\"";
-            if (boxItem.second != 0) {
-                QString value;
-                if (unit() == RelativeStrength) {
-                    value = QString::number(((float) boxItem.second / (float) max) * 100.0, 'f', 2);
-                } else {
-                    value = QString::number(boxItem.second);
-                }
-                stream << " style=\"width:" << value << unitToString() << ";\"";
+            stream << "<td class=\"QWebHBoxLayout\"";
+            QString value;
+            if (unit() == RelativeStrength) {
+                value = QString::number(((float) boxItem.second / (float) max) * 100.0, 'f', 2);
+            } else {
+                value = QString::number(boxItem.second);
             }
+            stream << " style=\"width:" << value << unitToString() << ";\"";
             stream << ">\n";
             stream.flush();
             boxItem.first->render();
@@ -266,7 +267,7 @@ void QWebVBoxLayout::render()
         QIODevice* dev = p->device();
 
         QTextStream stream(dev);
-        stream << "<table class=\"QWebLayout\"";
+        stream << "<table class=\"QWebVBoxLayout\"";
         if (spacing() >= 0) {
             stream << " cellspacing=\"" << spacing() << "\"";
         }
@@ -282,17 +283,18 @@ void QWebVBoxLayout::render()
         }
         for (int i = 0; i < count(); ++i) {
             QPair<QWebLayoutItem*, int> boxItem = boxItemAt(i);
-            stream << "<tr class=\"QWebLayout\"";
-            if (boxItem.second != 0) {
-                QString value;
-                if (unit() == RelativeStrength) {
-                    value = QString::number(((float) boxItem.second / (float) max) * 100.0, 'f', 2);
-                } else {
-                    value = QString::number(boxItem.second);
-                }
-                stream << " style=\"height:" << value << unitToString() << ";\"";
+            QString style;
+            QString value;
+            if (unit() == RelativeStrength) {
+                value = QString::number(((float) boxItem.second / (float) max) * 100.0, 'f', 2);
+            } else {
+                value = QString::number(boxItem.second);
             }
-            stream << ">\n<td class=\"QWebLayout\">\n";
+            style = " style=\"height:" + value + unitToString() + ";\"";
+            stream << "<tr class=\"QWebVBoxLayout\"";
+            stream << style;
+            stream << ">\n<td class=\"QWebVBoxLayout\"";
+            stream << style << ">\n";
             stream.flush();
             boxItem.first->render();
             stream.flush();

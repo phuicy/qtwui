@@ -85,5 +85,6 @@ DISTFILES += ../javascript/qweblink.js \
 ../stylesheets/qtweb.css \
 . \
 ../stylesheets/qwebmainwebget.css \
-../stylesheets/qwebwebget.css
+../stylesheets/qwebwebget.css \
+../stylesheets/qweblabel.css
 INCLUDEPATH += ../include

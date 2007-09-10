@@ -41,6 +41,9 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     l2->setText("Label 2");
     l2->setTextColor(QColor(0, 0, 200));
     l2->setTextAlignment(Qt::AlignRight);
+    l2->setBorderStyle(Qt::DashedStyle);
+    l2->setBorderColor(QColor(0, 200, 50));
+    l2->setBorderWidth(10);
     QWebLabel* l3 = new QWebLabel(this, "l3");
     l3->setText("Label 3");
     l3->setBackgroundColor(QColor(200, 0, 10));

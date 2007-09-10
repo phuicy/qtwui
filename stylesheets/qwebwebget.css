@@ -1,14 +1,26 @@
-table.QWebLayout {
+table.QWebHBoxLayout,
+tr.QWebHBoxLayout,
+td.QWebHBoxLayout,
+table.QWebVBoxLayout,
+tr.QWebVBoxLayout,
+td.QWebVBoxLayout,
+table.QWebGridLayout,
+tr.QWebGridLayout,
+td.QWebGridLayout {
     width: 100%;
     height: 100%;
-}
-tr.QWebLayout {
     padding: 0;
     margin:0;
 }
-td.QWebLayout {
-    padding: 0;
-    margin:0;
+td.QWebHBoxLayout {
+    background: #FA0;
+    border: 1px solid #000;
+}
+td.QWebVBoxLayout {
+    background: #FA0;
+    border: 1px solid #000;
+}
+td.QWebGridLayout {
     background: #FA0;
     border: 1px solid #000;
 }
