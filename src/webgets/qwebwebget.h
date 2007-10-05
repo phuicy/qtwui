@@ -50,7 +50,7 @@ public:
     QString webClass() const;
     virtual QString invoke(const QString& call);
     void addStyleSheet(const QString& css);
-    void addJavascriptFile(const QString& js);
+    void addJavaScript(const QString& js);
     QSet<QString> styleSheets() const;
     QSet<QString> javascriptFiles() const;
     QWebApplication* webApp() const;
@@ -69,8 +69,9 @@ public:
     Qt::QWebBorderStyle borderStyle() const;
     void setTextColor(const QColor& c);
     QColor textColor() const;
-    void setTextAlignment(const Qt::Alignment a);
-    Qt::Alignment textAlignment() const;
+    void setAlignment(const Qt::Alignment a);
+    Qt::Alignment alignment() const;
+    void update();
 
 public slots:
     void render(QString& mimeType);
@@ -91,6 +92,7 @@ private:
     QSet<QString> m_cssFiles;
     QWebLayout* m_layout;
     QHash<QString, QString> m_styleItems;
+    Qt::Alignment m_align;
 
     friend class QWebApplication;
     friend class QWebLayout;

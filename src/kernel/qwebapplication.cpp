@@ -67,6 +67,17 @@ QWebAbstractRessource* QWebApplication::provide(const QHttpRequestHeader& header
 
         m_device = &buffer;
         QString mimeType = m_mainWebget->invoke(call);
+        if (!m_webgetsToUpdate.isEmpty()) {
+            data.clear();
+            QTextStream stream(&buffer);
+            QSet<const QWebWebget*>::ConstIterator it = m_webgetsToUpdate.begin();
+            QSet<const QWebWebget*>::ConstIterator itEnd = m_webgetsToUpdate.end();
+            for (;it != itEnd; ++it) {
+                stream << "new QWeb.Replacer('" + (*it)->webId() + "','?call=" + (*it)->webPath() + ".render');";
+            }
+            mimeType = "text/ecmascript";
+            m_webgetsToUpdate.clear();
+        }
         m_device = NULL;
 
         m_parameters.clear();
@@ -114,4 +125,9 @@ QWebParameters QWebApplication::parameters() const
 QIODevice* QWebApplication::device()
 {
     return m_device;
+}
+
+void QWebApplication::addWebgetToUpdate(const QWebWebget* webget)
+{
+    m_webgetsToUpdate.insert(webget);
 }

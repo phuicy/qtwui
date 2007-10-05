@@ -31,7 +31,8 @@
 
 TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName),
-    m_items(0)
+    m_items(0),
+    m_nb(0)
 {
     qDebug("YYYYYYYYEEEEEEEEEHHHHHHHHHHHHHHAAAAAAAAAAAAHHHHH !!!!");
 
@@ -40,7 +41,7 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     QWebLabel* l2 = new QWebLabel(this, "l2");
     l2->setText("Label 2");
     l2->setTextColor(QColor(0, 0, 200));
-    l2->setTextAlignment(Qt::AlignRight);
+    l2->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     l2->setBorderStyle(Qt::DashedStyle);
     l2->setBorderColor(QColor(0, 200, 50));
     l2->setBorderWidth(10);
@@ -50,9 +51,10 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     l3->setBorderStyle(Qt::DashedStyle);
     l3->setBorderColor(QColor(0, 200, 50));
     l3->setBorderWidth(10);
+    l3->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     QWebLabel* l31 = new QWebLabel(this, "l31");
     l31->setText("Label 31");
-    l31->setTextAlignment(Qt::AlignHCenter);
+    l31->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     QWebLabel* l4 = new QWebLabel(this, "l4");
     QImage img(100, 100, QImage::Format_RGB32);
     img.fill(qRgb(189, 149, 39));
@@ -75,10 +77,12 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     l->insertWebget(link, 0, 0, 1, 2);
     l->insertWebget(l2, 2, 1);
 
-    hbox->addWebget(l3);
-    hbox->addWebget(l31);
+    hbox->addWebget(l3, 1);
+    hbox->addWebget(l31, 9);
 
     connect(link, SIGNAL(clicked(QString&)), this, SLOT(linkClicked(QString&)));
+    m_label1 = l31;
+    m_label2 = l3;
 
 #if 0
     QWebLink* link = new QWebLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
@@ -136,9 +140,14 @@ void TestWebget::ajaxcall(QString& mimeType)
 
 void TestWebget::linkClicked(QString& mimeType)
 {
+    m_label1->setText(QString("%1 call #%2").arg(webApp()->sessionId()).arg(m_nb));
+    m_label2->setText(QString("Haha %1 call #%2").arg(webApp()->sessionId()).arg(m_nb));
+    ++m_nb;
+    /*
     QWebParameters parameters = webApp()->parameters();
     mimeType = "text/plain";
     QTextStream stream(device());
     stream << "coucou " << m_items << " " << webApp()->sessionId() << " " << parameters["toto"] << " " << parameters["toto2"] << "<br />";
     m_items = m_items + 1;
+    */
 }

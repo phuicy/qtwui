@@ -22,7 +22,7 @@
 #define QWEBAPPLICATION_H
 
 #include <QtCore/QObject>
-#include <QtCore/QHash>
+#include <QtCore/QSet>
 #include <QtWeb/QWebAbstractRessourceProvider>
 #include <QtWeb/QWebParameters>
 
@@ -48,6 +48,7 @@ public:
     QString styleSheetDir() const;
     QWebParameters parameters() const;
     QIODevice* device();
+    void addWebgetToUpdate(const QWebWebget* webget);
 
 private:
     QWebWebget* m_mainWebget;
@@ -56,6 +57,7 @@ private:
     QString m_javascriptDir;
     QString m_styleSheetsDir;
     QWebParameters m_parameters;
+    QSet<const QWebWebget*> m_webgetsToUpdate;
 };
 
 #endif // QWEBAPPLICATION_H

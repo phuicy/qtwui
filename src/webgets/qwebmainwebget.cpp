@@ -25,7 +25,9 @@
 QWebMainWebget::QWebMainWebget(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName)
 {
+    addStyleSheet("qtweb.css");
     addStyleSheet("qwebmainwebget.css");
+    addJavaScript("qtweb.js");
 }
 
 QWebMainWebget::~QWebMainWebget()
@@ -65,7 +67,6 @@ void QWebMainWebget::render()
     QSet<QString> cssFiles = styleSheets();
     QSet<QString>::ConstIterator it = cssFiles.begin();
     QSet<QString>::ConstIterator itEnd = cssFiles.end();
-    stream << "<link href=\"" << cssDir << "/qtweb.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
     for (; it != itEnd; ++it) {
         stream << "<link href=\"" << cssDir << "/" << *it
                 << "\" rel=\"stylesheet\" type=\"text/css\" />\n";

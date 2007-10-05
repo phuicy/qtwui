@@ -66,36 +66,42 @@ void QWebLabel::clear()
     m_image = NULL;
     m_text = QString::null;
     m_imageFile = QString::null;
+    update();
 }
 
 void QWebLabel::setNum(int num)
 {
     clear();
     m_text = QString::number(num);
+    update();
 }
 
 void QWebLabel::setNum(double num)
 {
     clear();
     m_text = QString::number(num);
+    update();
 }
 
 void QWebLabel::setImageFile(const QString& f)
 {
     clear();
     m_imageFile = f;
+    update();
 }
 
 void QWebLabel::setImage(const QImage& p)
 {
     clear();
     m_image = new QImage(p);
+    update();
 }
 
 void QWebLabel::setText(const QString& t)
 {
     clear();
     m_text = t;
+    update();
 }
 
 void QWebLabel::image(QString& mimeType)

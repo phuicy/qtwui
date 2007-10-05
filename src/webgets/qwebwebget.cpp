@@ -133,7 +133,7 @@ void QWebWebget::addStyleSheet(const QString& css)
     m_cssFiles.insert(css);
 }
 
-void QWebWebget::addJavascriptFile(const QString& js)
+void QWebWebget::addJavaScript(const QString& js)
 {
     m_jsFiles.insert(js);
 }
@@ -327,7 +327,7 @@ QColor QWebWebget::textColor() const
     return styleItem("color");
 }
 
-void QWebWebget::setTextAlignment(const Qt::Alignment a)
+void QWebWebget::setAlignment(const Qt::Alignment a)
 {
     switch (a) {
         case Qt::AlignLeft:
@@ -345,7 +345,7 @@ void QWebWebget::setTextAlignment(const Qt::Alignment a)
     }
 }
 
-Qt::Alignment QWebWebget::textAlignment() const
+Qt::Alignment QWebWebget::alignment() const
 {
     QString s = styleItem("text-align");
     if (s == "left") {
@@ -358,6 +358,15 @@ Qt::Alignment QWebWebget::textAlignment() const
         return Qt::AlignJustify;
     }
     return Qt::AlignLeft;
+}
+
+
+void QWebWebget::update()
+{
+    QWebApplication* a = webApp();
+    if (a != NULL) {
+        a->addWebgetToUpdate(this);
+    }
 }
 
 void QWebWebget::render(QString& mimeType)

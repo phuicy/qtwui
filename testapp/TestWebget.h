@@ -23,6 +23,8 @@
 
 #include <QtWeb/QWebWebget>
 
+class QWebLabel;
+
 class TestWebget : public QWebWebget
 {
     Q_OBJECT
@@ -37,7 +39,10 @@ public slots:
     void linkClicked(QString& mimeType);
 
 private:
-	int m_items;
+    int m_items;
+    int m_nb;
+    QWebLabel* m_label1;
+    QWebLabel* m_label2;
 };
 
 #endif // TESTWEBGET_H

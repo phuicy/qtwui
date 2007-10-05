@@ -27,7 +27,7 @@ QWebLink::QWebLink(QWebWebget* parent, const QString& webName) :
     m_webget(NULL),
     m_linkType(StandardLink)
 {
-    addJavascriptFile("qweblink.js");
+    addJavaScript("qweblink.js");
 }
 
 QWebLink::QWebLink(QWebWebget* parent, const QString& webName, const QString& label) :
@@ -37,7 +37,7 @@ QWebLink::QWebLink(QWebWebget* parent, const QString& webName, const QString& la
     m_linkType(StandardLink),
     m_label(label)
 {
-    addJavascriptFile("qweblink.js");
+    addJavaScript("qweblink.js");
 }
 
 QWebLink::QWebLink(QWebWebget* parent, const QString& webName, const QString& label, const QString& destination) :
@@ -48,7 +48,7 @@ QWebLink::QWebLink(QWebWebget* parent, const QString& webName, const QString& la
     m_linkType(StandardLink),
     m_label(label)
 {
-    addJavascriptFile("qweblink.js");
+    addJavaScript("qweblink.js");
 }
 
 QWebLink::QWebLink(QWebWebget* parent, const QString& webName, const QString& label, QWebWebget* destination) :
@@ -58,7 +58,7 @@ QWebLink::QWebLink(QWebWebget* parent, const QString& webName, const QString& la
     m_linkType(WebgetLink),
     m_label(label)
 {
-    addJavascriptFile("qweblink.js");
+    addJavaScript("qweblink.js");
 }
 
 QWebLink::QWebLink(QWebWebget* parent, const QString& webName, const QString& label, QWebWebget* webgetToUpdate, Qt::QWebAjaxInsertion dst) :
@@ -68,7 +68,7 @@ QWebLink::QWebLink(QWebWebget* parent, const QString& webName, const QString& la
     m_linkType(AjaxLink),
     m_label(label)
 {
-    addJavascriptFile("qweblink.js");
+    addJavaScript("qweblink.js");
 }
 
 QWebLink::~QWebLink()
@@ -161,6 +161,8 @@ void QWebLink::render()
     QString href;
     switch (m_linkType) {
         case AjaxLink:
+            href += QString("javascript:handleAjaxClick('?call=") + webPath() + ".handleClick','" + serializeParameters() + "')";
+            break;
             href += QString("javascript:handleAjaxClick('?call=") + webPath() + ".handleClick','" + serializeParameters() + "',";
             switch (m_updateMethod) {
                 case Qt::AjaxInsertionNone:
