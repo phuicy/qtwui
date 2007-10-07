@@ -22,7 +22,6 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QIODevice>
 #include <QtGui/QImage>
-#include <QtWeb/QWebLink>
 #include <QtWeb/QWebApplication>
 #include <QtWeb/QWebHBoxLayout>
 #include <QtWeb/QWebVBoxLayout>
@@ -53,7 +52,7 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     l3->setBorderWidth(10);
     l3->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     QWebLabel* l31 = new QWebLabel(this, "l31");
-    l31->setText("Label 31");
+    l31->setText("Label 31 <a href=\"mylink\">Click Me</a> toto");
     l31->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     QWebLabel* l4 = new QWebLabel(this, "l4");
     QImage img(100, 100, QImage::Format_RGB32);
@@ -61,9 +60,8 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     l4->setImage(img);
     QWebLabel* l5 = new QWebLabel(this, "l5");
     l5->setImageFile("bin/coin.jpg");
-    QWebLink* link = new QWebLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
-    link->addParameter("toto", "toto-param");
-    link->addParameter("toto2", "toto-param-second");
+    QWebLabel* link = new QWebLabel(this, "link");
+    link->setText("<a href=\"link\">Test</a>");
 
     QWebGridLayout* l = new QWebGridLayout(this);
     QWebHBoxLayout* hbox = new QWebHBoxLayout();
@@ -80,7 +78,8 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     hbox->addWebget(l3, 1);
     hbox->addWebget(l31, 9);
 
-    connect(link, SIGNAL(clicked(QString&)), this, SLOT(linkClicked(QString&)));
+    connect(link, SIGNAL(clicked(const QString&)), this, SLOT(linkClicked()));
+    connect(l31, SIGNAL(clicked(const QString&)), this, SLOT(link2Clicked(const QString&)));
     m_label1 = l31;
     m_label2 = l3;
 
@@ -138,7 +137,7 @@ void TestWebget::ajaxcall(QString& mimeType)
     //dev->write(s3.toAscii(), s3.length());
 }
 
-void TestWebget::linkClicked(QString& mimeType)
+void TestWebget::linkClicked()
 {
     m_label1->setText(QString("%1 call #%2").arg(webApp()->sessionId()).arg(m_nb));
     m_label2->setText(QString("Haha %1 call #%2").arg(webApp()->sessionId()).arg(m_nb));
@@ -150,4 +149,10 @@ void TestWebget::linkClicked(QString& mimeType)
     stream << "coucou " << m_items << " " << webApp()->sessionId() << " " << parameters["toto"] << " " << parameters["toto2"] << "<br />";
     m_items = m_items + 1;
     */
+}
+
+void TestWebget::link2Clicked(const QString& link)
+{
+    qDebug(link.toAscii());
+    m_label2->setText("Yeeeeehhhaaaahh !!!!");
 }

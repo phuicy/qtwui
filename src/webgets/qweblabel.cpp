@@ -21,11 +21,13 @@
 #include <QtWeb/QWebLabel>
 #include <QtGui/QImage>
 #include <QtWeb/QWebTag>
+#include <QtWeb/QWebApplication>
 
 QWebLabel::QWebLabel(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName),
     m_imageType(PngImage),
-    m_image(NULL)
+    m_image(NULL),
+    m_imageClickable(false)
 {
     addStyleSheet("qweblabel.css");
 }
@@ -83,17 +85,19 @@ void QWebLabel::setNum(double num)
     update();
 }
 
-void QWebLabel::setImageFile(const QString& f)
+void QWebLabel::setImageFile(const QString& f, bool clickable)
 {
     clear();
     m_imageFile = f;
+    m_imageClickable = clickable;
     update();
 }
 
-void QWebLabel::setImage(const QImage& p)
+void QWebLabel::setImage(const QImage& p, bool clickable)
 {
     clear();
     m_image = new QImage(p);
+    m_imageClickable = clickable;
     update();
 }
 
@@ -124,18 +128,46 @@ void QWebLabel::image(QString& mimeType)
     }
 }
 
+void QWebLabel::handleClick(QString& mimeType)
+{
+    Q_UNUSED(mimeType);
+
+    QString link = webApp()->parameters()["href"];
+    emit clicked(link);
+}
+
 void QWebLabel::render()
 {
     if (m_image != NULL) {
-        QWebTag tag(this, "img", false);
-        tag.setAttribute("src", QString("?call=") + webPath() + ".image");
-        tag.setAttribute("width", QString::number(m_image->width()) + "px");
-        tag.setAttribute("height", QString::number(m_image->height()) +  "px");
+        if (m_imageClickable) {
+            QWebTag aTag(this, "a", false);
+            aTag.setAttribute("href", "javascript:new Ajax.Request('?call=" + webPath() + ".handleClick')");
+            QWebTag imgTag(NULL, "img", false);
+            imgTag.setAttribute("src", QString("?call=") + webPath() + ".image");
+            imgTag.setAttribute("width", QString::number(m_image->width()) + "px");
+            imgTag.setAttribute("height", QString::number(m_image->height()) +  "px");
+            aTag.setText(imgTag.generate());
+        } else {
+            QWebTag imgTag(this, "img", false);
+            imgTag.setAttribute("src", QString("?call=") + webPath() + ".image");
+            imgTag.setAttribute("width", QString::number(m_image->width()) + "px");
+            imgTag.setAttribute("height", QString::number(m_image->height()) +  "px");
+        }
     } else if (!m_imageFile.isEmpty()) {
-        QWebTag tag(this, "img", false);
-        tag.setAttribute("src", m_imageFile);
+        if (m_imageClickable) {
+            QWebTag aTag(this, "a", false);
+            aTag.setAttribute("href", "javascript:new Ajax.Request('?call=" + webPath() + ".handleClick')");
+            QWebTag imgTag(NULL, "img", false);
+            imgTag.setAttribute("src", m_imageFile);
+            aTag.setText(imgTag.generate());
+        } else {
+            QWebTag imgTag(this, "img", false);
+            imgTag.setAttribute("src", m_imageFile);
+        }
     } else if (!m_text.isNull()) {
+        QString t = m_text;
+        t.replace(QRegExp("<[aA]\\s+[hH][rR][eE][fF]=\"([^\"]*)\"\\s*>"), "<a href=\"javascript:new Ajax.Request('?call=" + webPath() + ".handleClick&href=\\1')\">");
         QWebTag tag(this, "p");
-        tag.setText(m_text);
+        tag.setText(t);
     }
 }

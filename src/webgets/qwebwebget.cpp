@@ -21,6 +21,7 @@
 #include <QtWeb/QWebWebget>
 #include <QtCore/QTextStream>
 #include <QtCore/QIODevice>
+#include <QtCore/QEvent>
 #include <QtWeb/QWebApplication>
 #include <QtWeb/QWebLayout>
 #include <QtWeb/QWebTag>
@@ -30,6 +31,9 @@ QWebWebget::QWebWebget(QWebWebget* parent, const QString& webName) :
     m_webApp(NULL),
     m_layout(NULL)
 {
+    if (parent != NULL) {
+        parent->update();
+    }
     setWebName(webName);
     addStyleSheet("qwebwebget.css");
 }
@@ -401,6 +405,17 @@ void QWebWebget::renderContent()
             stream.flush();
         }
     }
+}
+
+bool QWebWebget::event(QEvent* e)
+{
+    if (e->type() == QEvent::ParentChange) {
+        QWebWebget* w = qobject_cast<QWebWebget*>(parent());
+        if (w != NULL) {
+            w->update();
+        }
+    }
+    return QObject::event(e);
 }
 
 void QWebWebget::setWebApp(QWebApplication* app)

@@ -49,8 +49,8 @@ public slots:
     void clear();
     void setNum(int num);
     void setNum(double num);
-    void setImageFile(const QString& f);
-    void setImage(const QImage& p);
+    void setImageFile(const QString& f, bool clickable = false);
+    void setImage(const QImage& p, bool clickable = false);
     void setText(const QString& t);
 
 protected:
@@ -58,12 +58,17 @@ protected:
 
 private slots:
     void image(QString& mimeType);
+    void handleClick(QString& mimeType);
+
+signals:
+    void clicked(const QString& link);
 
 private:
     QString m_text;
     QString m_imageFile;
     ImageType m_imageType;
     QImage* m_image;
+    bool m_imageClickable;
 };
 
 #endif // QWEBLABEL_H

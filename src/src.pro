@@ -40,7 +40,6 @@ kernel/qwebapplication.cpp \
 kernel/qwebfileressource.cpp \
 kernel/qwebbufferedressource.cpp \
 webgets/qwebmainwebget.cpp \
-webgets/qweblink.cpp \
 webgets/qwebwebget.cpp \
 kernel/qweblayout.cpp \
 kernel/qwebboxlayout.cpp \
@@ -69,7 +68,6 @@ kernel/qwebapplicationfactory.h \
 kernel/qwebglobal.h \
 kernel/qwebparameters.h \
 kernel/qwebapplication.h \
-webgets/qweblink.h \
 webgets/qwebwebget.h \
 webgets/qwebmainwebget.h \
 kernel/qweblayout.h \
@@ -82,9 +80,10 @@ INSTALLS += target
 
 target.path = ../bin
 DISTFILES += ../javascript/qweblink.js \
+../javascript/qtweb.js \
 ../stylesheets/qtweb.css \
-. \
 ../stylesheets/qwebmainwebget.css \
 ../stylesheets/qwebwebget.css \
 ../stylesheets/qweblabel.css
+
 INCLUDEPATH += ../include

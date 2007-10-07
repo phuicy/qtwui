@@ -32,41 +32,11 @@ QWebTag::QWebTag(QWebWebget* w, const QString& tag, bool emptyTag) :
 
 QWebTag::~QWebTag()
 {
-    QTextStream stream(m_webget->device());
-    m_attributes["class"] = m_webget->webClass();
-    m_attributes["id"] = m_webget->webId();
-    QString& style = m_attributes["style"];
-    if (!style.isEmpty() && style[style.size() - 1] != ';') {
-        style += ";";
-    }
-    QHash<QString, QString>::ConstIterator it = m_webget->m_styleItems.begin();
-    QHash<QString, QString>::ConstIterator itEnd = m_webget->m_styleItems.end();
-    for (; it != itEnd; ++it) {
-        style += it.key() + ":" + it.value() + ";";
-    }
-    stream << "<" << m_tag;
-    it = m_attributes.begin();
-    itEnd = m_attributes.end();
-    for (; it != itEnd; ++it) {
-        if (!it.value().isEmpty()) {
-            stream << " " << it.key() << "=\"" << it.value() << "\"";
-        }
-    }
-    if (!m_emptyTag) {
-        stream << ">\n";
+    if (m_webget != NULL) {
+        QTextStream stream(m_webget->device());
+        stream << generate();
         stream.flush();
-
-        if (m_text.isEmpty()) {
-            m_webget->renderContent();
-        } else {
-            stream << m_text;
-        }
-        stream << "</" << m_tag << ">\n";
-    } else {
-        stream << " />\n";
     }
-
-    stream.flush();
 }
 
 void QWebTag::setAttribute(const QString& name, const QString& value)
@@ -91,4 +61,43 @@ void QWebTag::setText(const QString& text)
 QString QWebTag::text() const
 {
     return m_text;
+}
+
+QString QWebTag::generate() const
+{
+    QString content;
+    QHash<QString, QString> attributes(m_attributes);
+
+    attributes["class"] = m_webget->webClass();
+    attributes["id"] = m_webget->webId();
+    QString& style = attributes["style"];
+    if (!style.isEmpty() && style[style.size() - 1] != ';') {
+        style += ";";
+    }
+    QHash<QString, QString>::ConstIterator it = m_webget->m_styleItems.begin();
+    QHash<QString, QString>::ConstIterator itEnd = m_webget->m_styleItems.end();
+    for (; it != itEnd; ++it) {
+        style += it.key() + ":" + it.value() + ";";
+    }
+    content = QString("<") + m_tag;
+    it = attributes.begin();
+    itEnd = attributes.end();
+    for (; it != itEnd; ++it) {
+        if (!it.value().isEmpty()) {
+            content += QString(" ") + it.key() + "=\"" + it.value() + "\"";
+        }
+    }
+    if (!m_emptyTag) {
+        content += ">\n";
+
+        if (m_text.isEmpty()) {
+            m_webget->renderContent();
+        } else {
+            content += m_text;
+        }
+        content += "</" + m_tag + ">\n";
+    } else {
+        content + " />\n";
+    }
+    return content;
 }

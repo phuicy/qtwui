@@ -36,8 +36,8 @@ public slots:
     void coucou(QString& mimeType);
     void empty(QString& mimeType);
     void ajaxcall(QString& mimeType);
-    void linkClicked(QString& mimeType);
-
+    void linkClicked();
+    void link2Clicked(const QString& link);
 private:
     int m_items;
     int m_nb;

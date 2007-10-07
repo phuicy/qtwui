@@ -38,6 +38,8 @@ public:
     void setText(const QString& text);
     QString text() const;
 
+    QString generate() const;
+
 private:
     QString m_tag;
     QWebWebget* m_webget;

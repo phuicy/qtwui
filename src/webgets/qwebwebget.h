@@ -79,6 +79,7 @@ public slots:
 protected:
     virtual void render();
     virtual void renderContent();
+    virtual bool event(QEvent* e);
 
 private:
     void setWebApp(QWebApplication* app);
