@@ -21,7 +21,8 @@ UI_DIR = .tmp/ui
 
 MOC_DIR = .tmp/moc
 
-SOURCES += http/qwebmessageressource.cpp \
+SOURCES += \
+http/qwebmessageressource.cpp \
 http/qwebabstracthttpserverdelegate.cpp \
 http/qwebfcgidevice.cpp \
 http/qwebabstracthttpserver.cpp \
@@ -39,14 +40,16 @@ kernel/qwebparameters.cpp \
 kernel/qwebapplication.cpp \
 kernel/qwebfileressource.cpp \
 kernel/qwebbufferedressource.cpp \
-webgets/qwebmainwebget.cpp \
-webgets/qwebwebget.cpp \
 kernel/qweblayout.cpp \
 kernel/qwebboxlayout.cpp \
 kernel/qweblayoutitem.cpp \
 kernel/qwebgridlayout.cpp \
+kernel/qwebtag.cpp \
+kernel/qwebstackedlayout.cpp \
 webgets/qweblabel.cpp \
-kernel/qwebtag.cpp
+webgets/qwebmainwebget.cpp \
+webgets/qwebwebget.cpp
+
 HEADERS += http/qwebressourceproviderserver.h \
 http/qwebressourceproviderfactory.h \
 http/qwebtcpserver.h \
@@ -68,14 +71,16 @@ kernel/qwebapplicationfactory.h \
 kernel/qwebglobal.h \
 kernel/qwebparameters.h \
 kernel/qwebapplication.h \
-webgets/qwebwebget.h \
-webgets/qwebmainwebget.h \
 kernel/qweblayout.h \
 kernel/qwebboxlayout.h \
 kernel/qwebgridlayout.h \
 kernel/qweblayoutitem.h \
+kernel/qwebstackedlayout.h \
+kernel/qwebtag.h \
 webgets/qweblabel.h \
-kernel/qwebtag.h
+webgets/qwebwebget.h \
+webgets/qwebmainwebget.h
+
 INSTALLS += target
 
 target.path = ../bin

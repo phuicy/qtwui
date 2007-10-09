@@ -89,7 +89,6 @@ void QWebGridLayout::removeItem(QWebLayoutItem* item)
     QPair<int, int> c = coordsOf(item);
     if (c.first != -1 && c.second != -1) {
         Item& it = m_items[c.first][c.second];
-        delete it.m_item;
         it.m_item = NULL;
         it.m_rowSpan = 0;
         it.m_columnSpan = 0;

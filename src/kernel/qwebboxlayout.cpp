@@ -35,6 +35,9 @@ QWebBoxLayout::QWebBoxLayout(Unit unit) :
 
 QWebBoxLayout::~QWebBoxLayout()
 {
+    while (!m_items.isEmpty()) {
+        delete m_items.takeFirst().first;
+    }
 }
 
 void QWebBoxLayout::addItem(QWebLayoutItem* item, int size)
@@ -90,7 +93,6 @@ void QWebBoxLayout::removeItem(QWebLayoutItem* item)
     for (; it != itEnd; ++it) {
         if (it->first == item) {
             m_items.erase(it);
-            delete item;
             break;
         }
     }

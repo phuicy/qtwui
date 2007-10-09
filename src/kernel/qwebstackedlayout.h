@@ -18,61 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWEBLAYOUT_H
-#define QWEBLAYOUT_H
+#ifndef QWEBSTACKEDLAYOUT_H
+#define QWEBSTACKEDLAYOUT_H
 
-#include <QtCore/QObject>
-#include <QtWeb/QWebLayoutItem>
+#include <QtWeb/QWebLayout>
+#include <QtCore/QList>
 
-class QWebParameters;
-class QIODevice;
-
-class QWebLayout : public QObject, public QWebLayoutItem
+class QWebStackedLayout : public QWebLayout
 {
     Q_OBJECT
-public:
-    enum LayoutType {
-        HBoxLayout,
-        VBoxLayout,
-        GridLayout,
-        StackedLayout
-    };
-    enum Unit {
-        Em,
-        Pixel,
-        RelativeStrength
-    };
 
 public:
-    QWebLayout(QWebWebget* parent, Unit unit = RelativeStrength);
-    QWebLayout(Unit unit = RelativeStrength);
-    QWebLayout();
-    virtual ~QWebLayout();
-    QWebWebget* parentWebget() const;
-    virtual LayoutType type() const = 0;
-    virtual void removeItem(QWebLayoutItem* item) = 0;
-    void removeWebget(QWebWebget* w);
-    virtual int count() const = 0;
-    virtual int indexOf(QWebWebget* w) const = 0;
-    virtual bool contains(QWebWebget* w) const = 0;
-    virtual QWebLayoutItem* itemAt(int index) const = 0;
-    virtual QWebLayoutItem* takeAt(int index) = 0;
-    bool isEnabled() const;
-    void setEnabled(bool enable);
-    void setSpacing(int s);
-    int spacing() const;
-    ItemType itemType() const;
-    virtual void render() = 0;
-    Unit unit() const;
-    void setUnit(Unit u);
-    QString unitToString() const;
+    QWebStackedLayout(QWebWebget* parent, Unit unit = RelativeStrength);
+    QWebStackedLayout(Unit unit = RelativeStrength);
+    virtual ~QWebStackedLayout();
+    virtual LayoutType type() const;
+    void addWebget(QWebWebget* w);
+    void insertWebget(int index, QWebWebget* w);
+    void addItem(QWebLayoutItem* item);
+    void insertItem(int index, QWebLayoutItem* item);
+    virtual void removeItem(QWebLayoutItem* item);
+    virtual int count() const;
+    virtual int indexOf(QWebWebget* w) const;
+    virtual bool contains(QWebWebget* w) const;
+    virtual QWebLayoutItem* itemAt(int index) const;
+    virtual QWebLayoutItem* takeAt(int index);
+    int currentIndex() const;
+    QWebLayoutItem* currentItem() const;
+    virtual void render();
+
+public slots:
+    void setCurrentIndex(int index);
+    void setCurrentItem(QWebLayoutItem* item);
+
+signals:
+    void currentChanged(int index);
+    void itemRemoved(int index);
+
+private slots:
+    void updateParentWebget();
 
 private:
-    bool m_enabled;
-    int m_spacing;
-    Unit m_unit;
-
-    friend class QWebWebget;
+    QList<QWebLayoutItem*> m_items;
+    int m_currentIndex;
 };
 
-#endif // QWEBLAYOUT_H
+#endif // QWEBSTACKEDLAYOUT_H
