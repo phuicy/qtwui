@@ -140,33 +140,31 @@ void QWebLabel::render()
 {
     if (m_image != NULL) {
         if (m_imageClickable) {
-            QWebTag aTag(this, "a", false);
-            aTag.setAttribute("href", "javascript:new Ajax.Request('?call=" + webPath() + ".handleClick')");
-            QWebTag imgTag(NULL, "img", false);
-            imgTag.setAttribute("src", QString("?call=") + webPath() + ".image");
-            imgTag.setAttribute("width", QString::number(m_image->width()) + "px");
-            imgTag.setAttribute("height", QString::number(m_image->height()) +  "px");
-            aTag.setText(imgTag.generate());
+            QWebTag aTag(this, "a");
+            aTag.setAttribute("href", "javascript:qweb_label_emit('" + webPath() + "')");
+            QWebTag* imgTag = new QWebTag(&aTag, "img");
+            imgTag->setAttribute("src", QString("?call=") + webPath() + ".image");
+            imgTag->setAttribute("width", QString::number(m_image->width()) + "px");
+            imgTag->setAttribute("height", QString::number(m_image->height()) +  "px");
         } else {
-            QWebTag imgTag(this, "img", false);
+            QWebTag imgTag(this, "img");
             imgTag.setAttribute("src", QString("?call=") + webPath() + ".image");
             imgTag.setAttribute("width", QString::number(m_image->width()) + "px");
             imgTag.setAttribute("height", QString::number(m_image->height()) +  "px");
         }
     } else if (!m_imageFile.isEmpty()) {
         if (m_imageClickable) {
-            QWebTag aTag(this, "a", false);
-            aTag.setAttribute("href", "javascript:new Ajax.Request('?call=" + webPath() + ".handleClick')");
-            QWebTag imgTag(NULL, "img", false);
-            imgTag.setAttribute("src", m_imageFile);
-            aTag.setText(imgTag.generate());
+            QWebTag aTag(this, "a");
+            aTag.setAttribute("href", "javascript:qweb_label_emit('" + webPath() + "')");
+            QWebTag* imgTag = new QWebTag(&aTag, "img");
+            imgTag->setAttribute("src", m_imageFile);
         } else {
-            QWebTag imgTag(this, "img", false);
+            QWebTag imgTag(this, "img");
             imgTag.setAttribute("src", m_imageFile);
         }
     } else if (!m_text.isNull()) {
         QString t = m_text;
-        t.replace(QRegExp("<[aA]\\s+[hH][rR][eE][fF]=\"([^\"]*)\"\\s*>"), "<a href=\"javascript:new Ajax.Request('?call=" + webPath() + ".handleClick&href=\\1')\">");
+        t.replace(QRegExp("<[aA]\\s+[hH][rR][eE][fF]=\"([^\"]*)\"\\s*>"), "<a href=\"javascript:qweb_label_emit('" + webPath() + "','\\1')\">");
         QWebTag tag(this, "p");
         tag.setText(t);
     }

@@ -24,6 +24,7 @@
 #include <QtWeb/QWebWebget>
 
 class QWebLabel;
+class QWebStackedWebget;
 
 class TestWebget : public QWebWebget
 {
@@ -43,6 +44,7 @@ private:
     int m_nb;
     QWebLabel* m_label1;
     QWebLabel* m_label2;
+    QWebStackedWebget* m_stack;
 };
 
 #endif // TESTWEBGET_H

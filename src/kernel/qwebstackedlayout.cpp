@@ -21,15 +21,15 @@
 #include <QtWeb/QWebStackedLayout>
 #include <QtWeb/QWebWebget>
 
-QWebStackedLayout::QWebStackedLayout(QWebWebget* parent, Unit unit) :
-    QWebLayout(parent, unit),
+QWebStackedLayout::QWebStackedLayout(QWebWebget* parent) :
+    QWebLayout(parent),
     m_currentIndex(-1)
 {
     connect(this, SIGNAL(currentChanged(int)), this, SLOT(updateParentWebget()));
 }
 
-QWebStackedLayout::QWebStackedLayout(Unit unit) :
-    QWebLayout(unit),
+QWebStackedLayout::QWebStackedLayout() :
+    QWebLayout(NULL),
     m_currentIndex(-1)
 {
     connect(this, SIGNAL(currentChanged(int)), this, SLOT(updateParentWebget()));
@@ -47,22 +47,22 @@ QWebLayout::LayoutType QWebStackedLayout::type() const
     return QWebLayout::StackedLayout;
 }
 
-void QWebStackedLayout::addWebget(QWebWebget* w)
+int QWebStackedLayout::addWebget(QWebWebget* w)
 {
-    insertWebget(m_items.count(), w);
+    return insertWebget(m_items.count(), w);
 }
 
-void QWebStackedLayout::insertWebget(int index, QWebWebget* w)
+int QWebStackedLayout::insertWebget(int index, QWebWebget* w)
 {
-    insertItem(index, new QWebWebgetItem(w));
+    return insertItem(index, new QWebWebgetItem(w));
 }
 
-void QWebStackedLayout::addItem(QWebLayoutItem* item)
+int QWebStackedLayout::addItem(QWebLayoutItem* item)
 {
-    insertItem(m_items.count(), item);
+    return insertItem(m_items.count(), item);
 }
 
-void QWebStackedLayout::insertItem(int index, QWebLayoutItem* item)
+int QWebStackedLayout::insertItem(int index, QWebLayoutItem* item)
 {
     if (index < 0) {
         index = 0;
@@ -74,6 +74,7 @@ void QWebStackedLayout::insertItem(int index, QWebLayoutItem* item)
         m_currentIndex = 0;
         emit currentChanged(m_currentIndex);
     }
+    return index;
 }
 
 void QWebStackedLayout::removeItem(QWebLayoutItem* item)

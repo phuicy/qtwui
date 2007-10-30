@@ -26,7 +26,9 @@
 #include <QtWeb/QWebHBoxLayout>
 #include <QtWeb/QWebVBoxLayout>
 #include <QtWeb/QWebGridLayout>
+#include <QtWeb/QWebStackedLayout>
 #include <QtWeb/QWebLabel>
+#include <QtWeb/QWebStackedWebget>
 
 TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     QWebWebget(parent, webName),
@@ -38,12 +40,14 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     //QWebLabel* l1 = new QWebLabel(this, "l1");
     //l1->setText("Label 1");
     QWebLabel* l2 = new QWebLabel(this, "l2");
-    l2->setText("Label 2");
+    l2->setText("- Label 2 -");
     l2->setTextColor(QColor(0, 0, 200));
     l2->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     l2->setBorderStyle(Qt::DashedStyle);
     l2->setBorderColor(QColor(0, 200, 50));
     l2->setBorderWidth(10);
+    QWebLabel* l21 = new QWebLabel(this, "l2");
+    l21->setText("yoyo Label 21  yoyo");
     QWebLabel* l3 = new QWebLabel(this, "l3");
     l3->setText("Label 3");
     l3->setBackgroundColor(QColor(200, 0, 10));
@@ -61,7 +65,11 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     QWebLabel* l5 = new QWebLabel(this, "l5");
     l5->setImageFile("bin/coin.jpg");
     QWebLabel* link = new QWebLabel(this, "link");
-    link->setText("<a href=\"link\">Test</a>");
+
+    link->setText("<a href=\"link\">Test</a> and <a href=\"swap\">swap it !!</a>");
+    m_stack = new QWebStackedWebget(this, "stack");
+    m_stack->addWebget(l2);
+    m_stack->addWebget(l21);
 
     QWebGridLayout* l = new QWebGridLayout(this);
     QWebHBoxLayout* hbox = new QWebHBoxLayout();
@@ -73,13 +81,13 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     //l->insertWebget(link, 2, 1);
 
     l->insertWebget(link, 0, 0, 1, 2);
-    l->insertWebget(l2, 2, 1);
+    l->insertWebget(m_stack, 2, 1);
 
     hbox->addWebget(l3, 1);
     hbox->addWebget(l31, 9);
 
-    connect(link, SIGNAL(clicked(const QString&)), this, SLOT(linkClicked()));
-    connect(l31, SIGNAL(clicked(const QString&)), this, SLOT(link2Clicked(const QString&)));
+    connect(l31, SIGNAL(clicked(const QString&)), this, SLOT(linkClicked()));
+    connect(link, SIGNAL(clicked(const QString&)), this, SLOT(link2Clicked(const QString&)));
     m_label1 = l31;
     m_label2 = l3;
 
@@ -154,5 +162,11 @@ void TestWebget::linkClicked()
 void TestWebget::link2Clicked(const QString& link)
 {
     qDebug(link.toAscii());
-    m_label2->setText("Yeeeeehhhaaaahh !!!!");
+    if (link == "link") {
+        m_label1->setText("Yeeeeehhhaaaahh !!!!");
+    } else if (link == "swap") {
+        int i = m_stack->currentIndex();
+        i = (i == 1) ? 0 : 1;
+        m_stack->setCurrentIndex(i);
+    }
 }

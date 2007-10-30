@@ -29,14 +29,14 @@ class QWebStackedLayout : public QWebLayout
     Q_OBJECT
 
 public:
-    QWebStackedLayout(QWebWebget* parent, Unit unit = RelativeStrength);
-    QWebStackedLayout(Unit unit = RelativeStrength);
+    QWebStackedLayout(QWebWebget* parent);
+    QWebStackedLayout();
     virtual ~QWebStackedLayout();
     virtual LayoutType type() const;
-    void addWebget(QWebWebget* w);
-    void insertWebget(int index, QWebWebget* w);
-    void addItem(QWebLayoutItem* item);
-    void insertItem(int index, QWebLayoutItem* item);
+    int addWebget(QWebWebget* w);
+    int insertWebget(int index, QWebWebget* w);
+    int addItem(QWebLayoutItem* item);
+    int insertItem(int index, QWebLayoutItem* item);
     virtual void removeItem(QWebLayoutItem* item);
     virtual int count() const;
     virtual int indexOf(QWebWebget* w) const;

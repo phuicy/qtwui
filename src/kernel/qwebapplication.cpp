@@ -66,6 +66,7 @@ QWebAbstractRessource* QWebApplication::provide(const QHttpRequestHeader& header
         }
 
         m_device = &buffer;
+        m_webgetsToUpdate.clear();
         QString mimeType = m_mainWebget->invoke(call);
         if (!m_webgetsToUpdate.isEmpty()) {
             data.clear();

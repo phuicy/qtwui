@@ -18,39 +18,35 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWEBTAG_H
-#define QWEBTAG_H
+#ifndef QWEBSTACKEDWEBGET_H
+#define QWEBSTACKEDWEBGET_H
 
-#include <QtCore/QHash>
-#include <QtCore/QList>
-#include <QtCore/QString>
+#include <QtWeb/QWebWebget>
 
-class QWebWebget;
-class QTextStream;
-
-class QWebTag
+class QWebStackedWebget : public QWebWebget
 {
+    Q_OBJECT
+
 public:
-    QWebTag(QWebWebget* w, const QString& tag);
-    QWebTag(QWebTag* parent, const QString& tag);
-    virtual ~QWebTag();
+    QWebStackedWebget(QWebWebget* parent = NULL, const QString& webName = QString::null);
+    virtual ~QWebStackedWebget();
 
-    void setAttribute(const QString& name, const QString& value);
-    QString attribute(const QString& name) const;
+    int addWebget(QWebWebget* w);
+    int count() const;
+    int currentIndex() const;
+    QWebWebget* currentWebget() const;
+    int indexOf(QWebWebget* w) const;
+    int insertWebget(int index, QWebWebget* w);
+    void removeWebget(QWebWebget* w);
+    QWebWebget* webget(int index) const;
 
-    void setText(const QString& text);
-    QString text() const;
+public slots:
+    void setCurrentIndex(int index);
+    void setCurrentWebget(QWebWebget* w);
 
-private:
-    void generate(QTextStream* stream);
-
-private:
-    QString m_tag;
-    QWebWebget* m_webget;
-    bool m_emptyTag;
-    QString m_text;
-    QHash<QString, QString> m_attributes;
-    QList<QWebTag*> m_children;
+signals:
+    void currentChanged(int index);
+    void widgetRemoved(int index);
 };
 
-#endif // QWEBTAG_H
+#endif // QWEBSTACKEDWEBGET_H

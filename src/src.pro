@@ -48,7 +48,8 @@ kernel/qwebtag.cpp \
 kernel/qwebstackedlayout.cpp \
 webgets/qweblabel.cpp \
 webgets/qwebmainwebget.cpp \
-webgets/qwebwebget.cpp
+webgets/qwebwebget.cpp \
+webgets/qwebstackedwebget.cpp
 
 HEADERS += http/qwebressourceproviderserver.h \
 http/qwebressourceproviderfactory.h \
@@ -79,7 +80,8 @@ kernel/qwebstackedlayout.h \
 kernel/qwebtag.h \
 webgets/qweblabel.h \
 webgets/qwebwebget.h \
-webgets/qwebmainwebget.h
+webgets/qwebmainwebget.h \
+webgets/qwebstackedwebget.h
 
 INSTALLS += target
 

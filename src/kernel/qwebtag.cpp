@@ -23,19 +23,26 @@
 #include <QtWeb/QWebWebget>
 #include <QtWeb/QWebLayout>
 
-QWebTag::QWebTag(QWebWebget* w, const QString& tag, bool emptyTag) :
+QWebTag::QWebTag(QWebWebget* w, const QString& tag) :
     m_tag(tag),
-    m_webget(w),
-    m_emptyTag(emptyTag)
+    m_webget(w)
 {
+}
+
+QWebTag::QWebTag(QWebTag* parent, const QString& tag) :
+    m_tag(tag),
+    m_webget(NULL)
+{
+    if (parent != NULL) {
+        parent->m_children.append(this);
+    }
 }
 
 QWebTag::~QWebTag()
 {
     if (m_webget != NULL) {
         QTextStream stream(m_webget->device());
-        stream << generate();
-        stream.flush();
+        generate(&stream);
     }
 }
 
@@ -48,7 +55,7 @@ QString QWebTag::attribute(const QString& name) const
 {
     QHash<QString, QString>::ConstIterator it = m_attributes.find(name);
     if (it == m_attributes.end()) {
-        return QString();
+        return QString::null;
     }
     return it.value();
 }
@@ -63,9 +70,8 @@ QString QWebTag::text() const
     return m_text;
 }
 
-QString QWebTag::generate() const
+void QWebTag::generate(QTextStream* stream)
 {
-    QString content;
     QHash<QString, QString> attributes(m_attributes);
 
     attributes["class"] = m_webget->webClass();
@@ -79,25 +85,33 @@ QString QWebTag::generate() const
     for (; it != itEnd; ++it) {
         style += it.key() + ":" + it.value() + ";";
     }
-    content = QString("<") + m_tag;
+    *stream << QString("<") + m_tag;
     it = attributes.begin();
     itEnd = attributes.end();
     for (; it != itEnd; ++it) {
         if (!it.value().isEmpty()) {
-            content += QString(" ") + it.key() + "=\"" + it.value() + "\"";
+            *stream << QString(" ") + it.key() + "=\"" + it.value() + "\"";
         }
     }
-    if (!m_emptyTag) {
-        content += ">\n";
+    if (m_webget != NULL || !m_children.isEmpty() || !m_text.isNull()) {
+        *stream << ">\n";
 
-        if (m_text.isEmpty()) {
+        if (m_webget != NULL) {
+            stream->flush();
             m_webget->renderContent();
-        } else {
-            content += m_text;
         }
-        content += "</" + m_tag + ">\n";
+        while (!m_children.isEmpty()) {
+            QWebTag* tag = m_children.takeFirst();
+            tag->generate(stream);
+            tag->m_webget = NULL;
+            delete tag;
+        }
+        if (!m_text.isNull()) {
+            *stream << m_text;
+        }
+        *stream << "</" + m_tag + ">\n";
     } else {
-        content + " />\n";
+        *stream << " />\n";
     }
-    return content;
+    stream->flush();
 }
