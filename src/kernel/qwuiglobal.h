@@ -18,33 +18,34 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUI_GLOBAL_H
+#define QWUI_GLOBAL_H
 
-#include <QtWui/QwuiWebget>
-
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+namespace Qt
 {
-    Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+enum QwuiAjaxInsertion {
+    AjaxInsertionNone,
+    AjaxInsertionReplace,
+    AjaxInsertionBefore,
+    AjaxInsertionAfter,
+    AjaxInsertionTop,
+    AjaxInsertionBottom
 };
 
-#endif // TESTWEBGET_H
+enum QwuiBorderStyle {
+    NoneStyle,
+    HiddenStyle,
+    DottedStyle,
+    DashedStyle,
+    SolidStyle,
+    DoubleStyle,
+    GrooveStyle,
+    RidgeStyle,
+    InsetStyle,
+    OutsetStyle
+};
+
+}
+
+#endif // QWUI_GLOBAL_H

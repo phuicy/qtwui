@@ -18,33 +18,39 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUITAG_H
+#define QWUITAG_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QHash>
+#include <QtCore/QList>
+#include <QtCore/QString>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QwuiWebget;
+class QTextStream;
 
-class TestWebget : public QwuiWebget
+class QwuiTag
 {
-    Q_OBJECT
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QwuiTag(QwuiWebget* w, const QString& tag);
+    QwuiTag(QwuiTag* parent, const QString& tag);
+    virtual ~QwuiTag();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+    void setAttribute(const QString& name, const QString& value);
+    QString attribute(const QString& name) const;
+
+    void setText(const QString& text);
+    QString text() const;
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    void generate(QTextStream* stream);
+
+private:
+    QString m_tag;
+    QwuiWebget* m_webget;
+    bool m_emptyTag;
+    QString m_text;
+    QHash<QString, QString> m_attributes;
+    QList<QwuiTag*> m_children;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUITAG_H

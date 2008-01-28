@@ -18,33 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIABSTRACTRESSOURCEPROVIDER_H
+#define QWUIABSTRACTRESSOURCEPROVIDER_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QObject>
+#include <QtCore/QDateTime>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QHttpRequestHeader;
+class QwuiAbstractRessource;
 
-class TestWebget : public QwuiWebget
+class QwuiAbstractRessourceProvider : public QObject
 {
     Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+public:
+    QwuiAbstractRessourceProvider(const QString& sessionId = QString::null);
+    virtual ~QwuiAbstractRessourceProvider();
+
+    virtual QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
+    QString sessionId() const;
+    bool keepSessions() const;
+    void setKeepSessions(bool keep);
+    QDateTime sessionTimeoutDate() const;
+    void resetSessionTimeoutDate();
+    bool isSessionTimedOut() const;
+    int sessionLifeTime() const;
+    void setSessionLifeTime(int secs);
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    bool m_keepSessions;
+    QDateTime m_sessionTimeoutDate;
+    int m_sessionLifeTime;
+    QString m_sessionId;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIABSTRACTRESSOURCEPROVIDER_H

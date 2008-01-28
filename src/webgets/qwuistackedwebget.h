@@ -18,33 +18,35 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUISTACKEDWEBGET_H
+#define QWUISTACKEDWEBGET_H
 
 #include <QtWui/QwuiWebget>
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+class QwuiStackedWebget : public QwuiWebget
 {
     Q_OBJECT
+
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QwuiStackedWebget(QwuiWebget* parent = NULL, const QString& webName = QString::null);
+    virtual ~QwuiStackedWebget();
+
+    int addWebget(QwuiWebget* w);
+    int count() const;
+    int currentIndex() const;
+    QwuiWebget* currentWebget() const;
+    int indexOf(QwuiWebget* w) const;
+    int insertWebget(int index, QwuiWebget* w);
+    void removeWebget(QwuiWebget* w);
+    QwuiWebget* webget(int index) const;
 
 public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    void setCurrentIndex(int index);
+    void setCurrentWebget(QwuiWebget* w);
+
+signals:
+    void currentChanged(int index);
+    void widgetRemoved(int index);
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUISTACKEDWEBGET_H

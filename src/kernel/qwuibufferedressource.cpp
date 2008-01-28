@@ -18,33 +18,31 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWui/QwuiBufferedRessource>
+#include <QtCore/QIODevice>
 
-#include <QtWui/QwuiWebget>
-
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+QwuiBufferedRessource::QwuiBufferedRessource(const QString& path, const QString& mimeType, const QByteArray& source) :
+    QwuiAbstractRessource(path),
+    m_mimeType(mimeType),
+    m_source(source)
 {
-    Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
-};
+QwuiBufferedRessource::~QwuiBufferedRessource()
+{
+}
 
-#endif // TESTWEBGET_H
+QString QwuiBufferedRessource::mimeType() const
+{
+    return m_mimeType;
+}
+
+qint64 QwuiBufferedRessource::length() const
+{
+    return m_source.length();
+}
+
+void QwuiBufferedRessource::sendToDevice(QIODevice* dev) const
+{
+    dev->write(m_source);
+}

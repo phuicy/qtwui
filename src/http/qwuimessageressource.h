@@ -18,33 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIMESSAGERESSOURCE_H
+#define QWUIMESSAGERESSOURCE_H
 
-#include <QtWui/QwuiWebget>
+#include <QtWui/QwuiAbstractRessource>
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+class QwuiMessageRessource : public QwuiAbstractRessource
 {
-    Q_OBJECT
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QwuiMessageRessource(const QString& path = QString::null);
+    virtual ~QwuiMessageRessource();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+    virtual QString mimeType() const;
+    virtual qint64 length() const;
+    virtual void sendToDevice(QIODevice* dev) const;
+    virtual void setMessage(const QString& message);
+    QString message() const;
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    QString m_message;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIMESSAGERESSOURCE_H

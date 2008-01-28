@@ -22,57 +22,57 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QIODevice>
 #include <QtGui/QImage>
-#include <QtWeb/QWebApplication>
-#include <QtWeb/QWebHBoxLayout>
-#include <QtWeb/QWebVBoxLayout>
-#include <QtWeb/QWebGridLayout>
-#include <QtWeb/QWebStackedLayout>
-#include <QtWeb/QWebLabel>
-#include <QtWeb/QWebStackedWebget>
+#include <QtWui/QwuiApplication>
+#include <QtWui/QwuiHBoxLayout>
+#include <QtWui/QwuiVBoxLayout>
+#include <QtWui/QwuiGridLayout>
+#include <QtWui/QwuiStackedLayout>
+#include <QtWui/QwuiLabel>
+#include <QtWui/QwuiStackedWebget>
 
-TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
-    QWebWebget(parent, webName),
+TestWebget::TestWebget(QwuiWebget* parent, const QString& webName) :
+    QwuiWebget(parent, webName),
     m_items(0),
     m_nb(0)
 {
     qDebug("YYYYYYYYEEEEEEEEEHHHHHHHHHHHHHHAAAAAAAAAAAAHHHHH !!!!");
 
-    //QWebLabel* l1 = new QWebLabel(this, "l1");
+    //QwuiLabel* l1 = new QwuiLabel(this, "l1");
     //l1->setText("Label 1");
-    QWebLabel* l2 = new QWebLabel(this, "l2");
+    QwuiLabel* l2 = new QwuiLabel(this, "l2");
     l2->setText("- Label 2 -");
     l2->setTextColor(QColor(0, 0, 200));
     l2->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     l2->setBorderStyle(Qt::DashedStyle);
     l2->setBorderColor(QColor(0, 200, 50));
     l2->setBorderWidth(10);
-    QWebLabel* l21 = new QWebLabel(this, "l2");
+    QwuiLabel* l21 = new QwuiLabel(this, "l2");
     l21->setText("yoyo Label 21  yoyo");
-    QWebLabel* l3 = new QWebLabel(this, "l3");
+    QwuiLabel* l3 = new QwuiLabel(this, "l3");
     l3->setText("Label 3");
     l3->setBackgroundColor(QColor(200, 0, 10));
     l3->setBorderStyle(Qt::DashedStyle);
     l3->setBorderColor(QColor(0, 200, 50));
     l3->setBorderWidth(10);
     l3->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    QWebLabel* l31 = new QWebLabel(this, "l31");
+    QwuiLabel* l31 = new QwuiLabel(this, "l31");
     l31->setText("Label 31 <a href=\"mylink\">Click Me</a> toto");
     l31->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
-    QWebLabel* l4 = new QWebLabel(this, "l4");
+    QwuiLabel* l4 = new QwuiLabel(this, "l4");
     QImage img(100, 100, QImage::Format_RGB32);
     img.fill(qRgb(189, 149, 39));
     l4->setImage(img);
-    QWebLabel* l5 = new QWebLabel(this, "l5");
+    QwuiLabel* l5 = new QwuiLabel(this, "l5");
     l5->setImageFile("bin/coin.jpg");
-    QWebLabel* link = new QWebLabel(this, "link");
+    QwuiLabel* link = new QwuiLabel(this, "link");
 
     link->setText("<a href=\"link\">Test</a> and <a href=\"swap\">swap it !!</a>");
-    m_stack = new QWebStackedWebget(this, "stack");
+    m_stack = new QwuiStackedWebget(this, "stack");
     m_stack->addWebget(l2);
     m_stack->addWebget(l21);
 
-    QWebGridLayout* l = new QWebGridLayout(this);
-    QWebHBoxLayout* hbox = new QWebHBoxLayout();
+    QwuiGridLayout* l = new QwuiGridLayout(this);
+    QwuiHBoxLayout* hbox = new QwuiHBoxLayout();
     //l->insertWebget(l1, 0, 0);
     //l->insertWebget(l2, 0, 1);
     l->insertItem(hbox, 1, 0);
@@ -92,12 +92,12 @@ TestWebget::TestWebget(QWebWebget* parent, const QString& webName) :
     m_label2 = l3;
 
 #if 0
-    QWebLink* link = new QWebLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
-    connect(link, SIGNAL(clicked(QString&, const QWebParameters&, QIODevice*)), this, SLOT(linkClicked(QString&, const QWebParameters&, QIODevice*)));
+    QwuiLink* link = new QwuiLink(this, "link", "Test", this, Qt::AjaxInsertionReplace);
+    connect(link, SIGNAL(clicked(QString&, const QwuiParameters&, QIODevice*)), this, SLOT(linkClicked(QString&, const QwuiParameters&, QIODevice*)));
     if (webName == "test1") {
-        /*QWebHBoxLayout* hbox = new QWebHBoxLayout(this);
+        /*QwuiHBoxLayout* hbox = new QwuiHBoxLayout(this);
         hbox->addWebget(new TestWebget(this, "test2"), 1);
-        QWebVBoxLayout* vbox = new QWebVBoxLayout(QWebLayout::Em);
+        QwuiVBoxLayout* vbox = new QwuiVBoxLayout(QwuiLayout::Em);
         hbox->addLayout(vbox, 2);
         vbox->addWebget(new TestWebget(this, "test3"), 30);
         vbox->addWebget(new TestWebget(this, "test4"));*/
@@ -151,7 +151,7 @@ void TestWebget::linkClicked()
     m_label2->setText(QString("Haha %1 call #%2").arg(webApp()->sessionId()).arg(m_nb));
     ++m_nb;
     /*
-    QWebParameters parameters = webApp()->parameters();
+    QwuiParameters parameters = webApp()->parameters();
     mimeType = "text/plain";
     QTextStream stream(device());
     stream << "coucou " << m_items << " " << webApp()->sessionId() << " " << parameters["toto"] << " " << parameters["toto2"] << "<br />";

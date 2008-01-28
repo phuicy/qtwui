@@ -17,34 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef QWUIAPPLICATIONSERVER_H
+#define QWUIAPPLICATIONSERVER_H
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWui/QwuiRessourceProviderServer>
+#include <QtWui/QwuiApplicationCreator>
 
-#include <QtWui/QwuiWebget>
-
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+class QwuiApplicationServer : public QwuiRessourceProviderServer
 {
     Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+public:
+    QwuiApplicationServer(QwuiApplicationCreator creatorFunction, QObject* parent = NULL);
+    virtual ~QwuiApplicationServer();
+
+    void setBuiltInServerPort(quint16 port);
+    void exec();
+
+private slots:
+    void initialize();
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIAPPLICATIONSERVER_H

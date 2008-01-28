@@ -1,4 +1,4 @@
-/***************************************************************************
+/**************************************************************************
  *   Copyright (C) 2007 by Eric ALBER                                      *
  *   eric.alber@gmail.com                                                  *
  *                                                                         *
@@ -18,33 +18,50 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWui/QwuiHttpServer>
+#include <QtWui/QwuiTcpServer>
+#include <QtWui/QwuiHttpServerDelegate>
 
-#include <QtWui/QwuiWebget>
-
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+QwuiHttpServer::QwuiHttpServer(QObject* parent) :
+    QwuiAbstractHttpServer(parent),
+    m_server(NULL),
+    m_port(80)
 {
-    Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    m_server = new QwuiTcpServer(this);
+    connect(m_server, SIGNAL(newConnection(int)), this, SLOT(incommingConnection(int)));
+}
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
-};
+QwuiHttpServer::~QwuiHttpServer()
+{
+    delete m_server;
+}
 
-#endif // TESTWEBGET_H
+void QwuiHttpServer::setPort(quint16 port)
+{
+    m_port = port;
+}
+
+quint16 QwuiHttpServer::port() const
+{
+    return m_port;
+}
+
+bool QwuiHttpServer::start()
+{
+    if (!m_server->listen(QHostAddress::Any, m_port)) {
+        m_lastError = QString("Unable to start server on port %1").arg(m_port);
+        return false;
+    }
+    m_lastError = QString::null;
+    return true;
+}
+
+QString QwuiHttpServer::error() const
+{
+    return m_lastError;
+}
+
+void QwuiHttpServer::incommingConnection(int socketDescriptor)
+{
+    process(new QwuiHttpServerDelegate(ressourceProviderServer(), socketDescriptor));
+}

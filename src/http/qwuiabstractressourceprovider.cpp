@@ -18,33 +18,57 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWui/QwuiAbstractRessourceProvider>
 
-#include <QtWui/QwuiWebget>
-
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+QwuiAbstractRessourceProvider::QwuiAbstractRessourceProvider(const QString& sessionId) :
+    QObject(NULL),
+    m_keepSessions(false),
+    m_sessionLifeTime(1800),
+    m_sessionId(sessionId)
 {
-    Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    resetSessionTimeoutDate();
+}
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
-};
+QwuiAbstractRessourceProvider::~QwuiAbstractRessourceProvider()
+{
+}
 
-#endif // TESTWEBGET_H
+QString QwuiAbstractRessourceProvider::sessionId() const
+{
+    return m_sessionId;
+}
+
+bool QwuiAbstractRessourceProvider::keepSessions() const
+{
+    return m_keepSessions;
+}
+
+void QwuiAbstractRessourceProvider::setKeepSessions(bool keep)
+{
+    m_keepSessions = keep;
+}
+
+QDateTime QwuiAbstractRessourceProvider::sessionTimeoutDate() const
+{
+    return m_sessionTimeoutDate;
+}
+
+void QwuiAbstractRessourceProvider::resetSessionTimeoutDate()
+{
+    m_sessionTimeoutDate = QDateTime::currentDateTime().addSecs(m_sessionLifeTime);
+}
+
+bool QwuiAbstractRessourceProvider::isSessionTimedOut() const
+{
+    return m_sessionTimeoutDate <= QDateTime::currentDateTime();
+}
+
+int QwuiAbstractRessourceProvider::sessionLifeTime() const
+{
+    return m_sessionLifeTime;
+}
+
+void QwuiAbstractRessourceProvider::setSessionLifeTime(int secs)
+{
+    m_sessionLifeTime = secs;
+}

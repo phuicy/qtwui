@@ -18,33 +18,35 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIPARAMETERS_H
+#define QWUIPARAMETERS_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QHash>
+#include <QtCore/QString>
+#include <QtXml/QDomDocument>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QHttpRequestHeader;
 
-class TestWebget : public QwuiWebget
+class QwuiParameters
 {
-    Q_OBJECT
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QwuiParameters();
+    virtual ~QwuiParameters();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+    void init(const QHttpRequestHeader& header, const QString& postContent = QString::null);
+    void clear();
+    QString operator[](const QString& key) const;
+    bool contains(const QString& key) const;
+    QString get(const QString& key) const;
+    QString post(const QString& key) const;
+    QDomElement xmlElement() const;
+    QString postContent() const;
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    QHash<QString, QString> m_getParameters;
+    QHash<QString, QString> m_postParameters;
+    QDomDocument m_xmlDoc;
+    QString m_postContent;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIPARAMETERS_H

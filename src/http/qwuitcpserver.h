@@ -18,33 +18,24 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUITCPSERVER_H
+#define QWUITCPSERVER_H
 
-#include <QtWui/QwuiWebget>
+#include <QtNetwork/QTcpServer>
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+class QwuiTcpServer : public QTcpServer
 {
     Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+public:
+    QwuiTcpServer(QObject* parent = NULL);
+    virtual ~QwuiTcpServer();
+
+signals:
+    void newConnection(int socketDescriptor);
+
+protected:
+    virtual void incomingConnection(int socketDescriptor);
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUITCPSERVER_H

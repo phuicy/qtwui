@@ -18,58 +18,57 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtWui/QwuiApplicationServer>
 #include <QtWui/QwuiAbstractHttpServer>
-#include <QtWui/QwuiApplication>
-#include <QtWui/QwuiMainWebget>
-#include "TestWebget.h"
+#include <QtWui/QwuiAbstractHttpServerDelegate>
 
-void printUsage()
+QwuiAbstractHttpServer::QwuiAbstractHttpServer(QObject* parent) :
+    QObject(parent),
+    m_server(NULL),
+    m_type(ThreadedProcessing)
 {
-    QTextStream out(stdout);
-    out << "Usage : qwebhttpserver [options]\n";
-    out << "Options :\n";
-    out << "          -p --port : listening port\n";
 }
 
-QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
+QwuiAbstractHttpServer::~QwuiAbstractHttpServer()
 {
-    Q_UNUSED(args);
-
-    QwuiApplication* webApp = new QwuiApplication(sessionId);
-    webApp->setJavascriptDir("javascript");
-    webApp->setStyleSheetsDir("stylesheets");
-    QwuiMainWebget* mw = new QwuiMainWebget(NULL, "mw");
-    mw->setTitle("QtWui Test");
-    TestWebget* test1 = new TestWebget(mw, "test1");
-    webApp->setMainWebget(mw);
-
-    return webApp;
 }
 
-int main(int argc, char** argv)
+void QwuiAbstractHttpServer::setRessourceProviderServer(QwuiRessourceProviderServer* server)
 {
-    QCoreApplication app(argc, argv);
-    QwuiApplicationServer webAppServer(webMain);
-    webAppServer.httpServer()->setRequestProcessingType(QwuiAbstractHttpServer::QueuedProcessing);
+    m_server = server;
+}
 
-    QString option = QCoreApplication::arguments().at(1);
-    if ((option == "-p") || (option == "--port")) {
-        bool ok;
-        quint16 port = QString(argv[2]).toInt(&ok);
-        if (ok) {
-            webAppServer.setBuiltInServerPort(port);
-        } else {
-            printUsage();
-            return -1;
-        }
-    } else {
-        printUsage();
-        return -1;
+QwuiRessourceProviderServer* QwuiAbstractHttpServer::ressourceProviderServer() const
+{
+    return m_server;
+}
+
+void QwuiAbstractHttpServer::setRequestProcessingType(RequestProcessingType t)
+{
+    m_type = t;
+}
+
+QwuiAbstractHttpServer::RequestProcessingType QwuiAbstractHttpServer::requestProcessingType() const
+{
+    return m_type;
+}
+
+QString QwuiAbstractHttpServer::error() const
+{
+    return QString::null;
+}
+
+void QwuiAbstractHttpServer::process(QwuiAbstractHttpServerDelegate* delegate)
+{
+    switch (m_type) {
+        case QueuedProcessing:
+            delegate->doRun();
+            delete delegate;
+            break;
+        case ThreadedProcessing:
+            delegate->start();
+            break;
+        default:
+            delete delegate;
+            break;
     }
-    webAppServer.exec();
-    return app.exec();
 }

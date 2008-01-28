@@ -18,33 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIFILERESSOURCEPROVIDER_H
+#define QWUIFILERESSOURCEPROVIDER_H
 
-#include <QtWui/QwuiWebget>
+#include <QtWui/QwuiAbstractRessourceProvider>
+#include <QtCore/QString>
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+class QwuiFileRessourceProvider : public QwuiAbstractRessourceProvider
 {
     Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+public:
+    QwuiFileRessourceProvider(const QString& sessionId = QString::null);
+    virtual ~QwuiFileRessourceProvider();
+
+    void setRootDirectory(const QString& path);
+    QString rootDirectory() const;
+
+    QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent);
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    QString m_rootDir;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIFILERESSOURCEPROVIDER_H

@@ -18,58 +18,34 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtWui/QwuiApplicationServer>
+#ifndef QWUIHTTPSERVER_H
+#define QWUIHTTPSERVER_H
+
 #include <QtWui/QwuiAbstractHttpServer>
-#include <QtWui/QwuiApplication>
-#include <QtWui/QwuiMainWebget>
-#include "TestWebget.h"
 
-void printUsage()
+class QwuiTcpServer;
+
+class QwuiHttpServer : public QwuiAbstractHttpServer
 {
-    QTextStream out(stdout);
-    out << "Usage : qwebhttpserver [options]\n";
-    out << "Options :\n";
-    out << "          -p --port : listening port\n";
-}
+    Q_OBJECT
 
-QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
-{
-    Q_UNUSED(args);
+public:
+    QwuiHttpServer(QObject* parent = NULL);
+    virtual ~QwuiHttpServer();
 
-    QwuiApplication* webApp = new QwuiApplication(sessionId);
-    webApp->setJavascriptDir("javascript");
-    webApp->setStyleSheetsDir("stylesheets");
-    QwuiMainWebget* mw = new QwuiMainWebget(NULL, "mw");
-    mw->setTitle("QtWui Test");
-    TestWebget* test1 = new TestWebget(mw, "test1");
-    webApp->setMainWebget(mw);
+    void setPort(quint16 port);
+    quint16 port() const;
 
-    return webApp;
-}
+    virtual bool start();
+    virtual QString error() const;
 
-int main(int argc, char** argv)
-{
-    QCoreApplication app(argc, argv);
-    QwuiApplicationServer webAppServer(webMain);
-    webAppServer.httpServer()->setRequestProcessingType(QwuiAbstractHttpServer::QueuedProcessing);
+private slots:
+    void incommingConnection(int socketDescriptor);
 
-    QString option = QCoreApplication::arguments().at(1);
-    if ((option == "-p") || (option == "--port")) {
-        bool ok;
-        quint16 port = QString(argv[2]).toInt(&ok);
-        if (ok) {
-            webAppServer.setBuiltInServerPort(port);
-        } else {
-            printUsage();
-            return -1;
-        }
-    } else {
-        printUsage();
-        return -1;
-    }
-    webAppServer.exec();
-    return app.exec();
-}
+private:
+    QwuiTcpServer* m_server;
+    QString m_lastError;
+    quint16 m_port;
+};
+
+#endif // QWUIHTTPSERVER_H

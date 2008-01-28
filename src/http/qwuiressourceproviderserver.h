@@ -18,33 +18,55 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIRESSOURCEPROVIDERSERVER_H
+#define QWUIRESSOURCEPROVIDERSERVER_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QObject>
+#include <QtCore/QHash>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QTimer;
+class QReadWriteLock;
+class QwuiAbstractRessourceProviderFactory;
+class QwuiAbstractHttpServer;
+class QwuiAbstractRessourceProvider;
 
-class TestWebget : public QwuiWebget
+class QwuiRessourceProviderServer : public QObject
 {
     Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+public:
+    QwuiRessourceProviderServer(QObject* parent = NULL);
+    virtual ~QwuiRessourceProviderServer();
+
+    void setRessourceProviderFactory(QwuiAbstractRessourceProviderFactory* factory);
+    QwuiAbstractRessourceProviderFactory* ressourceProviderFactory() const;
+    void setHttpServer(QwuiAbstractHttpServer* server);
+    QwuiAbstractHttpServer* httpServer() const;
+    void setDefaultSessionLifeTime(int secs);
+    int defaultSessionLifeTime() const;
+
+    virtual QwuiAbstractRessourceProvider* takeSession(const QString& sessionId);
+    virtual void releaseSession(QwuiAbstractRessourceProvider* session);
+    virtual QwuiAbstractRessourceProvider* newSession();
+
+    virtual bool start();
+
+protected:
+    virtual void customEvent(QEvent* event);
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    void pullToCurrentThread(QObject* obj);
+
+private slots:
+    void cleanupSessions();
+
+private:
+    QHash<QString, QwuiAbstractRessourceProvider*> m_sessions;
+    QwuiAbstractRessourceProviderFactory* m_factory;
+    QwuiAbstractHttpServer* m_server;
+    QTimer* m_sessionCleanupTimer;
+    QReadWriteLock* m_lock;
+    int m_defaultSessionLifeTime;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIRESSOURCEPROVIDERSERVER_H

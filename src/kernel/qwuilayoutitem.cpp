@@ -18,33 +18,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
-
+#include <QtWui/QwuiLayoutItem>
 #include <QtWui/QwuiWebget>
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+QwuiLayoutItem::QwuiLayoutItem()
 {
-    Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
-};
+QwuiLayoutItem::~QwuiLayoutItem()
+{
+}
 
-#endif // TESTWEBGET_H
+QwuiWebgetItem::QwuiWebgetItem(QwuiWebget* w) :
+    QwuiLayoutItem(),
+    m_webget(w)
+{
+}
+
+QwuiWebgetItem::~QwuiWebgetItem()
+{
+}
+
+QwuiWebget* QwuiWebgetItem::webget() const
+{
+    return m_webget;
+}
+
+QwuiLayoutItem::ItemType QwuiWebgetItem::itemType() const
+{
+    return WebgetItem;
+}
+
+void QwuiWebgetItem::render()
+{
+    m_webget->render();
+}
+
+QwuiSpacerItem::QwuiSpacerItem() :
+    QwuiLayoutItem()
+{
+}
+
+QwuiSpacerItem::~QwuiSpacerItem()
+{
+}
+
+QwuiLayoutItem::ItemType QwuiSpacerItem::itemType() const
+{
+    return SpacerItem;
+}
+
+void QwuiSpacerItem::render()
+{
+}

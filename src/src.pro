@@ -6,7 +6,7 @@ CONFIG += warn_on \
 QT -= gui
 TEMPLATE = lib
 
-TARGET = QtWeb
+TARGET = QtWui
 
 DESTDIR = ../lib/
 
@@ -22,75 +22,75 @@ UI_DIR = .tmp/ui
 MOC_DIR = .tmp/moc
 
 SOURCES += \
-http/qwebmessageressource.cpp \
-http/qwebabstracthttpserverdelegate.cpp \
-http/qwebfcgidevice.cpp \
-http/qwebabstracthttpserver.cpp \
-http/qwebabstractressource.cpp \
-http/qwebhttpserverdelegate.cpp \
-http/qwebabstractressourceproviderfactory.cpp \
-http/qwebhttpserver.cpp \
-http/qwebabstractressourceprovider.cpp \
-http/qwebressourceproviderserver.cpp \
-http/qwebtcpserver.cpp \
-kernel/qwebfileressourceprovider.cpp \
-kernel/qwebapplicationserver.cpp \
-kernel/qwebapplicationfactory.cpp \
-kernel/qwebparameters.cpp \
-kernel/qwebapplication.cpp \
-kernel/qwebfileressource.cpp \
-kernel/qwebbufferedressource.cpp \
-kernel/qweblayout.cpp \
-kernel/qwebboxlayout.cpp \
-kernel/qweblayoutitem.cpp \
-kernel/qwebgridlayout.cpp \
-kernel/qwebtag.cpp \
-kernel/qwebstackedlayout.cpp \
-webgets/qweblabel.cpp \
-webgets/qwebmainwebget.cpp \
-webgets/qwebwebget.cpp \
-webgets/qwebstackedwebget.cpp
+http/qwuimessageressource.cpp \
+http/qwuiabstracthttpserverdelegate.cpp \
+http/qwuifcgidevice.cpp \
+http/qwuiabstracthttpserver.cpp \
+http/qwuiabstractressource.cpp \
+http/qwuihttpserverdelegate.cpp \
+http/qwuiabstractressourceproviderfactory.cpp \
+http/qwuihttpserver.cpp \
+http/qwuiabstractressourceprovider.cpp \
+http/qwuiressourceproviderserver.cpp \
+http/qwuitcpserver.cpp \
+kernel/qwuifileressourceprovider.cpp \
+kernel/qwuiapplicationserver.cpp \
+kernel/qwuiapplicationfactory.cpp \
+kernel/qwuiparameters.cpp \
+kernel/qwuiapplication.cpp \
+kernel/qwuifileressource.cpp \
+kernel/qwuibufferedressource.cpp \
+kernel/qwuilayout.cpp \
+kernel/qwuiboxlayout.cpp \
+kernel/qwuilayoutitem.cpp \
+kernel/qwuigridlayout.cpp \
+kernel/qwuitag.cpp \
+kernel/qwuistackedlayout.cpp \
+webgets/qwuilabel.cpp \
+webgets/qwuimainwebget.cpp \
+webgets/qwuiwebget.cpp \
+webgets/qwuistackedwebget.cpp
 
-HEADERS += http/qwebressourceproviderserver.h \
-http/qwebressourceproviderfactory.h \
-http/qwebtcpserver.h \
-http/qwebmessageressource.h \
-http/qwebabstracthttpserverdelegate.h \
-http/qwebfcgidevice.h \
-http/qwebabstracthttpserver.h \
-http/qwebabstractressource.h \
-http/qwebhttpserverdelegate.h \
-http/qwebabstractressourceproviderfactory.h \
-http/qwebhttpserver.h \
-http/qwebabstractressourceprovider.h \
-kernel/qwebfileressource.h \
-kernel/qwebbufferedressource.h \
-kernel/qwebapplicationcreator.h \
-kernel/qwebfileressourceprovider.h \
-kernel/qwebapplicationserver.h \
-kernel/qwebapplicationfactory.h \
-kernel/qwebglobal.h \
-kernel/qwebparameters.h \
-kernel/qwebapplication.h \
-kernel/qweblayout.h \
-kernel/qwebboxlayout.h \
-kernel/qwebgridlayout.h \
-kernel/qweblayoutitem.h \
-kernel/qwebstackedlayout.h \
-kernel/qwebtag.h \
-webgets/qweblabel.h \
-webgets/qwebwebget.h \
-webgets/qwebmainwebget.h \
-webgets/qwebstackedwebget.h
+HEADERS += http/qwuiressourceproviderserver.h \
+http/qwuiressourceproviderfactory.h \
+http/qwuitcpserver.h \
+http/qwuimessageressource.h \
+http/qwuiabstracthttpserverdelegate.h \
+http/qwuifcgidevice.h \
+http/qwuiabstracthttpserver.h \
+http/qwuiabstractressource.h \
+http/qwuihttpserverdelegate.h \
+http/qwuiabstractressourceproviderfactory.h \
+http/qwuihttpserver.h \
+http/qwuiabstractressourceprovider.h \
+kernel/qwuifileressource.h \
+kernel/qwuibufferedressource.h \
+kernel/qwuiapplicationcreator.h \
+kernel/qwuifileressourceprovider.h \
+kernel/qwuiapplicationserver.h \
+kernel/qwuiapplicationfactory.h \
+kernel/qwuiglobal.h \
+kernel/qwuiparameters.h \
+kernel/qwuiapplication.h \
+kernel/qwuilayout.h \
+kernel/qwuiboxlayout.h \
+kernel/qwuigridlayout.h \
+kernel/qwuilayoutitem.h \
+kernel/qwuistackedlayout.h \
+kernel/qwuitag.h \
+webgets/qwuilabel.h \
+webgets/qwuiwebget.h \
+webgets/qwuimainwebget.h \
+webgets/qwuistackedwebget.h
 
 INSTALLS += target
 
 target.path = ../bin
-DISTFILES += ../javascript/qweblink.js \
-../javascript/qtweb.js \
-../stylesheets/qtweb.css \
-../stylesheets/qwebmainwebget.css \
-../stylesheets/qwebwebget.css \
-../stylesheets/qweblabel.css
+DISTFILES += ../javascript/qwuilink.js \
+../javascript/qtwui.js \
+../stylesheets/qtwui.css \
+../stylesheets/qwuimainwebget.css \
+../stylesheets/qwuiwebget.css \
+../stylesheets/qwuilabel.css
 
 INCLUDEPATH += ../include

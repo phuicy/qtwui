@@ -18,33 +18,57 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUILABEL_H
+#define QWUILABEL_H
 
 #include <QtWui/QwuiWebget>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QImage;
 
-class TestWebget : public QwuiWebget
+class QwuiLabel : public QwuiWebget
 {
     Q_OBJECT
+
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    enum ImageType {
+        JpegImage,
+        PngImage
+    };
+
+public:
+    QwuiLabel(QwuiWebget* parent = NULL, const QString& webName = QString::null);
+    virtual ~QwuiLabel();
+
+    QString text() const;
+    QString imageFile() const;
+    const QImage* image() const;
+    ImageType imageType() const;
+    void setImageType(ImageType p);
 
 public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+    void clear();
+    void setNum(int num);
+    void setNum(double num);
+    void setImageFile(const QString& f, bool clickable = false);
+    void setImage(const QImage& p, bool clickable = false);
+    void setText(const QString& t);
+
+protected:
+    virtual void render();
+
+private slots:
+    void image(QString& mimeType);
+    void handleClick(QString& mimeType);
+
+signals:
+    void clicked(const QString& link);
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    QString m_text;
+    QString m_imageFile;
+    ImageType m_imageType;
+    QImage* m_image;
+    bool m_imageClickable;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUILABEL_H

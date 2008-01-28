@@ -1,4 +1,4 @@
-/***************************************************************************
+R/***************************************************************************
  *   Copyright (C) 2007 by Eric ALBER                                      *
  *   eric.alber@gmail.com                                                  *
  *                                                                         *
@@ -18,33 +18,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIRESSOURCEPROVIDERFACTORY_H
+#define QWUIRESSOURCEPROVIDERFACTORY_H
 
-#include <QtWui/QwuiWebget>
+#include <QtWui/QwuiAbstractRessourceProviderFactory>
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+template <typename T>
+class QwuiRessourceProviderFactory : public QwuiAbstractRessourceProviderFactory
 {
-    Q_OBJECT
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QwuiRessourceProviderFactory();
+    virtual ~QwuiRessourceProviderFactory();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    virtual QwuiAbstractRessourceProvider* create(const QString& sessionId) const;
 };
 
-#endif // TESTWEBGET_H
+template <typename T>
+QwuiRessourceProviderFactory<T>::QwuiRessourceProviderFactory() :
+    QwuiAbstractRessourceProviderFactory()
+{
+}
+
+template <typename T>
+QwuiRessourceProviderFactory<T>::~QwuiRessourceProviderFactory()
+{
+}
+
+template <typename T>
+QwuiAbstractRessourceProvider* QwuiRessourceProviderFactory<T>::create(const QString& sessionId) const
+{
+    return new T(sessionId);
+}
+
+#endif // QWUIRESSOURCEPROVIDERFACTORY_H

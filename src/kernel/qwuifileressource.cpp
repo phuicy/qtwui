@@ -18,33 +18,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWui/QwuiFileRessource>
+#include <QtCore/QUrl>
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 
-#include <QtWui/QwuiWebget>
+#define READ_BUFFER_SIZE 4096
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+QwuiFileRessource::QwuiFileRessource(const QString& path) :
+    QwuiAbstractRessource(path)
 {
-    Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
-};
+QwuiFileRessource::~QwuiFileRessource()
+{
+}
 
-#endif // TESTWEBGET_H
+QString QwuiFileRessource::mimeType() const
+{
+    return "";
+    //return "application/octet-stream";
+}
+
+qint64 QwuiFileRessource::length() const
+{
+    QUrl fileUrl(path());
+    QFileInfo fi(fileUrl.path());
+    if (fi.exists() && fi.isFile()) {
+        return fi.size();
+    }
+    return -1;
+}
+
+void QwuiFileRessource::sendToDevice(QIODevice* dev) const
+{
+    QUrl fileUrl(path());
+    if (exists()) {
+        QFile file(fileUrl.path());
+        if (file.open(QIODevice::ReadOnly)) {
+            char data[READ_BUFFER_SIZE];
+            qint64 bytesRead = file.read(data, READ_BUFFER_SIZE);
+            while (bytesRead != 0) {
+                if (!dev->isOpen()) {
+                    qDebug("Aborting");
+                    return;
+                }
+                if (dev->write(data, bytesRead) != bytesRead) {
+                    return;
+                }
+                bytesRead = file.read(data, READ_BUFFER_SIZE);
+            }
+        }
+    }
+}

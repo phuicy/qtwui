@@ -3,8 +3,8 @@
 require 'fileutils'
 
 SrcDir = '../src'
-DstDir = '../include/QtWeb'
-@@identifiers = { "QWebGlobal" => File.join(SrcDir, "kernel/qwebglobal.h") }
+DstDir = '../include/QtWui'
+@@identifiers = { "QwuiGlobal" => File.join(SrcDir, "kernel/qwuiglobal.h") }
 
 def printUsage()
     puts "Scans all header files of <source dir> and generates the corresponding"
@@ -23,7 +23,7 @@ def addDirIdentifiers(ids, dir)
         items = line.split(/\s/)
         if (items.length > 1) then
             # Filter class internal enums
-            if (items[0][0, 4] == "QWeb") then
+            if (items[0][0, 4] == "Qwui") then
                 ids[items[0]] = items[1]
             end
         end

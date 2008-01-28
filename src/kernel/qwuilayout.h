@@ -18,33 +18,61 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUILAYOUT_H
+#define QWUILAYOUT_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QObject>
+#include <QtWui/QwuiLayoutItem>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QwuiParameters;
+class QIODevice;
 
-class TestWebget : public QwuiWebget
+class QwuiLayout : public QObject, public QwuiLayoutItem
 {
     Q_OBJECT
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    enum LayoutType {
+        HBoxLayout,
+        VBoxLayout,
+        GridLayout,
+        StackedLayout
+    };
+    enum Unit {
+        Em,
+        Pixel,
+        RelativeStrength
+    };
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+public:
+    QwuiLayout(QwuiWebget* parent, Unit unit = RelativeStrength);
+    QwuiLayout(Unit unit = RelativeStrength);
+    QwuiLayout();
+    virtual ~QwuiLayout();
+    QwuiWebget* parentWebget() const;
+    virtual LayoutType type() const = 0;
+    virtual void removeItem(QwuiLayoutItem* item) = 0;
+    void removeWebget(QwuiWebget* w);
+    virtual int count() const = 0;
+    virtual int indexOf(QwuiWebget* w) const = 0;
+    virtual bool contains(QwuiWebget* w) const = 0;
+    virtual QwuiLayoutItem* itemAt(int index) const = 0;
+    virtual QwuiLayoutItem* takeAt(int index) = 0;
+    bool isEnabled() const;
+    void setEnabled(bool enable);
+    void setSpacing(int s);
+    int spacing() const;
+    ItemType itemType() const;
+    virtual void render() = 0;
+    Unit unit() const;
+    void setUnit(Unit u);
+    QString unitToString() const;
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    bool m_enabled;
+    int m_spacing;
+    Unit m_unit;
+
+    friend class QwuiWebget;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUILAYOUT_H

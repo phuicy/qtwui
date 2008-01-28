@@ -1,4 +1,4 @@
-/***************************************************************************
+/**************************************************************************
  *   Copyright (C) 2007 by Eric ALBER                                      *
  *   eric.alber@gmail.com                                                  *
  *                                                                         *
@@ -18,33 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIABSTRACTRESSOURCE_H
+#define QWUIABSTRACTRESSOURCE_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QString>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QIODevice;
 
-class TestWebget : public QwuiWebget
+class QwuiAbstractRessource
 {
-    Q_OBJECT
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QwuiAbstractRessource(const QString& path = QString::null);
+    virtual ~QwuiAbstractRessource();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+    virtual QString mimeType() const = 0;
+    virtual qint64 length() const = 0;
+    virtual QString path() const;
+    virtual bool exists() const;
+    virtual void sendToDevice(QIODevice* dev) const = 0;
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    QString m_path;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIABSTRACTRESSOURCE_H

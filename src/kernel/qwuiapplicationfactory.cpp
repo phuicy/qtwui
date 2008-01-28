@@ -18,58 +18,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtWui/QwuiApplicationServer>
-#include <QtWui/QwuiAbstractHttpServer>
+#include <QtWui/QwuiApplicationFactory>
 #include <QtWui/QwuiApplication>
-#include <QtWui/QwuiMainWebget>
-#include "TestWebget.h"
 
-void printUsage()
+QwuiApplicationFactory::QwuiApplicationFactory(QwuiApplicationCreator creatorFunction, const QStringList& args) :
+    m_creatorFunction(creatorFunction),
+    m_args(args)
 {
-    QTextStream out(stdout);
-    out << "Usage : qwebhttpserver [options]\n";
-    out << "Options :\n";
-    out << "          -p --port : listening port\n";
 }
 
-QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
+QwuiApplicationFactory::~QwuiApplicationFactory()
 {
-    Q_UNUSED(args);
-
-    QwuiApplication* webApp = new QwuiApplication(sessionId);
-    webApp->setJavascriptDir("javascript");
-    webApp->setStyleSheetsDir("stylesheets");
-    QwuiMainWebget* mw = new QwuiMainWebget(NULL, "mw");
-    mw->setTitle("QtWui Test");
-    TestWebget* test1 = new TestWebget(mw, "test1");
-    webApp->setMainWebget(mw);
-
-    return webApp;
 }
 
-int main(int argc, char** argv)
+QwuiAbstractRessourceProvider* QwuiApplicationFactory::create(const QString& sessionId) const
 {
-    QCoreApplication app(argc, argv);
-    QwuiApplicationServer webAppServer(webMain);
-    webAppServer.httpServer()->setRequestProcessingType(QwuiAbstractHttpServer::QueuedProcessing);
-
-    QString option = QCoreApplication::arguments().at(1);
-    if ((option == "-p") || (option == "--port")) {
-        bool ok;
-        quint16 port = QString(argv[2]).toInt(&ok);
-        if (ok) {
-            webAppServer.setBuiltInServerPort(port);
-        } else {
-            printUsage();
-            return -1;
-        }
-    } else {
-        printUsage();
-        return -1;
-    }
-    webAppServer.exec();
-    return app.exec();
+    return m_creatorFunction(sessionId, m_args);
 }

@@ -18,33 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUISTACKEDLAYOUT_H
+#define QWUISTACKEDLAYOUT_H
 
-#include <QtWui/QwuiWebget>
+#include <QtWui/QwuiLayout>
+#include <QtCore/QList>
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+class QwuiStackedLayout : public QwuiLayout
 {
     Q_OBJECT
+
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+    QwuiStackedLayout(QwuiWebget* parent);
+    QwuiStackedLayout();
+    virtual ~QwuiStackedLayout();
+    virtual LayoutType type() const;
+    int addWebget(QwuiWebget* w);
+    int insertWebget(int index, QwuiWebget* w);
+    int addItem(QwuiLayoutItem* item);
+    int insertItem(int index, QwuiLayoutItem* item);
+    virtual void removeItem(QwuiLayoutItem* item);
+    virtual int count() const;
+    virtual int indexOf(QwuiWebget* w) const;
+    virtual bool contains(QwuiWebget* w) const;
+    virtual QwuiLayoutItem* itemAt(int index) const;
+    virtual QwuiLayoutItem* takeAt(int index);
+    int currentIndex() const;
+    QwuiLayoutItem* currentItem() const;
+    virtual void render();
 
 public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+    void setCurrentIndex(int index);
+    void setCurrentItem(QwuiLayoutItem* item);
+
+signals:
+    void currentChanged(int index);
+    void itemRemoved(int index);
+
+private slots:
+    void updateParentWebget();
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    QList<QwuiLayoutItem*> m_items;
+    int m_currentIndex;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUISTACKEDLAYOUT_H

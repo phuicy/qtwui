@@ -18,33 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#include <QtWui/QwuiFileRessourceProvider>
+#include <QtNetwork/QHttpRequestHeader>
+#include <QtWui/QwuiFileRessource>
 
-#include <QtWui/QwuiWebget>
-
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+QwuiFileRessourceProvider::QwuiFileRessourceProvider(const QString& sessionId) :
+    QwuiAbstractRessourceProvider(sessionId),
+    m_rootDir(".")
 {
-    Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
+}
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
-};
+QwuiFileRessourceProvider::~QwuiFileRessourceProvider()
+{
+}
 
-#endif // TESTWEBGET_H
+QwuiAbstractRessource* QwuiFileRessourceProvider::provide(const QHttpRequestHeader& header, const QString& postContent)
+{
+    Q_UNUSED(postContent);
+
+    return new QwuiFileRessource(m_rootDir + header.path());
+}
+
+void QwuiFileRessourceProvider::setRootDirectory(const QString& path)
+{
+    m_rootDir = path;
+}
+
+QString QwuiFileRessourceProvider::rootDirectory() const
+{
+    return m_rootDir;
+}

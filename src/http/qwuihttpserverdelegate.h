@@ -18,33 +18,29 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIHTTPSERVERWORKINGTHREAD_H
+#define QWUIHTTPSERVERWORKINGTHREAD_H
 
-#include <QtWui/QwuiWebget>
+#include <QtWui/QwuiAbstractHttpServerDelegate>
 
-class QwuiLabel;
-class QwuiStackedWebget;
-
-class TestWebget : public QwuiWebget
+class QwuiHttpServerDelegate : public QwuiAbstractHttpServerDelegate
 {
     Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+public:
+    QwuiHttpServerDelegate(QwuiRessourceProviderServer* providerServer = NULL, int socketDescriptor = 0);
+    virtual ~QwuiHttpServerDelegate();
+
+protected:
+    virtual QIODevice* createDevice();
+    virtual void deleteDevice(QIODevice* device);
+    virtual QHttpRequestHeader readHttpRequestHeader();
+    virtual QString readHttpRequestContent();
+    virtual void writeHttpResponseHeader(const QHttpResponseHeader& responseHeader);
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    int m_socketDescriptor;
+    uint m_requestContentLength;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIHTTPSERVERWORKINGTHREAD_H

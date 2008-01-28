@@ -20,6 +20,6 @@ HEADERS += TestWebget.h
 INCLUDEPATH += ../src \
 ../include
 LIBS += -L../lib \
--lQtWeb
-TARGETDEPS += ../lib/libQtWeb.so
+-lQtWui
+TARGETDEPS += ../lib/libQtWui.so
 

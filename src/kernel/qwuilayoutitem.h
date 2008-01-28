@@ -18,33 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUILAYOUTITEM_H
+#define QWUILAYOUTITEM_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QString>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QwuiWebget;
+class QwuiParameters;
 
-class TestWebget : public QwuiWebget
+class QwuiLayoutItem
 {
-    Q_OBJECT
 public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
-
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    enum ItemType {
+        WebgetItem,
+        SpacerItem,
+        LayoutItem
+    };
+public:
+    QwuiLayoutItem();
+    virtual ~QwuiLayoutItem();
+    virtual ItemType itemType() const = 0;
+    virtual void render() = 0;
 };
 
-#endif // TESTWEBGET_H
+class QwuiWebgetItem : public QwuiLayoutItem
+{
+public:
+    QwuiWebgetItem(QwuiWebget* w);
+    virtual ~QwuiWebgetItem();
+    QwuiWebget* webget() const;
+    virtual ItemType itemType() const;
+    virtual void render();
+
+private:
+    QwuiWebget* m_webget;
+};
+
+class QwuiSpacerItem : public QwuiLayoutItem
+{
+public:
+    QwuiSpacerItem();
+    virtual ~QwuiSpacerItem();
+    virtual ItemType itemType() const;
+    virtual void render();
+};
+
+#endif // QWUILAYOUTITEM_H

@@ -18,33 +18,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIAPPLICATION_H
+#define QWUIAPPLICATION_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QObject>
+#include <QtCore/QSet>
+#include <QtWui/QwuiAbstractRessourceProvider>
+#include <QtWui/QwuiParameters>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QIODevice;
+class QHttpRequestHeader;
+class QwuiWebget;
+class QwuiFileRessourceProvider;
 
-class TestWebget : public QwuiWebget
+class QwuiApplication : public QwuiAbstractRessourceProvider
 {
     Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+public:
+    QwuiApplication(const QString& sessionId = QString::null);
+    virtual ~QwuiApplication();
+
+    QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent);
+
+    void setMainWebget(QwuiWebget* w);
+    void setJavascriptDir(const QString& javascriptDir);
+    QString javascriptDir() const;
+    void setStyleSheetsDir(const QString& styleSheetsDir);
+    QString styleSheetDir() const;
+    QwuiParameters parameters() const;
+    QIODevice* device();
+    void addWebgetToUpdate(const QwuiWebget* webget);
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    QwuiWebget* m_mainWebget;
+    QwuiFileRessourceProvider* m_fileProvider;
+    QIODevice* m_device;
+    QString m_javascriptDir;
+    QString m_styleSheetsDir;
+    QwuiParameters m_parameters;
+    QSet<const QwuiWebget*> m_webgetsToUpdate;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIAPPLICATION_H

@@ -18,58 +18,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtCore/QCoreApplication>
+#include <QtWui/QwuiMessageRessource>
 #include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtWui/QwuiApplicationServer>
-#include <QtWui/QwuiAbstractHttpServer>
-#include <QtWui/QwuiApplication>
-#include <QtWui/QwuiMainWebget>
-#include "TestWebget.h"
 
-void printUsage()
+QwuiMessageRessource::QwuiMessageRessource(const QString& path) :
+    QwuiAbstractRessource(path)
 {
-    QTextStream out(stdout);
-    out << "Usage : qwebhttpserver [options]\n";
-    out << "Options :\n";
-    out << "          -p --port : listening port\n";
 }
 
-QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
+QwuiMessageRessource::~QwuiMessageRessource()
 {
-    Q_UNUSED(args);
-
-    QwuiApplication* webApp = new QwuiApplication(sessionId);
-    webApp->setJavascriptDir("javascript");
-    webApp->setStyleSheetsDir("stylesheets");
-    QwuiMainWebget* mw = new QwuiMainWebget(NULL, "mw");
-    mw->setTitle("QtWui Test");
-    TestWebget* test1 = new TestWebget(mw, "test1");
-    webApp->setMainWebget(mw);
-
-    return webApp;
 }
 
-int main(int argc, char** argv)
+QString QwuiMessageRessource::mimeType() const
 {
-    QCoreApplication app(argc, argv);
-    QwuiApplicationServer webAppServer(webMain);
-    webAppServer.httpServer()->setRequestProcessingType(QwuiAbstractHttpServer::QueuedProcessing);
+    return "text/html";
+}
 
-    QString option = QCoreApplication::arguments().at(1);
-    if ((option == "-p") || (option == "--port")) {
-        bool ok;
-        quint16 port = QString(argv[2]).toInt(&ok);
-        if (ok) {
-            webAppServer.setBuiltInServerPort(port);
-        } else {
-            printUsage();
-            return -1;
-        }
-    } else {
-        printUsage();
-        return -1;
-    }
-    webAppServer.exec();
-    return app.exec();
+qint64 QwuiMessageRessource::length() const
+{
+    return message().length();
+}
+
+void QwuiMessageRessource::sendToDevice(QIODevice* dev) const
+{
+    QTextStream stream(dev);
+    stream << message();
+}
+
+void QwuiMessageRessource::setMessage(const QString& message)
+{
+    m_message = message;
+}
+
+QString QwuiMessageRessource::message() const
+{
+    return m_message;
 }

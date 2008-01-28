@@ -18,33 +18,42 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIABSTRACTHTTPSERVER_H
+#define QWUIABSTRACTHTTPSERVER_H
 
-#include <QtWui/QwuiWebget>
+#include <QtCore/QObject>
 
-class QwuiLabel;
-class QwuiStackedWebget;
+class QwuiRessourceProviderServer;
+class QwuiAbstractHttpServerDelegate;
 
-class TestWebget : public QwuiWebget
+class QwuiAbstractHttpServer : public QObject
 {
     Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
 
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
+public:
+    enum RequestProcessingType {
+        QueuedProcessing,
+        ThreadedProcessing
+    };
+
+public:
+    QwuiAbstractHttpServer(QObject* parent = NULL);
+    virtual ~QwuiAbstractHttpServer();
+
+    void setRessourceProviderServer(QwuiRessourceProviderServer* server);
+    QwuiRessourceProviderServer* ressourceProviderServer() const;
+    void setRequestProcessingType(RequestProcessingType t);
+    RequestProcessingType requestProcessingType() const;
+
+    virtual bool start() = 0;
+    virtual QString error() const;
+
+protected:
+    void process(QwuiAbstractHttpServerDelegate* delegate);
+
 private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
+    QwuiRessourceProviderServer* m_server;
+    RequestProcessingType m_type;
 };
 
-#endif // TESTWEBGET_H
+#endif // QWUIABSTRACTHTTPSERVER_H

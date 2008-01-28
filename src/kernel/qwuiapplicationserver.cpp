@@ -18,58 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QTextStream>
-#include <QtCore/QStringList>
 #include <QtWui/QwuiApplicationServer>
-#include <QtWui/QwuiAbstractHttpServer>
-#include <QtWui/QwuiApplication>
-#include <QtWui/QwuiMainWebget>
-#include "TestWebget.h"
+#include <QtCore/QTimer>
+#include <QtCore/QCoreApplication>
+#include <QtWui/QwuiHttpServer>
+#include <QtWui/QwuiApplicationFactory>
 
-void printUsage()
+QwuiApplicationServer::QwuiApplicationServer(QwuiApplicationCreator creatorFunction, QObject* parent) :
+    QwuiRessourceProviderServer(parent)
 {
-    QTextStream out(stdout);
-    out << "Usage : qwebhttpserver [options]\n";
-    out << "Options :\n";
-    out << "          -p --port : listening port\n";
+    setRessourceProviderFactory(new QwuiApplicationFactory(creatorFunction, QCoreApplication::arguments()));
+    QwuiHttpServer* server = new QwuiHttpServer(this);
+    server->setRessourceProviderServer(this);
+    setHttpServer(server);
 }
 
-QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
+QwuiApplicationServer::~QwuiApplicationServer()
 {
-    Q_UNUSED(args);
-
-    QwuiApplication* webApp = new QwuiApplication(sessionId);
-    webApp->setJavascriptDir("javascript");
-    webApp->setStyleSheetsDir("stylesheets");
-    QwuiMainWebget* mw = new QwuiMainWebget(NULL, "mw");
-    mw->setTitle("QtWui Test");
-    TestWebget* test1 = new TestWebget(mw, "test1");
-    webApp->setMainWebget(mw);
-
-    return webApp;
 }
 
-int main(int argc, char** argv)
+void QwuiApplicationServer::setBuiltInServerPort(quint16 port)
 {
-    QCoreApplication app(argc, argv);
-    QwuiApplicationServer webAppServer(webMain);
-    webAppServer.httpServer()->setRequestProcessingType(QwuiAbstractHttpServer::QueuedProcessing);
+    qobject_cast<QwuiHttpServer*>(httpServer())->setPort(port);
+}
 
-    QString option = QCoreApplication::arguments().at(1);
-    if ((option == "-p") || (option == "--port")) {
-        bool ok;
-        quint16 port = QString(argv[2]).toInt(&ok);
-        if (ok) {
-            webAppServer.setBuiltInServerPort(port);
-        } else {
-            printUsage();
-            return -1;
-        }
-    } else {
-        printUsage();
-        return -1;
+void QwuiApplicationServer::exec()
+{
+    QTimer::singleShot(0, this, SLOT(initialize()));
+}
+
+void QwuiApplicationServer::initialize()
+{
+    if (!start()) {
+        qWarning(qobject_cast<QwuiHttpServer*>(httpServer())->error().toAscii().data());
     }
-    webAppServer.exec();
-    return app.exec();
 }

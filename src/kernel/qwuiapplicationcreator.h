@@ -18,33 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TESTWEBGET_H
-#define TESTWEBGET_H
+#ifndef QWUIAPPLICATIONCREATOR_H
+#define QWUIAPPLICATIONCREATOR_H
 
-#include <QtWui/QwuiWebget>
+class QwuiApplication;
+class QString;
+class QStringList;
 
-class QwuiLabel;
-class QwuiStackedWebget;
+typedef QwuiApplication* (*QwuiApplicationCreator)(const QString& sessionId, const QStringList& args);
 
-class TestWebget : public QwuiWebget
-{
-    Q_OBJECT
-public:
-    TestWebget(QwuiWebget* parent, const QString& webName);
-    virtual ~TestWebget();
-
-public slots:
-    void coucou(QString& mimeType);
-    void empty(QString& mimeType);
-    void ajaxcall(QString& mimeType);
-    void linkClicked();
-    void link2Clicked(const QString& link);
-private:
-    int m_items;
-    int m_nb;
-    QwuiLabel* m_label1;
-    QwuiLabel* m_label2;
-    QwuiStackedWebget* m_stack;
-};
-
-#endif // TESTWEBGET_H
+#endif // QWUIAPPLICATIONCREATOR_H
