@@ -10,12 +10,12 @@
       <keyword>Qt</keyword>
     </keywords>
     <ignoreparts/>
-    <projectname>QtWeb</projectname>
+    <projectname>QtWui</projectname>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description></description>
-    <defaultencoding></defaultencoding>
-    <versioncontrol></versioncontrol>
+    <description/>
+    <defaultencoding/>
+    <versioncontrol/>
   </general>
   <kdevfileview>
     <groups>
@@ -23,10 +23,12 @@
       <group pattern="*.ui" name="User Interface" />
       <group pattern="*.png" name="Icons" />
       <group pattern="*" name="Others" />
+      <hidenonprojectfiles>false</hidenonprojectfiles>
+      <hidenonlocation>false</hidenonlocation>
     </groups>
     <tree>
       <hidenonprojectfiles>true</hidenonprojectfiles>
-      <hidepatterns>*.o,*.lo,CVS</hidepatterns>
+      <hidepatterns></hidepatterns>
       <showvcsfields>false</showvcsfields>
     </tree>
   </kdevfileview>
@@ -67,7 +69,7 @@
       <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
     </codecompletion>
     <creategettersetter>
-      <prefixGet></prefixGet>
+      <prefixGet/>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
@@ -121,16 +123,16 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell></dbgshell>
+      <dbgshell/>
       <breakpoints/>
       <programargs/>
       <gdbpath>/usr/bin/gdb</gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
-      <configGdbScript></configGdbScript>
-      <runShellScript></runShellScript>
-      <runGdbScript></runGdbScript>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
       <raiseGDBOnStart>false</raiseGDBOnStart>
     </general>
     <display>
@@ -159,7 +161,7 @@
         <testapp/>
       </runarguments>
       <cwd>
-        <testapp>/home/thier/Informatique/qtweb</testapp>
+        <testapp>/home/thier/Informatique/qtwui</testapp>
       </cwd>
       <debugarguments>
         <testapp/>
@@ -173,7 +175,7 @@
       <runmultiplejobs>true</runmultiplejobs>
       <numberofjobs>2</numberofjobs>
       <dontact>false</dontact>
-      <makebin></makebin>
+      <makebin/>
       <prio>0</prio>
       <envvars/>
     </make>
@@ -202,14 +204,14 @@
     <projectdoc>
       <docsystem>Doxygen Documentation Collection</docsystem>
       <docurl>qtwui.tag</docurl>
-      <usermanualurl></usermanualurl>
+      <usermanualurl/>
     </projectdoc>
   </kdevdocumentation>
   <substmap>
-    <APPNAME>QtWeb</APPNAME>
-    <APPNAMELC>qtweb</APPNAMELC>
-    <APPNAMESC>QtWeb</APPNAMESC>
-    <APPNAMEUC>QTWEB</APPNAMEUC>
+    <APPNAME>QtWui</APPNAME>
+    <APPNAMELC>qtwui</APPNAMELC>
+    <APPNAMESC>QtWui</APPNAMESC>
+    <APPNAMEUC>QTWUI</APPNAMEUC>
     <AUTHOR>Eric ALBER</AUTHOR>
     <DESIGNER>/usr/bin/designer-qt4</DESIGNER>
     <EMAIL>eric.alber@gmail.com</EMAIL>
@@ -218,7 +220,7 @@
     <QMAKE>/usr/bin/qmake-qt4</QMAKE>
     <VERSION>0.1</VERSION>
     <YEAR>2007</YEAR>
-    <dest>/home/thier/Informatique/qtweb</dest>
+    <dest>/home/thier/Informatique/qtwui</dest>
   </substmap>
   <cppsupportpart>
     <filetemplates>
@@ -227,8 +229,8 @@
     </filetemplates>
   </cppsupportpart>
   <ctagspart>
-    <customArguments></customArguments>
-    <customTagfilePath>/home/thier/Informatique/qtweb/tags</customTagfilePath>
+    <customArguments/>
+    <customTagfilePath>/home/thier/Informatique/qtwui/tags</customTagfilePath>
     <activeTagsFiles/>
   </ctagspart>
 </kdevelop>
