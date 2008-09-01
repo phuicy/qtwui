@@ -23,8 +23,9 @@
 
 #include <QtWui/QwuiLayout>
 #include <QtCore/QList>
+#include <QtWui/QwuiGlobal>
 
-class QwuiStackedLayout : public QwuiLayout
+class QTWUI_EXPORT QwuiStackedLayout : public QwuiLayout
 {
     Q_OBJECT
 

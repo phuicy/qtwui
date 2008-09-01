@@ -22,8 +22,9 @@
 #define QWUIMAINWEBGET_H
 
 #include <QtWui/QwuiWebget>
+#include <QtWui/QwuiGlobal>
 
-class QwuiMainWebget : public QwuiWebget
+class QTWUI_EXPORT QwuiMainWebget : public QwuiWebget
 {
     Q_OBJECT
 

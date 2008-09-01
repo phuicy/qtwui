@@ -101,7 +101,6 @@ void QwuiAbstractHttpServerDelegate::handleHeadRequest(const QHttpRequestHeader&
     }
 
     writeHttpResponseHeader(responseHeader);
-qDebug(responseHeader.toString().toAscii());
 }
 
 void QwuiAbstractHttpServerDelegate::setSessionId(QHttpHeader& header, const QString& sessionId) const

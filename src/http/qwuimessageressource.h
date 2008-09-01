@@ -22,8 +22,9 @@
 #define QWUIMESSAGERESSOURCE_H
 
 #include <QtWui/QwuiAbstractRessource>
+#include <QtWui/QwuiGlobal>
 
-class QwuiMessageRessource : public QwuiAbstractRessource
+class QTWUI_EXPORT QwuiMessageRessource : public QwuiAbstractRessource
 {
 public:
     QwuiMessageRessource(const QString& path = QString::null);

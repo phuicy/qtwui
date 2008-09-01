@@ -22,10 +22,11 @@
 #define QWUIHTTPSERVER_H
 
 #include <QtWui/QwuiAbstractHttpServer>
+#include <QtWui/QwuiGlobal>
 
 class QwuiTcpServer;
 
-class QwuiHttpServer : public QwuiAbstractHttpServer
+class QTWUI_EXPORT QwuiHttpServer : public QwuiAbstractHttpServer
 {
     Q_OBJECT
 

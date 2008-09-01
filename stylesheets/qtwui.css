@@ -1,4 +1,7 @@
 * {
+    text-align: inherit;
+}
+body {
     font: 9pt Sans;
 }
 h6 {
@@ -17,5 +20,6 @@ h2 {
     font-size: 200%;
 }
 h1 {
+    text-align: inherit;
     font-size: 220%;
 }

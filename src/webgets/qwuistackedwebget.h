@@ -22,8 +22,9 @@
 #define QWUISTACKEDWEBGET_H
 
 #include <QtWui/QwuiWebget>
+#include <QtWui/QwuiGlobal>
 
-class QwuiStackedWebget : public QwuiWebget
+class QTWUI_EXPORT QwuiStackedWebget : public QwuiWebget
 {
     Q_OBJECT
 

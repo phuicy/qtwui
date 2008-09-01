@@ -23,6 +23,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QHash>
+#include <QtWui/QwuiGlobal>
 
 class QTimer;
 class QReadWriteLock;
@@ -30,7 +31,7 @@ class QwuiAbstractRessourceProviderFactory;
 class QwuiAbstractHttpServer;
 class QwuiAbstractRessourceProvider;
 
-class QwuiRessourceProviderServer : public QObject
+class QTWUI_EXPORT QwuiRessourceProviderServer : public QObject
 {
     Q_OBJECT
 

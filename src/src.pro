@@ -1,9 +1,8 @@
 CONFIG += warn_on \
 	  thread \
-          qt \
+      qt \
 	  dll \
 	  debug
-QT -= gui
 TEMPLATE = lib
 
 TARGET = QtWui
@@ -20,6 +19,8 @@ OBJECTS_DIR = .tmp/obj
 UI_DIR = .tmp/ui
 
 MOC_DIR = .tmp/moc
+
+DEFINES += QTWUI_BUILD
 
 SOURCES += \
 http/qwuimessageressource.cpp \
@@ -49,6 +50,7 @@ kernel/qwuistackedlayout.cpp \
 webgets/qwuilabel.cpp \
 webgets/qwuimainwebget.cpp \
 webgets/qwuiwebget.cpp \
+webgets/qwuiscrollarea.cpp \
 webgets/qwuistackedwebget.cpp
 
 HEADERS += http/qwuiressourceproviderserver.h \
@@ -81,6 +83,7 @@ kernel/qwuitag.h \
 webgets/qwuilabel.h \
 webgets/qwuiwebget.h \
 webgets/qwuimainwebget.h \
+webgets/qwuiscrollarea.h \
 webgets/qwuistackedwebget.h
 
 INSTALLS += target
@@ -94,3 +97,5 @@ DISTFILES += ../javascript/qwuilink.js \
 ../stylesheets/qwuilabel.css
 
 INCLUDEPATH += ../include
+CONFIG -= release
+

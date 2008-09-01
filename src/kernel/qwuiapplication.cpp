@@ -50,9 +50,6 @@ QwuiAbstractRessource* QwuiApplication::provide(const QHttpRequestHeader& header
 {
     QUrl url(header.path());
 
-    qDebug(header.path().toAscii().data());
-    qDebug(url.path().toAscii().data());
-
     if (m_mainWebget != NULL && (header.path().mid(1).isEmpty() || url.path().mid(1).isEmpty() || QCoreApplication::applicationFilePath().endsWith(url.path()))) {
         QByteArray data;
         QBuffer buffer(&data);

@@ -144,7 +144,7 @@
   </kdevdebugger>
   <kdevtrollproject>
     <run>
-      <mainprogram>/home/thier/Informatique/qtwui/bin/testapp</mainprogram>
+      <mainprogram>/home/thier/Informatique/qtwui/bin/hangman</mainprogram>
       <programargs>-p 8888</programargs>
       <directoryradio>executable</directoryradio>
       <globaldebugarguments>-p 8888</globaldebugarguments>
@@ -159,16 +159,19 @@
       </envvars>
       <runarguments>
         <testapp/>
+        <hangman/>
       </runarguments>
       <cwd>
-        <testapp>/home/thier/Informatique/qtwui</testapp>
+        <testapp>/home/thier/Informatique/qtwui/..</testapp>
+        <hangman>/home/thier/Informatique/qtwui/..</hangman>
       </cwd>
       <debugarguments>
         <testapp/>
+        <hangman/>
       </debugarguments>
     </run>
     <general>
-      <activedir>testapp</activedir>
+      <activedir></activedir>
     </general>
     <make>
       <abortonerror>true</abortonerror>

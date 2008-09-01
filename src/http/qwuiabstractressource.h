@@ -22,10 +22,11 @@
 #define QWUIABSTRACTRESSOURCE_H
 
 #include <QtCore/QString>
+#include <QtWui/QwuiGlobal>
 
 class QIODevice;
 
-class QwuiAbstractRessource
+class QTWUI_EXPORT QwuiAbstractRessource
 {
 public:
     QwuiAbstractRessource(const QString& path = QString::null);

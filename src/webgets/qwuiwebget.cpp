@@ -151,7 +151,7 @@ QSet<QString> QwuiWebget::styleSheets() const
     while (it.hasNext()) {
         w = qobject_cast<QwuiWebget*>(it.next());
         if (w != NULL) {
-        	res.unite(w->styleSheets());
+            res.unite(w->styleSheets());
         }
     }
     return res;
@@ -166,7 +166,7 @@ QSet<QString> QwuiWebget::javascriptFiles() const
     while (it.hasNext()) {
         w = qobject_cast<QwuiWebget*>(it.next());
         if (w != NULL) {
-        	res.unite(w->javascriptFiles());
+            res.unite(w->javascriptFiles());
         }
     }
     return res;

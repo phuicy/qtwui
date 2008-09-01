@@ -22,11 +22,12 @@
 #define QWUILAYOUTITEM_H
 
 #include <QtCore/QString>
+#include <QtWui/QwuiGlobal>
 
 class QwuiWebget;
 class QwuiParameters;
 
-class QwuiLayoutItem
+class QTWUI_EXPORT QwuiLayoutItem
 {
 public:
     enum ItemType {

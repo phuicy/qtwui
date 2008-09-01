@@ -24,8 +24,9 @@
 #include <QtWui/QwuiLayout>
 #include <QtCore/QList>
 #include <QtCore/QPair>
+#include <QtWui/QwuiGlobal>
 
-class QwuiBoxLayout : public QwuiLayout
+class QTWUI_EXPORT QwuiBoxLayout : public QwuiLayout
 {
     Q_OBJECT
 public:
@@ -56,7 +57,7 @@ private:
     ItemList m_items;
 };
 
-class QwuiHBoxLayout : public QwuiBoxLayout
+class QTWUI_EXPORT QwuiHBoxLayout : public QwuiBoxLayout
 {
     Q_OBJECT
 public:
@@ -67,7 +68,7 @@ public:
     virtual void render();
 };
 
-class QwuiVBoxLayout : public QwuiBoxLayout
+class QTWUI_EXPORT QwuiVBoxLayout : public QwuiBoxLayout
 {
     Q_OBJECT
 public:

@@ -23,8 +23,9 @@
 
 #include <QtWui/QwuiAbstractRessourceProvider>
 #include <QtCore/QString>
+#include <QtWui/QwuiGlobal>
 
-class QwuiFileRessourceProvider : public QwuiAbstractRessourceProvider
+class QTWUI_EXPORT QwuiFileRessourceProvider : public QwuiAbstractRessourceProvider
 {
     Q_OBJECT
 

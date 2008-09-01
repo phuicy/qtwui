@@ -22,8 +22,9 @@
 #define QWUITCPSERVER_H
 
 #include <QtNetwork/QTcpServer>
+#include <QtWui/QwuiGlobal>
 
-class QwuiTcpServer : public QTcpServer
+class QTWUI_EXPORT QwuiTcpServer : public QTcpServer
 {
     Q_OBJECT
 

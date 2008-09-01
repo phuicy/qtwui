@@ -22,8 +22,9 @@
 
 #include <QtWui/QwuiRessourceProviderServer>
 #include <QtWui/QwuiApplicationCreator>
+#include <QtWui/QwuiGlobal>
 
-class QwuiApplicationServer : public QwuiRessourceProviderServer
+class QTWUI_EXPORT QwuiApplicationServer : public QwuiRessourceProviderServer
 {
     Q_OBJECT
 

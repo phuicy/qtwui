@@ -21,6 +21,8 @@
 #ifndef QWUI_GLOBAL_H
 #define QWUI_GLOBAL_H
 
+#include <QGlobalStatic>
+
 namespace Qt
 {
 
@@ -45,6 +47,12 @@ enum QwuiBorderStyle {
     InsetStyle,
     OutsetStyle
 };
+
+#ifdef QTWUI_BUILD
+    #define QTWUI_EXPORT Q_DECL_EXPORT
+#else
+    #define QTWUI_EXPORT Q_DECL_IMPORT
+#endif // QTWUI_BUILD_DLL
 
 }
 

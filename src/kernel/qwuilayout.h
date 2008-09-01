@@ -23,11 +23,12 @@
 
 #include <QtCore/QObject>
 #include <QtWui/QwuiLayoutItem>
+#include <QtWui/QwuiGlobal>
 
 class QwuiParameters;
 class QIODevice;
 
-class QwuiLayout : public QObject, public QwuiLayoutItem
+class QTWUI_EXPORT QwuiLayout : public QObject, public QwuiLayoutItem
 {
     Q_OBJECT
 public:
@@ -46,7 +47,6 @@ public:
 public:
     QwuiLayout(QwuiWebget* parent, Unit unit = RelativeStrength);
     QwuiLayout(Unit unit = RelativeStrength);
-    QwuiLayout();
     virtual ~QwuiLayout();
     QwuiWebget* parentWebget() const;
     virtual LayoutType type() const = 0;

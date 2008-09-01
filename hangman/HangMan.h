@@ -18,39 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIABSTRACTRESSOURCEPROVIDER_H
-#define QWUIABSTRACTRESSOURCEPROVIDER_H
+#ifndef HANGMAN_H
+#define HANGMAN_H
 
-#include <QtCore/QObject>
-#include <QtCore/QDateTime>
-#include <QtWui/QwuiGlobal>
+#include <QtWui/QwuiWebget>
 
-class QHttpRequestHeader;
-class QwuiAbstractRessource;
+class QwuiLabel;
+class Game;
 
-class QTWUI_EXPORT QwuiAbstractRessourceProvider : public QObject
+class HangMan : public QwuiWebget
 {
     Q_OBJECT
-
 public:
-    QwuiAbstractRessourceProvider(const QString& sessionId = QString::null);
-    virtual ~QwuiAbstractRessourceProvider();
+    HangMan(QwuiWebget* parent = NULL, const QString& webName = QString::null);
+    virtual ~HangMan();
 
-    virtual QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
-    QString sessionId() const;
-    bool keepSessions() const;
-    void setKeepSessions(bool keep);
-    QDateTime sessionTimeoutDate() const;
-    void resetSessionTimeoutDate();
-    bool isSessionTimedOut() const;
-    int sessionLifeTime() const;
-    void setSessionLifeTime(int secs);
+private slots:
+    void letterClicked(const QString& link);
+    void newGame(const QString& link);
+    void playerWon();
+    void playerLost();
 
 private:
-    bool m_keepSessions;
-    QDateTime m_sessionTimeoutDate;
-    int m_sessionLifeTime;
-    QString m_sessionId;
+    QwuiLabel* m_title;
+    QwuiLabel* m_word;
+    QwuiLabel* m_image;
+    QwuiLabel* m_letterBox;
+    Game* m_game;
 };
 
-#endif // QWUIABSTRACTRESSOURCEPROVIDER_H
+#endif // HANGMAN_H

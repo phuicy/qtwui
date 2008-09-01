@@ -24,8 +24,9 @@
 #include <QtWui/QwuiLayout>
 #include <QtCore/QList>
 #include <QtCore/QPair>
+#include <QtWui/QwuiGlobal>
 
-class QwuiGridLayout : public QwuiLayout
+class QTWUI_EXPORT QwuiGridLayout : public QwuiLayout
 {
     Q_OBJECT
 public:

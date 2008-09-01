@@ -29,6 +29,7 @@
 #include <QtWui/QwuiStackedLayout>
 #include <QtWui/QwuiLabel>
 #include <QtWui/QwuiStackedWebget>
+#include <QtWui/QwuiScrollArea>
 
 TestWebget::TestWebget(QwuiWebget* parent, const QString& webName) :
     QwuiWebget(parent, webName),
@@ -47,7 +48,7 @@ TestWebget::TestWebget(QwuiWebget* parent, const QString& webName) :
     l2->setBorderColor(QColor(0, 200, 50));
     l2->setBorderWidth(10);
     QwuiLabel* l21 = new QwuiLabel(this, "l2");
-    l21->setText("yoyo Label 21  yoyo");
+    l21->setText("yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo yoyo Label 21  yoyo ");
     QwuiLabel* l3 = new QwuiLabel(this, "l3");
     l3->setText("Label 3");
     l3->setBackgroundColor(QColor(200, 0, 10));
@@ -68,8 +69,10 @@ TestWebget::TestWebget(QwuiWebget* parent, const QString& webName) :
 
     link->setText("<a href=\"link\">Test</a> and <a href=\"swap\">swap it !!</a>");
     m_stack = new QwuiStackedWebget(this, "stack");
+    QwuiScrollArea* scrollArea = new QwuiScrollArea(this, "scroll");
+    scrollArea->setWebget(l21);
+    m_stack->addWebget(scrollArea);
     m_stack->addWebget(l2);
-    m_stack->addWebget(l21);
 
     QwuiGridLayout* l = new QwuiGridLayout(this);
     QwuiHBoxLayout* hbox = new QwuiHBoxLayout();

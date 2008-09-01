@@ -23,6 +23,7 @@
 
 #include <QtCore/QThread>
 #include <QtNetwork/QHttpRequestHeader>
+#include <QtWui/QwuiGlobal>
 
 class QIODevice;
 class QHttpResponseHeader;
@@ -33,7 +34,7 @@ class QwuiAbstractRessourceProvider;
 class QwuiMessageRessource;
 class QwuiRessourceProviderServer;
 
-class QwuiAbstractHttpServerDelegate : public QThread
+class QTWUI_EXPORT QwuiAbstractHttpServerDelegate : public QThread
 {
     Q_OBJECT
 

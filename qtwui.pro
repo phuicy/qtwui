@@ -1,5 +1,6 @@
 SUBDIRS += src \
-testapp
+testapp \
+ hangman
 TEMPLATE = subdirs 
 CONFIG += warn_on \
           qt \

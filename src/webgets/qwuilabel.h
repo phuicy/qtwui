@@ -22,10 +22,11 @@
 #define QWUILABEL_H
 
 #include <QtWui/QwuiWebget>
+#include <QtWui/QwuiGlobal>
 
 class QImage;
 
-class QwuiLabel : public QwuiWebget
+class QTWUI_EXPORT QwuiLabel : public QwuiWebget
 {
     Q_OBJECT
 

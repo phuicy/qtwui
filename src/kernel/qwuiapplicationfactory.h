@@ -24,8 +24,9 @@
 #include <QtWui/QwuiAbstractRessourceProviderFactory>
 #include <QtCore/QStringList>
 #include <QtWui/QwuiApplicationCreator>
+#include <QtWui/QwuiGlobal>
 
-class QwuiApplicationFactory : public QwuiAbstractRessourceProviderFactory
+class QTWUI_EXPORT QwuiApplicationFactory : public QwuiAbstractRessourceProviderFactory
 {
 public:
     QwuiApplicationFactory(QwuiApplicationCreator creatorFunction, const QStringList& args);

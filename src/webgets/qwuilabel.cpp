@@ -162,7 +162,7 @@ void QwuiLabel::render()
             QwuiTag imgTag(this, "img");
             imgTag.setAttribute("src", m_imageFile);
         }
-    } else if (!m_text.isNull()) {
+    } else {
         QString t = m_text;
         t.replace(QRegExp("<[aA]\\s+[hH][rR][eE][fF]=\"([^\"]*)\"\\s*>"), "<a href=\"javascript:qwui_label_emit('" + webPath() + "','\\1')\">");
         QwuiTag tag(this, "p");

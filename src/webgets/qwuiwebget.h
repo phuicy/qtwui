@@ -27,13 +27,14 @@
 #include <QtCore/QHash>
 #include <QtCore/QSet>
 #include <QtGui/QColor>
+#include <QtWui/QwuiGlobal>
 
 class QIODevice;
 class QTextStream;
 class QwuiApplication;
 class QwuiLayout;
 
-class QwuiWebget : public QObject
+class QTWUI_EXPORT QwuiWebget : public QObject
 {
     Q_OBJECT
 

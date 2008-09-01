@@ -60,7 +60,6 @@ void QwuiFileRessource::sendToDevice(QIODevice* dev) const
             qint64 bytesRead = file.read(data, READ_BUFFER_SIZE);
             while (bytesRead != 0) {
                 if (!dev->isOpen()) {
-                    qDebug("Aborting");
                     return;
                 }
                 if (dev->write(data, bytesRead) != bytesRead) {

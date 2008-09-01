@@ -22,10 +22,11 @@
 #define QWUIABSTRACTRESSOURCEPROVIDERFACTORY_H
 
 #include <QtCore/QString>
+#include <QtWui/QwuiGlobal>
 
 class QwuiAbstractRessourceProvider;
 
-class QwuiAbstractRessourceProviderFactory
+class QTWUI_EXPORT QwuiAbstractRessourceProviderFactory
 {
 public:
     QwuiAbstractRessourceProviderFactory();

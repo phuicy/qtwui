@@ -18,39 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIABSTRACTRESSOURCEPROVIDER_H
-#define QWUIABSTRACTRESSOURCEPROVIDER_H
+#ifndef QWUISCROLLAREA_H
+#define QWUISCROLLAREA_H
 
-#include <QtCore/QObject>
-#include <QtCore/QDateTime>
+#include <QtWui/QwuiWebget>
 #include <QtWui/QwuiGlobal>
 
-class QHttpRequestHeader;
-class QwuiAbstractRessource;
-
-class QTWUI_EXPORT QwuiAbstractRessourceProvider : public QObject
+class QTWUI_EXPORT QwuiScrollArea : public QwuiWebget
 {
     Q_OBJECT
-
 public:
-    QwuiAbstractRessourceProvider(const QString& sessionId = QString::null);
-    virtual ~QwuiAbstractRessourceProvider();
+    QwuiScrollArea(QwuiWebget* parent = NULL, const QString& webName = QString::null);
+    virtual ~QwuiScrollArea();
+    void setWebget(QwuiWebget* w);
+    QwuiWebget* takeWebget();
+    QwuiWebget* webget() const;
 
-    virtual QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
-    QString sessionId() const;
-    bool keepSessions() const;
-    void setKeepSessions(bool keep);
-    QDateTime sessionTimeoutDate() const;
-    void resetSessionTimeoutDate();
-    bool isSessionTimedOut() const;
-    int sessionLifeTime() const;
-    void setSessionLifeTime(int secs);
+protected:
+    virtual void renderContent();
 
 private:
-    bool m_keepSessions;
-    QDateTime m_sessionTimeoutDate;
-    int m_sessionLifeTime;
-    QString m_sessionId;
+    QwuiWebget* m_webget;
 };
 
-#endif // QWUIABSTRACTRESSOURCEPROVIDER_H
+#endif // QWUISCROLLAREA_H

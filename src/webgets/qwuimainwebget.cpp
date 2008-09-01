@@ -25,9 +25,7 @@
 QwuiMainWebget::QwuiMainWebget(QwuiWebget* parent, const QString& webName) :
     QwuiWebget(parent, webName)
 {
-    addStyleSheet("qtwui.css");
     addStyleSheet("qwuimainwebget.css");
-    addJavaScript("qtwui.js");
 }
 
 QwuiMainWebget::~QwuiMainWebget()
@@ -62,23 +60,16 @@ void QwuiMainWebget::render()
             << "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
             << "<head>\n"
             << "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />\n"
-            << "<title>" << title() << "</title>\n";
-
-    QSet<QString> cssFiles = styleSheets();
-    QSet<QString>::ConstIterator it = cssFiles.begin();
-    QSet<QString>::ConstIterator itEnd = cssFiles.end();
-    for (; it != itEnd; ++it) {
-        stream << "<link href=\"" << cssDir << "/" << *it
-                << "\" rel=\"stylesheet\" type=\"text/css\" />\n";
+            << "<title>" << title() << "</title>\n"
+            << "<link href=\"" << cssDir << "/qtwui.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
+    foreach (const QString& css, styleSheets()) {
+        stream << "<link href=\"" << cssDir << "/" << css << "\" rel=\"stylesheet\" type=\"text/css\" />\n";
     }
 
     stream << "<script src=\"" << jsDir << "/prototype.js\" type=\"text/javascript\"></script>\n";
-    QSet<QString> jsFiles = javascriptFiles();
-    it = jsFiles.begin();
-    itEnd = jsFiles.end();
-    for (; it != itEnd; ++it) {
-        stream << "<script src=\"" << jsDir << "/" << *it
-                << "\" type=\"text/javascript\"></script>\n";
+    stream << "<script src=\"" << jsDir << "/qtwui.js\" type=\"text/javascript\"></script>\n";
+    foreach (const QString& js, javascriptFiles()) {
+        stream << "<script src=\"" << jsDir << "/" << js << "\" type=\"text/javascript\"></script>\n";
     }
 
     stream << "</head>\n<body class=\"" << webClass() << "\" id=\"" << webId() << "\">\n";

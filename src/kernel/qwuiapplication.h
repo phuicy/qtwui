@@ -25,13 +25,14 @@
 #include <QtCore/QSet>
 #include <QtWui/QwuiAbstractRessourceProvider>
 #include <QtWui/QwuiParameters>
+#include <QtWui/QwuiGlobal>
 
 class QIODevice;
 class QHttpRequestHeader;
 class QwuiWebget;
 class QwuiFileRessourceProvider;
 
-class QwuiApplication : public QwuiAbstractRessourceProvider
+class QTWUI_EXPORT QwuiApplication : public QwuiAbstractRessourceProvider
 {
     Q_OBJECT
 

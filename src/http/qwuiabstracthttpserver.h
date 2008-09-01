@@ -22,11 +22,12 @@
 #define QWUIABSTRACTHTTPSERVER_H
 
 #include <QtCore/QObject>
+#include <QtWui/QwuiGlobal>
 
 class QwuiRessourceProviderServer;
 class QwuiAbstractHttpServerDelegate;
 
-class QwuiAbstractHttpServer : public QObject
+class QTWUI_EXPORT QwuiAbstractHttpServer : public QObject
 {
     Q_OBJECT
 

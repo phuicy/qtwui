@@ -22,8 +22,9 @@
 #define QWUIHTTPSERVERWORKINGTHREAD_H
 
 #include <QtWui/QwuiAbstractHttpServerDelegate>
+#include <QtWui/QwuiGlobal>
 
-class QwuiHttpServerDelegate : public QwuiAbstractHttpServerDelegate
+class QTWUI_EXPORT QwuiHttpServerDelegate : public QwuiAbstractHttpServerDelegate
 {
     Q_OBJECT
 

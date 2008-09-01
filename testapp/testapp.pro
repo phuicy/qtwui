@@ -21,5 +21,6 @@ INCLUDEPATH += ../src \
 ../include
 LIBS += -L../lib \
 -lQtWui
-TARGETDEPS += ../lib/libQtWui.so
+unix:TARGETDEPS += ../lib/libQtWui.so
+win32:TARGETDEPS += ../lib/QtWui.dll
 

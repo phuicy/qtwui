@@ -23,8 +23,9 @@
 
 #include <QtWui/QwuiAbstractRessource>
 #include <QtCore/QByteArray>
+#include <QtWui/QwuiGlobal>
 
-class QwuiBufferedRessource : public QwuiAbstractRessource
+class QTWUI_EXPORT QwuiBufferedRessource : public QwuiAbstractRessource
 {
 public:
     QwuiBufferedRessource(const QString& path, const QString& mimeType, const QByteArray& source);

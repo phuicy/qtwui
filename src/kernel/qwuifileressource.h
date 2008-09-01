@@ -22,8 +22,9 @@
 #define QWUIFILERESSOURCE_H
 
 #include <QtWui/QwuiAbstractRessource>
+#include <QtWui/QwuiGlobal>
 
-class QwuiFileRessource : public QwuiAbstractRessource
+class QTWUI_EXPORT QwuiFileRessource : public QwuiAbstractRessource
 {
 public:
     QwuiFileRessource(const QString& path);

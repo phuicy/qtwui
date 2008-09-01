@@ -24,10 +24,11 @@
 #include <QtCore/QHash>
 #include <QtCore/QString>
 #include <QtXml/QDomDocument>
+#include <QtWui/QwuiGlobal>
 
 class QHttpRequestHeader;
 
-class QwuiParameters
+class QTWUI_EXPORT QwuiParameters
 {
 public:
     QwuiParameters();

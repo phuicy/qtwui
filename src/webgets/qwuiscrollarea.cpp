@@ -18,39 +18,42 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIABSTRACTRESSOURCEPROVIDER_H
-#define QWUIABSTRACTRESSOURCEPROVIDER_H
+#include <QtWui/QwuiScrollArea>
 
-#include <QtCore/QObject>
-#include <QtCore/QDateTime>
-#include <QtWui/QwuiGlobal>
-
-class QHttpRequestHeader;
-class QwuiAbstractRessource;
-
-class QTWUI_EXPORT QwuiAbstractRessourceProvider : public QObject
+QwuiScrollArea::QwuiScrollArea(QwuiWebget* parent, const QString& webName) :
+    QwuiWebget(parent, webName),
+    m_webget(NULL)
 {
-    Q_OBJECT
+    addStyleSheet("qwuiscrollarea.css");
+}
 
-public:
-    QwuiAbstractRessourceProvider(const QString& sessionId = QString::null);
-    virtual ~QwuiAbstractRessourceProvider();
+QwuiScrollArea::~QwuiScrollArea()
+{
+}
 
-    virtual QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
-    QString sessionId() const;
-    bool keepSessions() const;
-    void setKeepSessions(bool keep);
-    QDateTime sessionTimeoutDate() const;
-    void resetSessionTimeoutDate();
-    bool isSessionTimedOut() const;
-    int sessionLifeTime() const;
-    void setSessionLifeTime(int secs);
+void QwuiScrollArea::setWebget(QwuiWebget* w)
+{
+    m_webget = w;
+    m_webget->setParent(this);
+}
 
-private:
-    bool m_keepSessions;
-    QDateTime m_sessionTimeoutDate;
-    int m_sessionLifeTime;
-    QString m_sessionId;
-};
+QwuiWebget* QwuiScrollArea::takeWebget()
+{
+    QwuiWebget* w = m_webget;
+    m_webget = NULL;
+    w->setParent(NULL);
+    return w;
+}
 
-#endif // QWUIABSTRACTRESSOURCEPROVIDER_H
+QwuiWebget* QwuiScrollArea::webget() const
+{
+    return m_webget;
+}
+
+void QwuiScrollArea::renderContent()
+{
+    if (m_webget != NULL) {
+        QString m;
+        m_webget->render(m);
+    }
+}

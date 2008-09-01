@@ -20,17 +20,16 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtWui/QwuiApplicationServer>
-#include <QtWui/QwuiAbstractHttpServer>
 #include <QtWui/QwuiApplication>
 #include <QtWui/QwuiMainWebget>
-#include "TestWebget.h"
+#include <QtWui/QwuiApplicationServer>
+#include <QtWui/QwuiAbstractHttpServer>
+#include "HangMan.h"
 
 void printUsage()
 {
     QTextStream out(stdout);
-    out << "Usage : testapp [options]\n";
+    out << "Usage : hangman [options]\n";
     out << "Options :\n";
     out << "          -p --port : listening port\n";
 }
@@ -44,7 +43,7 @@ QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
     webApp->setStyleSheetsDir("stylesheets");
     QwuiMainWebget* mw = new QwuiMainWebget(NULL, "mw");
     mw->setTitle("QtWui Test");
-    TestWebget* test1 = new TestWebget(mw, "test1");
+    HangMan* h = new HangMan(mw, "hangman");
     webApp->setMainWebget(mw);
 
     return webApp;

@@ -24,11 +24,12 @@
 #include <QtCore/QHash>
 #include <QtCore/QList>
 #include <QtCore/QString>
+#include <QtWui/QwuiGlobal>
 
 class QwuiWebget;
 class QTextStream;
 
-class QwuiTag
+class QTWUI_EXPORT QwuiTag
 {
 public:
     QwuiTag(QwuiWebget* w, const QString& tag);

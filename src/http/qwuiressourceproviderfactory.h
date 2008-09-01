@@ -22,9 +22,10 @@ R/***************************************************************************
 #define QWUIRESSOURCEPROVIDERFACTORY_H
 
 #include <QtWui/QwuiAbstractRessourceProviderFactory>
+#include <QtWui/QwuiGlobal>
 
 template <typename T>
-class QwuiRessourceProviderFactory : public QwuiAbstractRessourceProviderFactory
+class QTWUI_EXPORT QwuiRessourceProviderFactory : public QwuiAbstractRessourceProviderFactory
 {
 public:
     QwuiRessourceProviderFactory();

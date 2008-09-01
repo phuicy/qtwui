@@ -22,8 +22,9 @@
 #define QWUIFCGIDEVICE_H
 
 #include <QtCore/QIODevice>
+#include <QtWui/QwuiGlobal>
 
-class QwuiFcgiDevice : public QIODevice
+class QTWUI_EXPORT QwuiFcgiDevice : public QIODevice
 {
     Q_OBJECT
 

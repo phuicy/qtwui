@@ -18,39 +18,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIABSTRACTRESSOURCEPROVIDER_H
-#define QWUIABSTRACTRESSOURCEPROVIDER_H
+#ifndef GAME_H
+#define GAME_H
 
 #include <QtCore/QObject>
-#include <QtCore/QDateTime>
-#include <QtWui/QwuiGlobal>
+#include <QtCore/QStringList>
 
-class QHttpRequestHeader;
-class QwuiAbstractRessource;
-
-class QTWUI_EXPORT QwuiAbstractRessourceProvider : public QObject
+class Game : public QObject
 {
     Q_OBJECT
-
 public:
-    QwuiAbstractRessourceProvider(const QString& sessionId = QString::null);
-    virtual ~QwuiAbstractRessourceProvider();
+    Game(QObject* parent = NULL);
+    virtual ~Game();
 
-    virtual QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
-    QString sessionId() const;
-    bool keepSessions() const;
-    void setKeepSessions(bool keep);
-    QDateTime sessionTimeoutDate() const;
-    void resetSessionTimeoutDate();
-    bool isSessionTimedOut() const;
-    int sessionLifeTime() const;
-    void setSessionLifeTime(int secs);
+    void newGame();
+    int errorCount() const;
+    void setMaxErrorCount(int max);
+    int maxErrorCount() const;
+    bool play(QChar c);
+    void setWordsList(const QStringList wl);
+    QStringList wordsList() const;
+    QString usedCharacters() const;
+    QString foundWord() const;
+
+signals:
+    void victory();
+    void defeat();
 
 private:
-    bool m_keepSessions;
-    QDateTime m_sessionTimeoutDate;
-    int m_sessionLifeTime;
-    QString m_sessionId;
+    QStringList m_wordsList;
+    QString m_current;
+    int m_errors;
+    int m_maxErrors;
+    QString m_usedCharacters;
+    QString m_foundWord;
 };
 
-#endif // QWUIABSTRACTRESSOURCEPROVIDER_H
+#endif // GAME_H
