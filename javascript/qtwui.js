@@ -14,7 +14,7 @@ Qwui.Replacer.prototype = Object.extend(new Object, {
         self.request = new Ajax.Request(url, {
             method: 'get',
             onSuccess: function(transport) {
-                    $(item).replace(transport.responseText);
+                Element.replace(item, transport.responseText);
             }
         });
     }
@@ -28,3 +28,4 @@ function qwui_label_emit(webPath, arg)
         new Ajax.Request('?call=' + webPath + '.handleClick');
     }
 }
+

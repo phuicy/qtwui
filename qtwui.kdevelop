@@ -171,7 +171,7 @@
       </debugarguments>
     </run>
     <general>
-      <activedir></activedir>
+      <activedir>hangman</activedir>
     </general>
     <make>
       <abortonerror>true</abortonerror>
