@@ -23,7 +23,7 @@
 Game::Game(QObject* parent) :
     QObject(parent),
     m_errors(0),
-    m_maxErrors(5)
+    m_maxErrors(10)
 {
 }
 
@@ -65,7 +65,6 @@ int Game::maxErrorCount() const
 
 bool Game::play(QChar c)
 {
-    qDebug(QString("play %1").arg(c).toAscii());
     bool ok = false;
     if (!m_usedCharacters.contains(c) && m_errors < m_maxErrors) {
         m_usedCharacters += c;
@@ -75,19 +74,15 @@ bool Game::play(QChar c)
                 m_foundWord[i] = c;
                 if (m_foundWord == m_current) {
                     emit victory();
-                    qDebug("victory");
                 }
             }
         }
         if (!ok) {
             ++m_errors;
         }
-        if (m_errors > m_maxErrors) {
+        if (m_errors == m_maxErrors) {
             emit defeat();
-            qDebug("defeat");
         }
-        qDebug(m_usedCharacters.toAscii());
-        qDebug(m_foundWord.toAscii());
     }
     return ok;
 }

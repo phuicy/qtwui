@@ -22,6 +22,7 @@
 #define HANGMAN_H
 
 #include <QtWui/QwuiWebget>
+#include <QtGui/QImage>
 
 class QwuiLabel;
 class Game;
@@ -32,6 +33,9 @@ class HangMan : public QwuiWebget
 public:
     HangMan(QwuiWebget* parent = NULL, const QString& webName = QString::null);
     virtual ~HangMan();
+
+private:
+    void updateImage(int steps);
 
 private slots:
     void letterClicked(const QString& link);
@@ -45,6 +49,7 @@ private:
     QwuiLabel* m_image;
     QwuiLabel* m_letterBox;
     Game* m_game;
+    QImage m_errorsImage;
 };
 
 #endif // HANGMAN_H

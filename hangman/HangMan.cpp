@@ -21,6 +21,7 @@
 #include "HangMan.h"
 #include <QtWui/QwuiBoxLayout>
 #include <QtWui/QwuiLabel>
+#include <QtGui/QPainter>
 #include "Game.h"
 
 HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
@@ -29,7 +30,8 @@ HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
     m_word(NULL),
     m_image(NULL),
     m_letterBox(NULL),
-    m_game(NULL)
+    m_game(NULL),
+    m_errorsImage(300, 300, QImage::Format_ARGB32)
 {
     m_game = new Game(this);
     QStringList wl;
@@ -53,6 +55,7 @@ HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
     l->addWebget(m_letterBox, 2);
 
     m_title->setText("<h1>Hangman</h1><br /><h4><a href=\"new_game\">New Game</a></h4>");
+    m_word->setAlignment(Qt::AlignHCenter);
     m_title->setAlignment(Qt::AlignHCenter);
     m_letterBox->setAlignment(Qt::AlignHCenter);
     newGame("new_game");
@@ -62,19 +65,54 @@ HangMan::~HangMan()
 {
 }
 
+void HangMan::updateImage(int steps)
+{
+    QPainter painter(&m_errorsImage);
+    painter.setPen(QPen(QColor(20, 20, 20), 8));
+    if (steps == 1) {
+        painter.drawLine(30, 270, 180, 270);
+    }
+    if (steps == 2) {
+        painter.drawLine(105, 270, 105, 50);
+    }
+    if (steps == 3) {
+        painter.drawLine(30, 50, 250, 50);
+    }
+    if (steps == 4) {
+        painter.drawLine(220, 50, 220, 80);
+    }
+    if (steps == 5) {
+        painter.drawArc(205, 80, 30, 30, 0, 5760);
+    }
+    if (steps == 6) {
+        painter.drawLine(220, 110, 220, 200);
+    }
+    if (steps == 7) {
+        painter.drawLine(220, 130, 175, 150);
+    }
+    if (steps == 8) {
+        painter.drawLine(220, 130, 265, 150);
+    }
+    if (steps == 9) {
+        painter.drawLine(220, 200, 165, 245);
+    }
+    if (steps == 10) {
+        painter.drawLine(220, 200, 275, 245);
+    }
+}
+
 void HangMan::letterClicked(const QString& link)
 {
-    qDebug(QString("letterClicked(%1)").arg(link).toAscii());
     if (!link.isEmpty()) {
         m_game->play(link[link.length() - 1]);
-        m_image->setText(QString("<h1>%1</h1>").arg(m_game->usedCharacters()));
+        updateImage(m_game->errorCount());
+        m_image->setImage(m_errorsImage);
         m_word->setText(QString("<h2>%1</h2>").arg(m_game->foundWord()));
     }
 }
 
 void HangMan::newGame(const QString& link)
 {
-    qDebug("newGame()");
     if (link == "new_game") {
         m_letterBox->setText("<h1> \
                 <a href=\"letter_A\">A</a> \
@@ -105,7 +143,8 @@ void HangMan::newGame(const QString& link)
                 <a href=\"letter_Z\">Z</a> \
                 </h1>");
         m_game->newGame();
-        m_image->setText(QString::null);
+        m_errorsImage.fill(0x00ffffff);
+        m_image->setImage(m_errorsImage);
         m_word->setText(QString("<h2>%1</h2>").arg(m_game->foundWord()));
     }
 }
