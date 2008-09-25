@@ -22,6 +22,7 @@
 #include <QtGui/QImage>
 #include <QtWui/QwuiTag>
 #include <QtWui/QwuiApplication>
+#include <QtCore/QDateTime>
 
 QwuiLabel::QwuiLabel(QwuiWebget* parent, const QString& webName) :
     QwuiWebget(parent, webName),
@@ -143,12 +144,12 @@ void QwuiLabel::render()
             QwuiTag aTag(this, "a");
             aTag.setAttribute("href", "javascript:qwui_label_emit('" + webPath() + "')");
             QwuiTag* imgTag = new QwuiTag(&aTag, "img");
-            imgTag->setAttribute("src", QString("?call=") + webPath() + ".image");
+            imgTag->setAttribute("src", QString("?call=") + webPath() + ".image&cb=" + QString::number(QDateTime::currentDateTime().toTime_t()));
             imgTag->setAttribute("width", QString::number(m_image->width()) + "px");
             imgTag->setAttribute("height", QString::number(m_image->height()) +  "px");
         } else {
             QwuiTag imgTag(this, "img");
-            imgTag.setAttribute("src", QString("?call=") + webPath() + ".image");
+            imgTag.setAttribute("src", QString("?call=") + webPath() + ".image&cb=" + QString::number(QDateTime::currentDateTime().toTime_t()));
             imgTag.setAttribute("width", QString::number(m_image->width()) + "px");
             imgTag.setAttribute("height", QString::number(m_image->height()) +  "px");
         }

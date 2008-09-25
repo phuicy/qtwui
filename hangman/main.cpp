@@ -43,7 +43,7 @@ QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
     webApp->setStyleSheetsDir("stylesheets");
     QwuiMainWebget* mw = new QwuiMainWebget(NULL, "mw");
     mw->setTitle("QtWui Test");
-    HangMan* h = new HangMan(mw, "hangman");
+    new HangMan(mw, "hangman");
     webApp->setMainWebget(mw);
 
     return webApp;

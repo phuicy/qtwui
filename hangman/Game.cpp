@@ -109,3 +109,13 @@ QString Game::foundWord() const
 {
     return m_foundWord;
 }
+
+bool Game::isFinished()
+{
+    return m_errors >= m_maxErrors || m_foundWord == m_current;
+}
+
+bool Game::hasWon()
+{
+    return m_foundWord == m_current;
+}

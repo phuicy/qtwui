@@ -36,12 +36,11 @@ public:
 
 private:
     void updateImage(int steps);
+    void updateCharacters(const QString& usedLetters = QString::null);
 
 private slots:
     void letterClicked(const QString& link);
     void newGame(const QString& link);
-    void playerWon();
-    void playerLost();
 
 private:
     QwuiLabel* m_title;

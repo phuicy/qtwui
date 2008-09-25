@@ -40,6 +40,8 @@ public:
     QStringList wordsList() const;
     QString usedCharacters() const;
     QString foundWord() const;
+    bool isFinished();
+    bool hasWon();
 
 signals:
     void victory();

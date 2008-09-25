@@ -37,8 +37,6 @@ HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
     QStringList wl;
     wl << "maison" << "voiture" << "vacances";
     m_game->setWordsList(wl);
-    connect(m_game, SIGNAL(victory()), this, SLOT(playerWon()));
-    connect(m_game, SIGNAL(defeat()), this, SLOT(playerLost()));
 
     QwuiBoxLayout* l = new QwuiVBoxLayout(this);
 
@@ -55,8 +53,9 @@ HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
     l->addWebget(m_letterBox, 2);
 
     m_title->setText("<h1>Hangman</h1><br /><h4><a href=\"new_game\">New Game</a></h4>");
-    m_word->setAlignment(Qt::AlignHCenter);
     m_title->setAlignment(Qt::AlignHCenter);
+    m_word->setAlignment(Qt::AlignHCenter);
+    m_image->setAlignment(Qt::AlignHCenter);
     m_letterBox->setAlignment(Qt::AlignHCenter);
     newGame("new_game");
 }
@@ -101,10 +100,33 @@ void HangMan::updateImage(int steps)
     }
 }
 
+void HangMan::updateCharacters(const QString& usedCharacters)
+{
+    QString charLinks("<h1>");
+    for (char c = 'A'; c <= 'Z'; ++c) {
+        if (!usedCharacters.contains(c)) {
+            charLinks += QString("<a href=\"letter_") + QChar(c) + QString("\">") + QChar(c) + QString("</a> ");
+        } else {
+            charLinks += QChar(c) + QString(" ");
+        }
+    }
+    charLinks += "</h1>";
+    m_letterBox->setText(charLinks);
+}
+
 void HangMan::letterClicked(const QString& link)
 {
     if (!link.isEmpty()) {
         m_game->play(link[link.length() - 1]);
+        if (m_game->isFinished()) {
+            if (m_game->hasWon()) {
+                m_letterBox->setText("<h1>Victory !</h1>");
+            } else {
+                m_letterBox->setText("<h1>Defeat !</h1>");
+            }
+        } else {
+            updateCharacters(m_game->usedCharacters());
+        }
         updateImage(m_game->errorCount());
         m_image->setImage(m_errorsImage);
         m_word->setText(QString("<h2>%1</h2>").arg(m_game->foundWord()));
@@ -114,47 +136,10 @@ void HangMan::letterClicked(const QString& link)
 void HangMan::newGame(const QString& link)
 {
     if (link == "new_game") {
-        m_letterBox->setText("<h1> \
-                <a href=\"letter_A\">A</a> \
-                <a href=\"letter_B\">B</a> \
-                <a href=\"letter_C\">C</a> \
-                <a href=\"letter_D\">D</a> \
-                <a href=\"letter_E\">E</a> \
-                <a href=\"letter_F\">F</a> \
-                <a href=\"letter_G\">G</a> \
-                <a href=\"letter_H\">H</a> \
-                <a href=\"letter_I\">I</a> \
-                <a href=\"letter_J\">J</a> \
-                <a href=\"letter_K\">K</a> \
-                <a href=\"letter_L\">L</a> \
-                <a href=\"letter_M\">M</a> \
-                <a href=\"letter_N\">N</a> \
-                <a href=\"letter_O\">O</a> \
-                <a href=\"letter_P\">P</a> \
-                <a href=\"letter_Q\">Q</a> \
-                <a href=\"letter_R\">R</a> \
-                <a href=\"letter_S\">S</a> \
-                <a href=\"letter_T\">T</a> \
-                <a href=\"letter_U\">U</a> \
-                <a href=\"letter_V\">V</a> \
-                <a href=\"letter_W\">W</a> \
-                <a href=\"letter_X\">X</a> \
-                <a href=\"letter_Y\">Y</a> \
-                <a href=\"letter_Z\">Z</a> \
-                </h1>");
         m_game->newGame();
+        updateCharacters();
         m_errorsImage.fill(0x00ffffff);
         m_image->setImage(m_errorsImage);
         m_word->setText(QString("<h2>%1</h2>").arg(m_game->foundWord()));
     }
-}
-
-void HangMan::playerWon()
-{
-    m_letterBox->setText("Victory !");
-}
-
-void HangMan::playerLost()
-{
-    m_letterBox->setText("Defeat !");
 }
