@@ -85,6 +85,9 @@ void QwuiAbstractHttpServerDelegate::handleHeadRequest(const QHttpRequestHeader&
     QDateTime dt = QDateTime::currentDateTime().toUTC();
     QString dtString = m_en_USLocale->toString(dt.date(), "ddd, dd MMM yyyy") + " " + m_en_USLocale->toString(dt.time(), "hh:mm:ss") + " GMT";
     responseHeader.addValue("Date", dtString);
+    responseHeader.addValue("Cache-Control", "no-cache");
+    responseHeader.addValue("Expires", "Thu, 01 Jan 1970 00:00:00 GMT");
+
 
     if (m_provider->keepSessions()) {
         setSessionId(responseHeader, m_provider->sessionId());

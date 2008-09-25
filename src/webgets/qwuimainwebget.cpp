@@ -60,6 +60,9 @@ void QwuiMainWebget::render()
             << "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
             << "<head>\n"
             << "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />\n"
+            << "<meta http-equiv=\"Cache-Control\" content=\"no-cache, must-revalidate\">\n"
+            << "<meta http-equiv=\"Pragma\" content=\"no-cache\">\n"
+            << "<meta http-equiv=\"Expires\" content=\"0\">\n"
             << "<title>" << title() << "</title>\n"
             << "<link href=\"" << cssDir << "/qtwui.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
     foreach (const QString& css, styleSheets()) {
