@@ -26,6 +26,10 @@
 #include <QtCore/QPair>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief A grid layout.
+ * This layout can be used to organise child widgets in a table.
+ */
 class QTWUI_EXPORT QwuiGridLayout : public QwuiLayout
 {
     Q_OBJECT

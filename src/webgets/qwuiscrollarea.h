@@ -24,6 +24,9 @@
 #include <QtWui/QwuiWebget>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * @brief A simple scroll area webget.
+ */
 class QTWUI_EXPORT QwuiScrollArea : public QwuiWebget
 {
     Q_OBJECT

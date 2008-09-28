@@ -25,6 +25,11 @@
 #include <QtCore/QString>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief A ressource provider that provides file ressources.
+ * When provide() is called, the ressource provider looks for a file that corresponds to the path
+ * given in the header relatively to the rootDirectory().
+ */
 class QTWUI_EXPORT QwuiFileRessourceProvider : public QwuiAbstractRessourceProvider
 {
     Q_OBJECT
@@ -33,7 +38,14 @@ public:
     QwuiFileRessourceProvider(const QString& sessionId = QString::null);
     virtual ~QwuiFileRessourceProvider();
 
+    /**
+     * @param path path of the file ressources root directory.
+     */
     void setRootDirectory(const QString& path);
+
+    /**
+     * @return path of the file ressources root directory.
+     */
     QString rootDirectory() const;
 
     QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent);

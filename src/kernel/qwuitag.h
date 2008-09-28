@@ -29,6 +29,9 @@
 class QwuiWebget;
 class QTextStream;
 
+/**
+ * \brief A helper class used to generate HTML tags.
+ */
 class QTWUI_EXPORT QwuiTag
 {
 public:

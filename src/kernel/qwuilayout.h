@@ -28,6 +28,10 @@
 class QwuiParameters;
 class QIODevice;
 
+/**
+ * \brief Base class for all layouts.
+ * A layout is used to organise child webgets within a parent webget.
+ */
 class QTWUI_EXPORT QwuiLayout : public QObject, public QwuiLayoutItem
 {
     Q_OBJECT

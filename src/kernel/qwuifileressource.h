@@ -24,9 +24,15 @@
 #include <QtWui/QwuiAbstractRessource>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief This class makes it possible to send a file to the client.
+ */
 class QTWUI_EXPORT QwuiFileRessource : public QwuiAbstractRessource
 {
 public:
+    /**
+     * @param path path of the file.
+     */
     QwuiFileRessource(const QString& path);
     virtual ~QwuiFileRessource();
 

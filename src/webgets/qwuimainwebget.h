@@ -24,6 +24,10 @@
 #include <QtWui/QwuiWebget>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * @brief Main web widget.
+ * Use an instance of this class as main container for your UI.
+ */
 class QTWUI_EXPORT QwuiMainWebget : public QwuiWebget
 {
     Q_OBJECT

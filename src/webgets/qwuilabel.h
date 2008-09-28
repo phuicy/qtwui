@@ -26,6 +26,15 @@
 
 class QImage;
 
+/**
+ * @brief A label webget.
+ * A label can be used to display text, an image and links.
+ * if you put
+ * @code
+ * <a href="test">Test</a>
+ * @endcode
+ * as text, the signal clicked() will be emited with "test" as parameter.
+ */
 class QTWUI_EXPORT QwuiLabel : public QwuiWebget
 {
     Q_OBJECT

@@ -28,19 +28,59 @@
 
 class QHttpRequestHeader;
 
+/**
+ * \brief Parameters received from the client by the web server.
+ */
 class QTWUI_EXPORT QwuiParameters
 {
 public:
     QwuiParameters();
     virtual ~QwuiParameters();
 
+    /**
+     * Initializes the instance.
+     * @param header HTTP request header
+     * @param postContent HTTP post content.
+     */
     void init(const QHttpRequestHeader& header, const QString& postContent = QString::null);
+
+    /**
+     * Clears the instance.
+     */
     void clear();
+
+    /**
+     * @param key parameter name
+     * @return the value corresponding to \a key or QString::null
+     */
     QString operator[](const QString& key) const;
+
+    /**
+     * @param key parameter name
+     * @return true if the URL had a parameter named \a key
+     */
     bool contains(const QString& key) const;
+
+    /**
+     * @param key parameter name.
+     * @return the value corresponding to the GET parameter \a key or QString::null
+     */
     QString get(const QString& key) const;
+
+    /**
+     * @param key parameter name.
+     * @return the value corresponding to the POST parameter \a key or QString::null
+     */
     QString post(const QString& key) const;
+
+    /**
+     * @return XML data corresponding to the content of this instance
+     */
     QDomElement xmlElement() const;
+
+    /**
+     * @return the content of the POST data.
+     */
     QString postContent() const;
 
 private:

@@ -34,17 +34,38 @@ class QTextStream;
 class QwuiApplication;
 class QwuiLayout;
 
+/**
+ * @brief The base class for all webgets.
+ */
 class QTWUI_EXPORT QwuiWebget : public QObject
 {
     Q_OBJECT
 
 public:
+    /**
+     * @param parent the parent webget.
+     * @param webName the name used to indentify this webget in an URL. This is mandatory.
+     */
     QwuiWebget(QwuiWebget* parent = NULL, const QString& webName = QString::null);
     virtual ~QwuiWebget();
 
+    /**
+     * The web name is used to indentify this webget in an URL. This is mandatory.
+     * @param webName the new web name.
+     */
     void setWebName(const QString& webName);
+
+    /**
+     * @return the web name.
+     */
     QString webName() const;
+
+    /**
+     * Concatenes the web name of this webget and with its parents names.
+     * @return The path part of the URL identifying this webget.
+     */
     QString webPath() const;
+
     void setWebId(const QString& webId);
     QString webId() const;
     void setWebClass(const QString& webClass);

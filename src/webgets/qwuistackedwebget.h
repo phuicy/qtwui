@@ -24,6 +24,9 @@
 #include <QtWui/QwuiWebget>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * @brief A stacked webget container.
+ */
 class QTWUI_EXPORT QwuiStackedWebget : public QwuiWebget
 {
     Q_OBJECT

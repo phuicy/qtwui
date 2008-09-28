@@ -25,6 +25,10 @@
 #include <QtCore/QList>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief A stacked webgets layout.
+ * This layout keeps a stack of webgets and displays only one at time.
+ */
 class QTWUI_EXPORT QwuiStackedLayout : public QwuiLayout
 {
     Q_OBJECT
