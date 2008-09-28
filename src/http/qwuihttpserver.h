@@ -26,6 +26,10 @@
 
 class QwuiTcpServer;
 
+/**
+ * \brief The concrete HTTP server.
+ * Instances of this class listen on a given port and let than an QwuiHttpServerDelegate handle the incomming requests.
+ */
 class QTWUI_EXPORT QwuiHttpServer : public QwuiAbstractHttpServer
 {
     Q_OBJECT

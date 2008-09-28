@@ -24,6 +24,10 @@
 #include <QtWui/QwuiAbstractHttpServerDelegate>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief Concrete imlementation of the HTTP server delegate.
+ * This class handles uses a socket descriptor and uses it to transmit the requested ressources.
+ */
 class QTWUI_EXPORT QwuiHttpServerDelegate : public QwuiAbstractHttpServerDelegate
 {
     Q_OBJECT

@@ -24,6 +24,10 @@
 #include <QtNetwork/QTcpServer>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief A simple subclass of QTcpServer.
+ * This class provides only a signal newConnection(int) with the incoming connection socket descriptor as parameter.
+ */
 class QTWUI_EXPORT QwuiTcpServer : public QTcpServer
 {
     Q_OBJECT

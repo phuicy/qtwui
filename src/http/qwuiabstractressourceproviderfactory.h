@@ -26,12 +26,20 @@
 
 class QwuiAbstractRessourceProvider;
 
+/**
+ * \brief Abstract class defining the interface for a ressource provider factory.
+ * Subclasses must implement the create() method to return a QwuiAbstractRessourceProvider.
+ */
 class QTWUI_EXPORT QwuiAbstractRessourceProviderFactory
 {
 public:
     QwuiAbstractRessourceProviderFactory();
     virtual ~QwuiAbstractRessourceProviderFactory();
 
+    /**
+     * @param sessionId the session identifier for the ressource provider.
+     * @return a new ressource provider.
+     */
     virtual QwuiAbstractRessourceProvider* create(const QString& sessionId) const = 0;
 };
 

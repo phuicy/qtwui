@@ -24,6 +24,14 @@ R/***************************************************************************
 #include <QtWui/QwuiAbstractRessourceProviderFactory>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief A helper class used to instanciate factories for ressource providers.
+ * Example:
+ * \code
+ * QwuiRessourceProviderFactory<MyspecificProvider> factory;
+ * QwuiAbstractRessourceProvider* provider = factory.create("sessionId");
+ * \endcode
+ */
 template <typename T>
 class QTWUI_EXPORT QwuiRessourceProviderFactory : public QwuiAbstractRessourceProviderFactory
 {

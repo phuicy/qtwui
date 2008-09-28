@@ -28,22 +28,69 @@
 class QHttpRequestHeader;
 class QwuiAbstractRessource;
 
+/**
+ * \brief A ressource provider is a class that builds a QwuiAbstractRessource for a given HTTP request.
+ * This class represents an HTTP session and provides only the session management informations to subclasses.
+ * Subclasses must implement the provide() method to return a QwuiAbstractRessource corresponding to the
+ * given HTTP request.
+ */
 class QTWUI_EXPORT QwuiAbstractRessourceProvider : public QObject
 {
     Q_OBJECT
 
 public:
+    /**
+     * @param sessionId session ID for this ressource provider.
+     */
     QwuiAbstractRessourceProvider(const QString& sessionId = QString::null);
     virtual ~QwuiAbstractRessourceProvider();
 
+    /**
+     * Subclasses must implement this method and return a QwuiAbstractRessource object corresponding to the HTTP request.
+     * @param header HTTP request header
+     * @param postContent HTTP post content.
+     * @return a QwuiAbstractRessource object corresponding to the HTTP request.
+     */
     virtual QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
+
+    /**
+     * @return the current session identifier.
+     */
     QString sessionId() const;
+
+    /**
+     * @return true if the session must be kept between HTTP requests of the same object, false otherwise.
+     */
     bool keepSessions() const;
+
+    /**
+     * @param keep true if the session must be kept between HTTP requests of the same object, false otherwise.
+     */
     void setKeepSessions(bool keep);
+
+    /**
+     * @return the session time-out date.
+     */
     QDateTime sessionTimeoutDate() const;
+
+    /**
+     * Resets the session time-out date.
+     */
     void resetSessionTimeoutDate();
+
+    /**
+     * @return true if the session timed out, false otherwise.
+     */
     bool isSessionTimedOut() const;
+
+    /**
+     * @return session lifetime in seconds.
+     */
     int sessionLifeTime() const;
+
+    /**
+     * @param secs session lifetime in seconds.
+     */
     void setSessionLifeTime(int secs);
 
 private:

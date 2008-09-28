@@ -27,6 +27,12 @@
 class QwuiRessourceProviderServer;
 class QwuiAbstractHttpServerDelegate;
 
+/**
+ * \brief Base class for the implementation of an HTTP server.
+ * An HTTP server needs a ressource provider server that will provide the ressources depending on the mime type.
+ * There are two operating modes for a server: Queuing the requests and treating them sequentially or using a
+ * different thread for each connection.
+ */
 class QTWUI_EXPORT QwuiAbstractHttpServer : public QObject
 {
     Q_OBJECT
@@ -46,10 +52,21 @@ public:
     void setRequestProcessingType(RequestProcessingType t);
     RequestProcessingType requestProcessingType() const;
 
+    /**
+     * Implement this method to implement the server start.
+     * @return true if the initialization succeeded, false otherwise.
+     */
     virtual bool start() = 0;
+
+    /**
+     * @return the error string describing a failed initialization.
+     */
     virtual QString error() const;
 
 protected:
+    /**
+     * @param delegate a delegate representing an incomming connection.
+     */
     void process(QwuiAbstractHttpServerDelegate* delegate);
 
 private:

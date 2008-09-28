@@ -31,6 +31,14 @@ class QwuiAbstractRessourceProviderFactory;
 class QwuiAbstractHttpServer;
 class QwuiAbstractRessourceProvider;
 
+/**
+ * \brief this class holds currently alive sessions and creates new ones on demand.
+ * This class is used to hold sessions and manage their lifetimes.
+ * A new session can be created with newSession().
+ * With takeSession() and releaseSession() you can take the ownership of a session for your specific handling
+ * and release it once you are finished.
+ *
+ */
 class QTWUI_EXPORT QwuiRessourceProviderServer : public QObject
 {
     Q_OBJECT

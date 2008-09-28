@@ -24,6 +24,10 @@
 #include <QtWui/QwuiAbstractRessource>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief A simple ressource that wraps a message.
+ * Use this to wrap a static string as a ressource.
+ */
 class QTWUI_EXPORT QwuiMessageRessource : public QwuiAbstractRessource
 {
 public:

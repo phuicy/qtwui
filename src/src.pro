@@ -94,7 +94,7 @@ DISTFILES += ../javascript/qwuilink.js \
 ../stylesheets/qtwui.css \
 ../stylesheets/qwuimainwebget.css \
 ../stylesheets/qwuiwebget.css \
-../stylesheets/qwuilabel.css
+../stylesheets/qwuilabel.css \
 
 INCLUDEPATH += ../include
 CONFIG -= release

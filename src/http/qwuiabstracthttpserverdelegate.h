@@ -34,6 +34,11 @@ class QwuiAbstractRessourceProvider;
 class QwuiMessageRessource;
 class QwuiRessourceProviderServer;
 
+/**
+ * \brief This class represents wraps the handling of an HTTP request.
+ * A delegate is created by the QwuiAbstractHttpServer for each incomming connection and the processing of the
+ * HTTP request takes place in this delegate.
+ */
 class QTWUI_EXPORT QwuiAbstractHttpServerDelegate : public QThread
 {
     Q_OBJECT
