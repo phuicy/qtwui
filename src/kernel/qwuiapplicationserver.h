@@ -24,15 +24,31 @@
 #include <QtWui/QwuiApplicationCreator>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief Application server.
+ * The application server uses internally an HTTP server and an application factory to provide
+ * application instances on demand.
+ */
 class QTWUI_EXPORT QwuiApplicationServer : public QwuiRessourceProviderServer
 {
     Q_OBJECT
 
 public:
+    /**
+     * @param creatorFunction creator function to use to create new application instances.
+     * @param parent parent object.
+     */
     QwuiApplicationServer(QwuiApplicationCreator creatorFunction, QObject* parent = NULL);
     virtual ~QwuiApplicationServer();
 
+    /**
+     * @param port port to use for the built-in HTTP server.
+     */
     void setBuiltInServerPort(quint16 port);
+
+    /**
+     * Starts the application server.
+     */
     void exec();
 
 private slots:

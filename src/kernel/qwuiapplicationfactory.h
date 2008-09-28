@@ -26,12 +26,54 @@
 #include <QtWui/QwuiApplicationCreator>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief Application factory.
+ * This class uses a creator function to create new applications instances.
+ * The creator function corresponds to the traditionnal main() function for a web application.
+ * @code
+//
+// the traditionnal main function only starts the application server.
+//
+int main(int argc, char** argv)
+{
+    QCoreApplication app(argc, argv);
+    QwuiApplicationServer webAppServer(webMain);
+    webAppServer.setBuiltInServerPort(8888);
+    webAppServer.exec();
+    return app.exec();
+}
+
+//
+// This is the main function executed by the application server for each new session.
+//
+QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
+{
+    Q_UNUSED(args);
+
+    QwuiApplication* webApp = new QwuiApplication(sessionId);
+    QwuiMainWebget* mw = new QwuiMainWebget(NULL, "mw");
+    mw->setTitle("QtWui Test");
+    QwuiLabel* helloWorld = new QwuiLabel(mw, "helloWorld");
+    webApp->setMainWebget(helloWorld);
+    helloWorld->setText("Hello World !");
+    return webApp;
+}
+ * @endcode
+ */
 class QTWUI_EXPORT QwuiApplicationFactory : public QwuiAbstractRessourceProviderFactory
 {
 public:
+    /**
+     * @param creatorFunction creator function corresponding to the main() function for a web application.
+     * @param args command line arguments.
+     */
     QwuiApplicationFactory(QwuiApplicationCreator creatorFunction, const QStringList& args);
     virtual ~QwuiApplicationFactory();
 
+    /**
+     * @param sessionId Session identifier to use for the new application.
+     * @return a new QwuiApplication instance.
+     */
     virtual QwuiAbstractRessourceProvider* create(const QString& sessionId) const;
 
 private:

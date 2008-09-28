@@ -26,6 +26,10 @@
 #include <QtCore/QPair>
 #include <QtWui/QwuiGlobal>
 
+/**
+ * \brief Box layout used to lay out widgets horizontally or vertically.
+ * This is the base class used for QwuiHBoxLayout and QwuiVBoxLayout
+ */
 class QTWUI_EXPORT QwuiBoxLayout : public QwuiLayout
 {
     Q_OBJECT
@@ -57,6 +61,9 @@ private:
     ItemList m_items;
 };
 
+/**
+ * \brief Layout used to dispose webgets horizontally
+ */
 class QTWUI_EXPORT QwuiHBoxLayout : public QwuiBoxLayout
 {
     Q_OBJECT
@@ -68,6 +75,9 @@ public:
     virtual void render();
 };
 
+/**
+ * \brief Layout used to dispose webgets vertically.
+ */
 class QTWUI_EXPORT QwuiVBoxLayout : public QwuiBoxLayout
 {
     Q_OBJECT

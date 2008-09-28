@@ -47,11 +47,35 @@ public:
     QwuiRessourceProviderServer(QObject* parent = NULL);
     virtual ~QwuiRessourceProviderServer();
 
+    /**
+     * @param factory the main ressource provider factory.
+     */
     void setRessourceProviderFactory(QwuiAbstractRessourceProviderFactory* factory);
+
+    /**
+     * @return the main ressource provider factory.
+     */
     QwuiAbstractRessourceProviderFactory* ressourceProviderFactory() const;
+
+    /**
+     * @param server the HTTP server
+     */
     void setHttpServer(QwuiAbstractHttpServer* server);
+
+    /**
+     * @return the HTTP server
+     */
     QwuiAbstractHttpServer* httpServer() const;
+
+    /**
+     * @param secs the session lifetime in seconds.
+     */
     void setDefaultSessionLifeTime(int secs);
+
+    /**
+     * The default session lifetime is 30 min.
+     * @return the session lifetime in seconds.
+     */
     int defaultSessionLifeTime() const;
 
     virtual QwuiAbstractRessourceProvider* takeSession(const QString& sessionId);

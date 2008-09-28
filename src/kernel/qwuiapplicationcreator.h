@@ -25,6 +25,9 @@ class QwuiApplication;
 class QString;
 class QStringList;
 
+/**
+ * Defines the type of the application creator function used by QwuiApplicationFactory.
+ */
 typedef QwuiApplication* (*QwuiApplicationCreator)(const QString& sessionId, const QStringList& args);
 
 #endif // QWUIAPPLICATIONCREATOR_H

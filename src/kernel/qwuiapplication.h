@@ -32,6 +32,11 @@ class QHttpRequestHeader;
 class QwuiWebget;
 class QwuiFileRessourceProvider;
 
+/**
+ * \brief The main class used for all web application sessions.
+ * This class has to be created by the web main method and represents the session application.
+ * For an example, see QwuiApplicationFactory
+ */
 class QTWUI_EXPORT QwuiApplication : public QwuiAbstractRessourceProvider
 {
     Q_OBJECT
@@ -40,15 +45,53 @@ public:
     QwuiApplication(const QString& sessionId = QString::null);
     virtual ~QwuiApplication();
 
+    /**
+     * This methid is called by the web server and generates the HTML code for the web pages.
+     * @param header HTTP header
+     * @param postContent HTTP post content.
+     * @return The ressource corresponding to the HTTP request.
+     */
     QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent);
 
+    /**
+     * @param w the main webget for the web application.
+     */
     void setMainWebget(QwuiWebget* w);
+
+    /**
+     * @param javascriptDir the directory containing the javascript files.
+     */
     void setJavascriptDir(const QString& javascriptDir);
+
+    /**
+     * @return the directory containing the javascript files.
+     */
     QString javascriptDir() const;
+
+
+    /**
+     * @param styleSheetsDir the directory containing the CSS files.
+     */
     void setStyleSheetsDir(const QString& styleSheetsDir);
+
+    /**
+     * @return the directory containing the CSS files.
+     */
     QString styleSheetDir() const;
+
+    /**
+     * @return the URL parameters.
+     */
     QwuiParameters parameters() const;
+
+    /**
+     * @return device used to send the data to the client.
+     */
     QIODevice* device();
+
+    /**
+     * @param webget that the client must update dynamically with AJAX.
+     */
     void addWebgetToUpdate(const QwuiWebget* webget);
 
 private:
