@@ -45,7 +45,6 @@ void Game::newGame()
     for (int i = 0; i < m_current.count(); ++i) {
         m_foundWord += '_';
     }
-    qDebug(m_current.toAscii());
 }
 
 int Game::errorCount() const

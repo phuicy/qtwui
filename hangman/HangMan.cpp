@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "HangMan.h"
+#include <QtCore/QCoreApplication>
 #include <QtWui/QwuiBoxLayout>
 #include <QtWui/QwuiLabel>
 #include <QtGui/QPainter>
@@ -35,7 +36,9 @@ HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
 {
     m_game = new Game(this);
     QStringList wl;
-    wl << "maison" << "voiture" << "vacances";
+    wl << "wizard" << "computer" << "science" << "navigation" << "holidays"
+        << "synonym" << "alphabet" << "lesson" << "improvisation" << "maintainer"
+        << "platinum" << "compilation" << "linking" << "source" << "imagination" << "history";
     m_game->setWordsList(wl);
 
     QwuiBoxLayout* l = new QwuiVBoxLayout(this);
@@ -52,7 +55,7 @@ HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
     l->addWebget(m_image, 5);
     l->addWebget(m_letterBox, 2);
 
-    m_title->setText("<h1>Hangman</h1><br /><h4><a href=\"new_game\">New Game</a></h4>");
+    m_title->setText("<h1>Hangman</h1><br /><h4><a href=\"new_game\">New Game</a> <a href=\"kill_server\">Kill server</a></h4>");
     m_title->setAlignment(Qt::AlignHCenter);
     m_word->setAlignment(Qt::AlignHCenter);
     m_image->setAlignment(Qt::AlignHCenter);
@@ -129,7 +132,12 @@ void HangMan::letterClicked(const QString& link)
         }
         updateImage(m_game->errorCount());
         m_image->setImage(m_errorsImage);
-        m_word->setText(QString("<h2>%1</h2>").arg(m_game->foundWord()));
+        QString foundWord(m_game->foundWord());
+        QString displayedWord;
+        for (int i = 0; i < foundWord.length(); ++i) {
+            displayedWord += foundWord[i] + " ";
+        }
+        m_word->setText(QString("<h2>%1</h2>").arg(displayedWord));
     }
 }
 
@@ -140,6 +148,13 @@ void HangMan::newGame(const QString& link)
         updateCharacters();
         m_errorsImage.fill(0x00ffffff);
         m_image->setImage(m_errorsImage);
-        m_word->setText(QString("<h2>%1</h2>").arg(m_game->foundWord()));
+        QString foundWord(m_game->foundWord());
+        QString displayedWord;
+        for (int i = 0; i < foundWord.length(); ++i) {
+            displayedWord += foundWord[i] + " ";
+        }
+        m_word->setText(QString("<h2>%1</h2>").arg(displayedWord));
+    } else if (link == "kill_server") {
+        QCoreApplication::instance()->quit();
     }
 }
