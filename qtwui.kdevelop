@@ -13,8 +13,8 @@
     <projectname>QtWui</projectname>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
-    <defaultencoding/>
+    <description></description>
+    <defaultencoding></defaultencoding>
     <versioncontrol/>
   </general>
   <kdevfileview>
@@ -28,7 +28,7 @@
     </groups>
     <tree>
       <hidenonprojectfiles>true</hidenonprojectfiles>
-      <hidepatterns></hidepatterns>
+      <hidepatterns/>
       <showvcsfields>false</showvcsfields>
     </tree>
   </kdevfileview>
@@ -69,7 +69,7 @@
       <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
     </codecompletion>
     <creategettersetter>
-      <prefixGet/>
+      <prefixGet></prefixGet>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
@@ -123,16 +123,16 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell/>
+      <dbgshell></dbgshell>
       <breakpoints/>
       <programargs/>
       <gdbpath>/usr/bin/gdb</gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
       <raiseGDBOnStart>false</raiseGDBOnStart>
     </general>
     <display>
@@ -155,7 +155,7 @@
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
       <envvars>
-        <envvar value="lib" name="LD_LIBRARY_PATH" />
+        <envvar value="bin" name="LD_LIBRARY_PATH" />
       </envvars>
       <runarguments>
         <testapp/>
@@ -171,14 +171,14 @@
       </debugarguments>
     </run>
     <general>
-      <activedir>src</activedir>
+      <activedir>hangman</activedir>
     </general>
     <make>
       <abortonerror>true</abortonerror>
       <runmultiplejobs>true</runmultiplejobs>
       <numberofjobs>2</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin></makebin>
       <prio>0</prio>
       <envvars/>
     </make>
@@ -187,6 +187,8 @@
       <replacePaths>false</replacePaths>
       <disableDefaultOpts>true</disableDefaultOpts>
       <enableFilenamesOnly>false</enableFilenamesOnly>
+      <showVariablesInTree>true</showVariablesInTree>
+      <showParseErrors>true</showParseErrors>
     </qmake>
     <subclassing/>
   </kdevtrollproject>
