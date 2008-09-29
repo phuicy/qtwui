@@ -2,13 +2,15 @@ TEMPLATE = app
 
 DESTDIR = ../bin
 
-INCLUDEPATH += ../src \
-../include/
-LIBS += -L../lib \
--lQtWui
+INCLUDEPATH += \
+    ../include/
 
-unix:TARGETDEPS += ../lib/libQtWui.so
-win32:TARGETDEPS += ../lib/QtWui.dll
+LIBS += \
+    -L../bin \
+    -lQtWui
+
+unix:TARGETDEPS += ../bin/libQtWui.so
+win32:TARGETDEPS += ../bin/QtWui.dll
 
 MOC_DIR = .tmp/moc
 
@@ -16,9 +18,11 @@ OBJECTS_DIR = .tmp/obj
 
 UI_DIR = .tmp/ui
 
-SOURCES += main.cpp \
-HangMan.cpp \
- Game.cpp
-HEADERS += HangMan.h \
- Game.h
+SOURCES += \
+    main.cpp \
+    HangMan.cpp \
+    Game.cpp
 
+HEADERS += \
+    HangMan.h \
+    Game.h

@@ -1,10 +1,14 @@
+CONFIG += \
+    debug \
+    qt \
+    warn_on
+
 TEMPLATE = app
 
-CONFIG += debug \
-qt \
-warn_on
-QT += core \
-xml
+QT += \
+    core \
+    xml
+
 DESTDIR = ../bin
 
 OBJECTS_DIR = .tmp/obj
@@ -13,14 +17,19 @@ UI_DIR = .tmp/ui
 
 MOC_DIR = .tmp/moc
 
-SOURCES += main.cpp \
-TestWebget.cpp
-HEADERS += TestWebget.h
+SOURCES += \
+    main.cpp \
+    TestWebget.cpp
 
-INCLUDEPATH += ../src \
-../include
-LIBS += -L../lib \
--lQtWui
+HEADERS += \
+    TestWebget.h
+
+INCLUDEPATH += \
+    ../include
+
+LIBS += \
+    -L../bin \
+    -lQtWui
+
 unix:TARGETDEPS += ../lib/libQtWui.so
 win32:TARGETDEPS += ../lib/QtWui.dll
-

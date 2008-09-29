@@ -1,7 +1,11 @@
-SUBDIRS += src \
-testapp \
- hangman
+CONFIG += \
+    warn_on \
+    qt \
+    thread 
+
 TEMPLATE = subdirs 
-CONFIG += warn_on \
-          qt \
-          thread 
+
+SUBDIRS += \
+    src \
+#    testapp \
+    hangman
