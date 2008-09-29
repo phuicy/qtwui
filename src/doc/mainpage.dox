@@ -79,6 +79,26 @@ QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
 }
 @endcode
 
+@section installing Installing
+QtWui can be built like a standard Qt program: with qmake and make.
+The sources come with a simple demo: a hangman game. It is built with the QtWui sources.
+Go to the folder where you uncompressed the source archive and follow the these steps:
+- On unices:
+@code
+qmake
+make
+./run_hangman.sh
+@endcode
+- On windows with the msvc compiler
+@code
+qmake
+nmake
+run_hangman.bat
+@endcode
+
+The run_hangman script starts the server on the port 8888. edit the script to change the port.
+Then start a web browser and go to the http://localhost:8888 page to try the game.
+
 @section furure Future
 There are many feature missing in QtWui to make it a usable web application framework. The main missing things are:
 - Add form widgets (buttons, checkboxes, line edits, etc...)
