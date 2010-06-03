@@ -25,18 +25,18 @@
 #include <QtCore/QByteArray>
 #include <QtCore/QUrl>
 #include <QtNetwork/QHttpRequestHeader>
-#include <QtWui/QwuiFileRessourceProvider>
+#include <QtWui/QwuiFileResourceProvider>
 #include <QtWui/QwuiWebget>
-#include <QtWui/QwuiBufferedRessource>
+#include <QtWui/QwuiBufferedResource>
 
 QwuiApplication::QwuiApplication(const QString& sessionId) :
-    QwuiAbstractRessourceProvider(sessionId),
+    QwuiAbstractResourceProvider(sessionId),
     m_mainWebget(NULL),
     m_device(NULL),
     m_javascriptDir("javascript"),
     m_styleSheetsDir("stylesheets")
 {
-    m_fileProvider = new QwuiFileRessourceProvider();
+    m_fileProvider = new QwuiFileResourceProvider();
     setKeepSessions(true);
 }
 
@@ -46,7 +46,7 @@ QwuiApplication::~QwuiApplication()
     delete m_fileProvider;
 }
 
-QwuiAbstractRessource* QwuiApplication::provide(const QHttpRequestHeader& header, const QString& postContent)
+QwuiAbstractResource* QwuiApplication::provide(const QHttpRequestHeader& header, const QString& postContent)
 {
     QUrl url(header.path());
 
@@ -81,7 +81,7 @@ QwuiAbstractRessource* QwuiApplication::provide(const QHttpRequestHeader& header
         m_parameters.clear();
 
         if (mimeType != QString::null) {
-            return new QwuiBufferedRessource(header.path(), mimeType, data);
+            return new QwuiBufferedResource(header.path(), mimeType, data);
         }
     }
     return m_fileProvider->provide(header, postContent);

@@ -27,9 +27,9 @@
 
 class QTimer;
 class QReadWriteLock;
-class QwuiAbstractRessourceProviderFactory;
+class QwuiAbstractResourceProviderFactory;
 class QwuiAbstractHttpServer;
-class QwuiAbstractRessourceProvider;
+class QwuiAbstractResourceProvider;
 
 /**
  * \brief this class holds currently alive sessions and creates new ones on demand.
@@ -39,23 +39,23 @@ class QwuiAbstractRessourceProvider;
  * and release it once you are finished.
  *
  */
-class QTWUI_EXPORT QwuiRessourceProviderServer : public QObject
+class QTWUI_EXPORT QwuiResourceProviderServer : public QObject
 {
     Q_OBJECT
 
 public:
-    QwuiRessourceProviderServer(QObject* parent = NULL);
-    virtual ~QwuiRessourceProviderServer();
+    QwuiResourceProviderServer(QObject* parent = NULL);
+    virtual ~QwuiResourceProviderServer();
 
     /**
-     * @param factory the main ressource provider factory.
+     * @param factory the main resource provider factory.
      */
-    void setRessourceProviderFactory(QwuiAbstractRessourceProviderFactory* factory);
+    void setResourceProviderFactory(QwuiAbstractResourceProviderFactory* factory);
 
     /**
-     * @return the main ressource provider factory.
+     * @return the main resource provider factory.
      */
-    QwuiAbstractRessourceProviderFactory* ressourceProviderFactory() const;
+    QwuiAbstractResourceProviderFactory* resourceProviderFactory() const;
 
     /**
      * @param server the HTTP server
@@ -78,9 +78,9 @@ public:
      */
     int defaultSessionLifeTime() const;
 
-    virtual QwuiAbstractRessourceProvider* takeSession(const QString& sessionId);
-    virtual void releaseSession(QwuiAbstractRessourceProvider* session);
-    virtual QwuiAbstractRessourceProvider* newSession();
+    virtual QwuiAbstractResourceProvider* takeSession(const QString& sessionId);
+    virtual void releaseSession(QwuiAbstractResourceProvider* session);
+    virtual QwuiAbstractResourceProvider* newSession();
 
     virtual bool start();
 
@@ -94,8 +94,8 @@ private slots:
     void cleanupSessions();
 
 private:
-    QHash<QString, QwuiAbstractRessourceProvider*> m_sessions;
-    QwuiAbstractRessourceProviderFactory* m_factory;
+    QHash<QString, QwuiAbstractResourceProvider*> m_sessions;
+    QwuiAbstractResourceProviderFactory* m_factory;
     QwuiAbstractHttpServer* m_server;
     QTimer* m_sessionCleanupTimer;
     QReadWriteLock* m_lock;

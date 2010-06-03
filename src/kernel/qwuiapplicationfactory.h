@@ -21,7 +21,7 @@
 #ifndef QWUIAPPLICATIONFACTORY_H
 #define QWUIAPPLICATIONFACTORY_H
 
-#include <QtWui/QwuiAbstractRessourceProviderFactory>
+#include <QtWui/QwuiAbstractResourceProviderFactory>
 #include <QtCore/QStringList>
 #include <QtWui/QwuiApplicationCreator>
 #include <QtWui/QwuiGlobal>
@@ -60,7 +60,7 @@ QwuiApplication* webMain(const QString& sessionId, const QStringList& args)
 }
  * @endcode
  */
-class QTWUI_EXPORT QwuiApplicationFactory : public QwuiAbstractRessourceProviderFactory
+class QTWUI_EXPORT QwuiApplicationFactory : public QwuiAbstractResourceProviderFactory
 {
 public:
     /**
@@ -74,7 +74,7 @@ public:
      * @param sessionId Session identifier to use for the new application.
      * @return a new QwuiApplication instance.
      */
-    virtual QwuiAbstractRessourceProvider* create(const QString& sessionId) const;
+    virtual QwuiAbstractResourceProvider* create(const QString& sessionId) const;
 
 private:
     QwuiApplicationCreator m_creatorFunction;

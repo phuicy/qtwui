@@ -27,44 +27,44 @@
 class QIODevice;
 
 /**
- * \brief This class represents a ressource that can be served by the web server.
- * A ressource can be any type of information that can be served by a web server. Examples: an image file, a text file, some code generating HTML, etc...
- * A ressource is identified by its MIME-type and this class provides the ressource length, its path and is able
- * to send the ressource to an QIODevice.
+ * \brief This class represents a resource that can be served by the web server.
+ * A resource can be any type of information that can be served by a web server. Examples: an image file, a text file, some code generating HTML, etc...
+ * A resource is identified by its MIME-type and this class provides the resource length, its path and is able
+ * to send the resource to an QIODevice.
  */
-class QTWUI_EXPORT QwuiAbstractRessource
+class QTWUI_EXPORT QwuiAbstractResource
 {
 public:
     /**
-     * @param path path of the ressource.
+     * @param path path of the resource.
      */
-    QwuiAbstractRessource(const QString& path = QString::null);
-    virtual ~QwuiAbstractRessource();
+    QwuiAbstractResource(const QString& path = QString::null);
+    virtual ~QwuiAbstractResource();
 
     /**
-     * Subclasses must provide the MIME type of the ressource like "text/html" or "image/jpeg".
-     * @return the MIME type of the ressource.
+     * Subclasses must provide the MIME type of the resource like "text/html" or "image/jpeg".
+     * @return the MIME type of the resource.
      */
     virtual QString mimeType() const = 0;
 
     /**
-     * @return the length of the ressource in bytes.
+     * @return the length of the resource in bytes.
      */
     virtual qint64 length() const = 0;
 
     /**
-     * @return the path identifying the ressource. This is added to the URL by the HTTP server.
+     * @return the path identifying the resource. This is added to the URL by the HTTP server.
      */
     virtual QString path() const;
 
 
     /**
-     * @return true if the ressource exists, false otherwise.
+     * @return true if the resource exists, false otherwise.
      */
     virtual bool exists() const;
 
     /**
-     * Writes the ressource to \a dev
+     * Writes the resource to \a dev
      * @param dev IO device to write to.
      */
     virtual void sendToDevice(QIODevice* dev) const = 0;

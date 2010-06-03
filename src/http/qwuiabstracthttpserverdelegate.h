@@ -29,10 +29,10 @@ class QIODevice;
 class QHttpResponseHeader;
 class QLocale;
 class QTimer;
-class QwuiAbstractRessource;
-class QwuiAbstractRessourceProvider;
-class QwuiMessageRessource;
-class QwuiRessourceProviderServer;
+class QwuiAbstractResource;
+class QwuiAbstractResourceProvider;
+class QwuiMessageResource;
+class QwuiResourceProviderServer;
 
 /**
  * \brief This class represents wraps the handling of an HTTP request.
@@ -44,7 +44,7 @@ class QTWUI_EXPORT QwuiAbstractHttpServerDelegate : public QThread
     Q_OBJECT
 
 public:
-    QwuiAbstractHttpServerDelegate(QwuiRessourceProviderServer* providerServer = NULL);
+    QwuiAbstractHttpServerDelegate(QwuiResourceProviderServer* providerServer = NULL);
     virtual ~QwuiAbstractHttpServerDelegate();
 
 protected:
@@ -66,11 +66,11 @@ protected slots:
 
 private:
     QIODevice* m_device;
-    QwuiRessourceProviderServer* m_providerServer;
+    QwuiResourceProviderServer* m_providerServer;
     QLocale* m_en_USLocale;
-    QwuiAbstractRessourceProvider* m_provider;
-    QwuiMessageRessource* m_notFoundRessource;
-    QwuiAbstractRessource* m_ressource;
+    QwuiAbstractResourceProvider* m_provider;
+    QwuiMessageResource* m_notFoundResource;
+    QwuiAbstractResource* m_resource;
     QTimer* m_timer;
 
     friend class QwuiAbstractHttpServer;

@@ -18,40 +18,35 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIFILERESSOURCEPROVIDER_H
-#define QWUIFILERESSOURCEPROVIDER_H
+#ifndef QWUIBUFFEREDRESSOURCE_H
+#define QWUIBUFFEREDRESSOURCE_H
 
-#include <QtWui/QwuiAbstractRessourceProvider>
-#include <QtCore/QString>
+#include <QtWui/QwuiAbstractResource>
+#include <QtCore/QByteArray>
 #include <QtWui/QwuiGlobal>
 
 /**
- * \brief A ressource provider that provides file ressources.
- * When provide() is called, the ressource provider looks for a file that corresponds to the path
- * given in the header relatively to the rootDirectory().
+ * \brief A resource that wraps a simple byte array.
+ * This class makes it possible to send a buffer of data to the client.
  */
-class QTWUI_EXPORT QwuiFileRessourceProvider : public QwuiAbstractRessourceProvider
+class QTWUI_EXPORT QwuiBufferedResource : public QwuiAbstractResource
 {
-    Q_OBJECT
-
 public:
-    QwuiFileRessourceProvider(const QString& sessionId = QString::null);
-    virtual ~QwuiFileRessourceProvider();
-
     /**
-     * @param path path of the file ressources root directory.
+     * @param path path identifying the buffer content.
+     * @param mimeType MIME-type of the buffer content.
+     * @param source buffer data.
      */
-    void setRootDirectory(const QString& path);
+    QwuiBufferedResource(const QString& path, const QString& mimeType, const QByteArray& source);
+    virtual ~QwuiBufferedResource();
 
-    /**
-     * @return path of the file ressources root directory.
-     */
-    QString rootDirectory() const;
-
-    QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent);
+    virtual QString mimeType() const;
+    virtual qint64 length() const;
+    virtual void sendToDevice(QIODevice* dev) const;
 
 private:
-    QString m_rootDir;
+    QString m_mimeType;
+    QByteArray m_source;
 };
 
-#endif // QWUIFILERESSOURCEPROVIDER_H
+#endif // QWUIBUFFEREDRESSOURCE_H

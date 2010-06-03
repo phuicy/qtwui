@@ -26,30 +26,30 @@
 #include <QtNetwork/QHttpHeader>
 #include <QtNetwork/QHttpRequestHeader>
 #include <QtNetwork/QHttpResponseHeader>
-#include <QtWui/QwuiAbstractRessource>
-#include <QtWui/QwuiAbstractRessourceProvider>
-#include <QtWui/QwuiRessourceProviderServer>
-#include <QtWui/QwuiMessageRessource>
+#include <QtWui/QwuiAbstractResource>
+#include <QtWui/QwuiAbstractResourceProvider>
+#include <QtWui/QwuiResourceProviderServer>
+#include <QtWui/QwuiMessageResource>
 
-QwuiAbstractHttpServerDelegate::QwuiAbstractHttpServerDelegate(QwuiRessourceProviderServer* providerServer) :
+QwuiAbstractHttpServerDelegate::QwuiAbstractHttpServerDelegate(QwuiResourceProviderServer* providerServer) :
     QThread(NULL),
     m_device(NULL),
     m_providerServer(providerServer),
     m_en_USLocale(NULL),
-    m_notFoundRessource(NULL),
-    m_ressource(NULL),
+    m_notFoundResource(NULL),
+    m_resource(NULL),
     m_timer(NULL)
 {
     m_en_USLocale = new QLocale(QLocale::English, QLocale::UnitedStates);
-    m_notFoundRessource = new QwuiMessageRessource();
-    m_notFoundRessource->setMessage("<html><body><h2>Ressource not found</h2><br /><a href=\"http://qtweb.sourceforge.net\">QtWui Application Server</a></body></html>");
+    m_notFoundResource = new QwuiMessageResource();
+    m_notFoundResource->setMessage("<html><body><h2>Resource not found</h2><br /><a href=\"http://qtweb.sourceforge.net\">QtWui Application Server</a></body></html>");
     connect(this, SIGNAL(finished()), this, SLOT(deleteLater()));
 }
 
 QwuiAbstractHttpServerDelegate::~QwuiAbstractHttpServerDelegate()
 {
     delete m_en_USLocale;
-    delete m_notFoundRessource;
+    delete m_notFoundResource;
 }
 
 QIODevice* QwuiAbstractHttpServerDelegate::device() const
@@ -69,10 +69,10 @@ void QwuiAbstractHttpServerDelegate::run()
 void QwuiAbstractHttpServerDelegate::handleRequest(const QHttpRequestHeader& header)
 {
     handleHeadRequest(header);
-    if (m_ressource->exists()) {
-        m_ressource->sendToDevice(m_device);
+    if (m_resource->exists()) {
+        m_resource->sendToDevice(m_device);
     } else {
-        m_notFoundRessource->sendToDevice(m_device);
+        m_notFoundResource->sendToDevice(m_device);
     }
 }
 
@@ -93,14 +93,14 @@ void QwuiAbstractHttpServerDelegate::handleHeadRequest(const QHttpRequestHeader&
         setSessionId(responseHeader, m_provider->sessionId());
     }
 
-    if (m_ressource->exists()) {
+    if (m_resource->exists()) {
         responseHeader.setStatusLine(200, "OK", 1, 0);
-        responseHeader.setContentType(m_ressource->mimeType());
-        responseHeader.setContentLength(m_ressource->length());
+        responseHeader.setContentType(m_resource->mimeType());
+        responseHeader.setContentLength(m_resource->length());
     } else {
         responseHeader.setStatusLine(404, "Not Found", 1, 0);
-        responseHeader.setContentType(m_notFoundRessource->mimeType());
-        responseHeader.setContentLength(m_notFoundRessource->length());
+        responseHeader.setContentType(m_notFoundResource->mimeType());
+        responseHeader.setContentLength(m_notFoundResource->length());
     }
 
     writeHttpResponseHeader(responseHeader);
@@ -132,7 +132,7 @@ void QwuiAbstractHttpServerDelegate::doRun()
     delete m_timer;
     m_timer = NULL;
 
-    bool deleteRessource = true;
+    bool deleteResource = true;
 
     m_device = createDevice();
 
@@ -165,10 +165,10 @@ void QwuiAbstractHttpServerDelegate::doRun()
         }
     }
 
-    m_ressource = m_provider->provide(header, readHttpRequestContent());
-    if (m_ressource == NULL) {
-        m_ressource = m_notFoundRessource;
-        deleteRessource = false;
+    m_resource = m_provider->provide(header, readHttpRequestContent());
+    if (m_resource == NULL) {
+        m_resource = m_notFoundResource;
+        deleteResource = false;
     }
 
     QString method = header.method();
@@ -179,10 +179,10 @@ void QwuiAbstractHttpServerDelegate::doRun()
         handleHeadRequest(header);
     }
 
-    if (deleteRessource) {
-        delete m_ressource;
+    if (deleteResource) {
+        delete m_resource;
     }
-    m_ressource = NULL;
+    m_resource = NULL;
 
     m_providerServer->releaseSession(m_provider);
     m_provider = NULL;

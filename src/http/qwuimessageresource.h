@@ -1,4 +1,4 @@
-R/***************************************************************************
+/***************************************************************************
  *   Copyright (C) 2007 by Eric ALBER                                      *
  *   eric.alber@gmail.com                                                  *
  *                                                                         *
@@ -18,45 +18,30 @@ R/***************************************************************************
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIRESSOURCEPROVIDERFACTORY_H
-#define QWUIRESSOURCEPROVIDERFACTORY_H
+#ifndef QWUIMESSAGERESSOURCE_H
+#define QWUIMESSAGERESSOURCE_H
 
-#include <QtWui/QwuiAbstractRessourceProviderFactory>
+#include <QtWui/QwuiAbstractResource>
 #include <QtWui/QwuiGlobal>
 
 /**
- * \brief A helper class used to instanciate factories for ressource providers.
- * Example:
- * \code
- * QwuiRessourceProviderFactory<MyspecificProvider> factory;
- * QwuiAbstractRessourceProvider* provider = factory.create("sessionId");
- * \endcode
+ * \brief A simple resource that wraps a message.
+ * Use this to wrap a static string as a resource.
  */
-template <typename T>
-class QTWUI_EXPORT QwuiRessourceProviderFactory : public QwuiAbstractRessourceProviderFactory
+class QTWUI_EXPORT QwuiMessageResource : public QwuiAbstractResource
 {
 public:
-    QwuiRessourceProviderFactory();
-    virtual ~QwuiRessourceProviderFactory();
+    QwuiMessageResource(const QString& path = QString::null);
+    virtual ~QwuiMessageResource();
 
-    virtual QwuiAbstractRessourceProvider* create(const QString& sessionId) const;
+    virtual QString mimeType() const;
+    virtual qint64 length() const;
+    virtual void sendToDevice(QIODevice* dev) const;
+    virtual void setMessage(const QString& message);
+    QString message() const;
+
+private:
+    QString m_message;
 };
 
-template <typename T>
-QwuiRessourceProviderFactory<T>::QwuiRessourceProviderFactory() :
-    QwuiAbstractRessourceProviderFactory()
-{
-}
-
-template <typename T>
-QwuiRessourceProviderFactory<T>::~QwuiRessourceProviderFactory()
-{
-}
-
-template <typename T>
-QwuiAbstractRessourceProvider* QwuiRessourceProviderFactory<T>::create(const QString& sessionId) const
-{
-    return new T(sessionId);
-}
-
-#endif // QWUIRESSOURCEPROVIDERFACTORY_H
+#endif // QWUIMESSAGERESSOURCE_H

@@ -1,26 +1,26 @@
 HEADERS += \
     http/qwuiabstracthttpserver.h \
     http/qwuiabstracthttpserverdelegate.h \
-    http/qwuiabstractressource.h \
-    http/qwuiabstractressourceprovider.h \
-    http/qwuiabstractressourceproviderfactory.h \
+    http/qwuiabstractresource.h \
+    http/qwuiabstractresourceprovider.h \
+    http/qwuiabstractresourceproviderfactory.h \
     http/qwuifcgidevice.h \
     http/qwuihttpserver.h \
     http/qwuihttpserverdelegate.h \
-    http/qwuimessageressource.h \
-    http/qwuiressourceproviderfactory.h \
-    http/qwuiressourceproviderserver.h \
+    http/qwuimessageresource.h \
+    http/qwuiresourceproviderfactory.h \
+    http/qwuiresourceproviderserver.h \
     http/qwuitcpserver.h
 
 SOURCES += \
     http/qwuiabstracthttpserver.cpp \
     http/qwuiabstracthttpserverdelegate.cpp \
-    http/qwuiabstractressource.cpp \
-    http/qwuiabstractressourceprovider.cpp \
-    http/qwuiabstractressourceproviderfactory.cpp \
+    http/qwuiabstractresource.cpp \
+    http/qwuiabstractresourceprovider.cpp \
+    http/qwuiabstractresourceproviderfactory.cpp \
     http/qwuifcgidevice.cpp \
     http/qwuihttpserver.cpp \
     http/qwuihttpserverdelegate.cpp \
-    http/qwuimessageressource.cpp \
-    http/qwuiressourceproviderserver.cpp \
+    http/qwuimessageresource.cpp \
+    http/qwuiresourceproviderserver.cpp \
     http/qwuitcpserver.cpp

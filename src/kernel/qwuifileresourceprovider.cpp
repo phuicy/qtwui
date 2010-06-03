@@ -18,40 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtWui/QwuiMessageRessource>
-#include <QtCore/QTextStream>
+#include <QtWui/QwuiFileResourceProvider>
+#include <QtNetwork/QHttpRequestHeader>
+#include <QtWui/QwuiFileResource>
 
-QwuiMessageRessource::QwuiMessageRessource(const QString& path) :
-    QwuiAbstractRessource(path)
+QwuiFileResourceProvider::QwuiFileResourceProvider(const QString& sessionId) :
+    QwuiAbstractResourceProvider(sessionId),
+    m_rootDir(".")
 {
 }
 
-QwuiMessageRessource::~QwuiMessageRessource()
+QwuiFileResourceProvider::~QwuiFileResourceProvider()
 {
 }
 
-QString QwuiMessageRessource::mimeType() const
+QwuiAbstractResource* QwuiFileResourceProvider::provide(const QHttpRequestHeader& header, const QString& postContent)
 {
-    return "text/html";
+    Q_UNUSED(postContent);
+
+    return new QwuiFileResource(m_rootDir + header.path());
 }
 
-qint64 QwuiMessageRessource::length() const
+void QwuiFileResourceProvider::setRootDirectory(const QString& path)
 {
-    return message().length();
+    m_rootDir = path;
 }
 
-void QwuiMessageRessource::sendToDevice(QIODevice* dev) const
+QString QwuiFileResourceProvider::rootDirectory() const
 {
-    QTextStream stream(dev);
-    stream << message();
-}
-
-void QwuiMessageRessource::setMessage(const QString& message)
-{
-    m_message = message;
-}
-
-QString QwuiMessageRessource::message() const
-{
-    return m_message;
+    return m_rootDir;
 }

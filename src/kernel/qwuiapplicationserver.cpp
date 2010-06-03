@@ -25,11 +25,11 @@
 #include <QtWui/QwuiApplicationFactory>
 
 QwuiApplicationServer::QwuiApplicationServer(QwuiApplicationCreator creatorFunction, QObject* parent) :
-    QwuiRessourceProviderServer(parent)
+    QwuiResourceProviderServer(parent)
 {
-    setRessourceProviderFactory(new QwuiApplicationFactory(creatorFunction, QCoreApplication::arguments()));
+    setResourceProviderFactory(new QwuiApplicationFactory(creatorFunction, QCoreApplication::arguments()));
     QwuiHttpServer* server = new QwuiHttpServer(this);
-    server->setRessourceProviderServer(this);
+    server->setResourceProviderServer(this);
     setHttpServer(server);
 }
 

@@ -18,27 +18,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIFILERESSOURCE_H
-#define QWUIFILERESSOURCE_H
+#ifndef QWUIFILERESSOURCEPROVIDER_H
+#define QWUIFILERESSOURCEPROVIDER_H
 
-#include <QtWui/QwuiAbstractRessource>
+#include <QtWui/QwuiAbstractResourceProvider>
+#include <QtCore/QString>
 #include <QtWui/QwuiGlobal>
 
 /**
- * \brief This class makes it possible to send a file to the client.
+ * \brief A resource provider that provides file resources.
+ * When provide() is called, the resource provider looks for a file that corresponds to the path
+ * given in the header relatively to the rootDirectory().
  */
-class QTWUI_EXPORT QwuiFileRessource : public QwuiAbstractRessource
+class QTWUI_EXPORT QwuiFileResourceProvider : public QwuiAbstractResourceProvider
 {
-public:
-    /**
-     * @param path path of the file.
-     */
-    QwuiFileRessource(const QString& path);
-    virtual ~QwuiFileRessource();
+    Q_OBJECT
 
-    virtual QString mimeType() const;
-    virtual qint64 length() const;
-    virtual void sendToDevice(QIODevice* dev) const;
+public:
+    QwuiFileResourceProvider(const QString& sessionId = QString::null);
+    virtual ~QwuiFileResourceProvider();
+
+    /**
+     * @param path path of the file resources root directory.
+     */
+    void setRootDirectory(const QString& path);
+
+    /**
+     * @return path of the file resources root directory.
+     */
+    QString rootDirectory() const;
+
+    QwuiAbstractResource* provide(const QHttpRequestHeader& header, const QString& postContent);
+
+private:
+    QString m_rootDir;
 };
 
-#endif // QWUIFILERESSOURCE_H
+#endif // QWUIFILERESSOURCEPROVIDER_H

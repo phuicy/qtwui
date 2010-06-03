@@ -23,21 +23,21 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QSet>
-#include <QtWui/QwuiAbstractRessourceProvider>
+#include <QtWui/QwuiAbstractResourceProvider>
 #include <QtWui/QwuiParameters>
 #include <QtWui/QwuiGlobal>
 
 class QIODevice;
 class QHttpRequestHeader;
 class QwuiWebget;
-class QwuiFileRessourceProvider;
+class QwuiFileResourceProvider;
 
 /**
  * \brief The main class used for all web application sessions.
  * This class has to be created by the web main method and represents the session application.
  * For an example, see QwuiApplicationFactory
  */
-class QTWUI_EXPORT QwuiApplication : public QwuiAbstractRessourceProvider
+class QTWUI_EXPORT QwuiApplication : public QwuiAbstractResourceProvider
 {
     Q_OBJECT
 
@@ -49,9 +49,9 @@ public:
      * This methid is called by the web server and generates the HTML code for the web pages.
      * @param header HTTP header
      * @param postContent HTTP post content.
-     * @return The ressource corresponding to the HTTP request.
+     * @return The resource corresponding to the HTTP request.
      */
-    QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent);
+    QwuiAbstractResource* provide(const QHttpRequestHeader& header, const QString& postContent);
 
     /**
      * @param w the main webget for the web application.
@@ -96,7 +96,7 @@ public:
 
 private:
     QwuiWebget* m_mainWebget;
-    QwuiFileRessourceProvider* m_fileProvider;
+    QwuiFileResourceProvider* m_fileProvider;
     QIODevice* m_device;
     QString m_javascriptDir;
     QString m_styleSheetsDir;

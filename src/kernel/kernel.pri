@@ -3,9 +3,9 @@ SOURCES += \
     kernel/qwuiapplicationfactory.cpp \
     kernel/qwuiapplicationserver.cpp \
     kernel/qwuiboxlayout.cpp \
-    kernel/qwuibufferedressource.cpp \
-    kernel/qwuifileressource.cpp \
-    kernel/qwuifileressourceprovider.cpp \
+    kernel/qwuibufferedresource.cpp \
+    kernel/qwuifileresource.cpp \
+    kernel/qwuifileresourceprovider.cpp \
     kernel/qwuigridlayout.cpp \
     kernel/qwuilayout.cpp \
     kernel/qwuilayoutitem.cpp \
@@ -19,9 +19,9 @@ HEADERS += \
     kernel/qwuiapplicationfactory.h \
     kernel/qwuiapplicationserver.h \
     kernel/qwuiboxlayout.h \
-    kernel/qwuibufferedressource.h \
-    kernel/qwuifileressource.h \
-    kernel/qwuifileressourceprovider.h \
+    kernel/qwuibufferedresource.h \
+    kernel/qwuifileresource.h \
+    kernel/qwuifileresourceprovider.h \
     kernel/qwuiglobal.h \
     kernel/qwuigridlayout.h \
     kernel/qwuilayout.h \

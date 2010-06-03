@@ -26,14 +26,14 @@
 
 /**
  * \brief Concrete imlementation of the HTTP server delegate.
- * This class handles uses a socket descriptor and uses it to transmit the requested ressources.
+ * This class handles uses a socket descriptor and uses it to transmit the requested resources.
  */
 class QTWUI_EXPORT QwuiHttpServerDelegate : public QwuiAbstractHttpServerDelegate
 {
     Q_OBJECT
 
 public:
-    QwuiHttpServerDelegate(QwuiRessourceProviderServer* providerServer = NULL, int socketDescriptor = 0);
+    QwuiHttpServerDelegate(QwuiResourceProviderServer* providerServer = NULL, int socketDescriptor = 0);
     virtual ~QwuiHttpServerDelegate();
 
 protected:

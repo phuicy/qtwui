@@ -18,23 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtWui/QwuiAbstractRessource>
+#include <QtWui/QwuiAbstractResource>
 
-QwuiAbstractRessource::QwuiAbstractRessource(const QString& path) :
+QwuiAbstractResource::QwuiAbstractResource(const QString& path) :
     m_path(path)
 {
 }
 
-QwuiAbstractRessource::~QwuiAbstractRessource()
+QwuiAbstractResource::~QwuiAbstractResource()
 {
 }
 
-QString QwuiAbstractRessource::path() const
+QString QwuiAbstractResource::path() const
 {
     return m_path;
 }
 
-bool QwuiAbstractRessource::exists() const
+bool QwuiAbstractResource::exists() const
 {
     return length() != -1;
 }

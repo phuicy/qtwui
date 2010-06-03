@@ -26,32 +26,32 @@
 #include <QtWui/QwuiGlobal>
 
 class QHttpRequestHeader;
-class QwuiAbstractRessource;
+class QwuiAbstractResource;
 
 /**
- * \brief A ressource provider is a class that builds a QwuiAbstractRessource for a given HTTP request.
+ * \brief A resource provider is a class that builds a QwuiAbstractResource for a given HTTP request.
  * This class represents an HTTP session and provides only the session management informations to subclasses.
- * Subclasses must implement the provide() method to return a QwuiAbstractRessource corresponding to the
+ * Subclasses must implement the provide() method to return a QwuiAbstractResource corresponding to the
  * given HTTP request.
  */
-class QTWUI_EXPORT QwuiAbstractRessourceProvider : public QObject
+class QTWUI_EXPORT QwuiAbstractResourceProvider : public QObject
 {
     Q_OBJECT
 
 public:
     /**
-     * @param sessionId session ID for this ressource provider.
+     * @param sessionId session ID for this resource provider.
      */
-    QwuiAbstractRessourceProvider(const QString& sessionId = QString::null);
-    virtual ~QwuiAbstractRessourceProvider();
+    QwuiAbstractResourceProvider(const QString& sessionId = QString::null);
+    virtual ~QwuiAbstractResourceProvider();
 
     /**
-     * Subclasses must implement this method and return a QwuiAbstractRessource object corresponding to the HTTP request.
+     * Subclasses must implement this method and return a QwuiAbstractResource object corresponding to the HTTP request.
      * @param header HTTP request header
      * @param postContent HTTP post content.
-     * @return a QwuiAbstractRessource object corresponding to the HTTP request.
+     * @return a QwuiAbstractResource object corresponding to the HTTP request.
      */
-    virtual QwuiAbstractRessource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
+    virtual QwuiAbstractResource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
 
     /**
      * @return the current session identifier.

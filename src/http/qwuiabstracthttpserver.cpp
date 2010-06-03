@@ -32,12 +32,12 @@ QwuiAbstractHttpServer::~QwuiAbstractHttpServer()
 {
 }
 
-void QwuiAbstractHttpServer::setRessourceProviderServer(QwuiRessourceProviderServer* server)
+void QwuiAbstractHttpServer::setResourceProviderServer(QwuiResourceProviderServer* server)
 {
     m_server = server;
 }
 
-QwuiRessourceProviderServer* QwuiAbstractHttpServer::ressourceProviderServer() const
+QwuiResourceProviderServer* QwuiAbstractHttpServer::resourceProviderServer() const
 {
     return m_server;
 }

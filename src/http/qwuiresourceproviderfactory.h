@@ -1,4 +1,4 @@
-/***************************************************************************
+R/***************************************************************************
  *   Copyright (C) 2007 by Eric ALBER                                      *
  *   eric.alber@gmail.com                                                  *
  *                                                                         *
@@ -18,57 +18,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtWui/QwuiAbstractRessourceProvider>
+#ifndef QWUIRESSOURCEPROVIDERFACTORY_H
+#define QWUIRESSOURCEPROVIDERFACTORY_H
 
-QwuiAbstractRessourceProvider::QwuiAbstractRessourceProvider(const QString& sessionId) :
-    QObject(NULL),
-    m_keepSessions(false),
-    m_sessionLifeTime(1800),
-    m_sessionId(sessionId)
+#include <QtWui/QwuiAbstractResourceProviderFactory>
+#include <QtWui/QwuiGlobal>
+
+/**
+ * \brief A helper class used to instanciate factories for resource providers.
+ * Example:
+ * \code
+ * QwuiResourceProviderFactory<MyspecificProvider> factory;
+ * QwuiAbstractResourceProvider* provider = factory.create("sessionId");
+ * \endcode
+ */
+template <typename T>
+class QTWUI_EXPORT QwuiResourceProviderFactory : public QwuiAbstractResourceProviderFactory
 {
-    resetSessionTimeoutDate();
+public:
+    QwuiResourceProviderFactory();
+    virtual ~QwuiResourceProviderFactory();
+
+    virtual QwuiAbstractResourceProvider* create(const QString& sessionId) const;
+};
+
+template <typename T>
+QwuiResourceProviderFactory<T>::QwuiResourceProviderFactory() :
+    QwuiAbstractResourceProviderFactory()
+{
 }
 
-QwuiAbstractRessourceProvider::~QwuiAbstractRessourceProvider()
+template <typename T>
+QwuiResourceProviderFactory<T>::~QwuiResourceProviderFactory()
 {
 }
 
-QString QwuiAbstractRessourceProvider::sessionId() const
+template <typename T>
+QwuiAbstractResourceProvider* QwuiResourceProviderFactory<T>::create(const QString& sessionId) const
 {
-    return m_sessionId;
+    return new T(sessionId);
 }
 
-bool QwuiAbstractRessourceProvider::keepSessions() const
-{
-    return m_keepSessions;
-}
-
-void QwuiAbstractRessourceProvider::setKeepSessions(bool keep)
-{
-    m_keepSessions = keep;
-}
-
-QDateTime QwuiAbstractRessourceProvider::sessionTimeoutDate() const
-{
-    return m_sessionTimeoutDate;
-}
-
-void QwuiAbstractRessourceProvider::resetSessionTimeoutDate()
-{
-    m_sessionTimeoutDate = QDateTime::currentDateTime().addSecs(m_sessionLifeTime);
-}
-
-bool QwuiAbstractRessourceProvider::isSessionTimedOut() const
-{
-    return m_sessionTimeoutDate <= QDateTime::currentDateTime();
-}
-
-int QwuiAbstractRessourceProvider::sessionLifeTime() const
-{
-    return m_sessionLifeTime;
-}
-
-void QwuiAbstractRessourceProvider::setSessionLifeTime(int secs)
-{
-    m_sessionLifeTime = secs;
-}
+#endif // QWUIRESSOURCEPROVIDERFACTORY_H

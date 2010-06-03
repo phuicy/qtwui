@@ -28,7 +28,7 @@
 // Http request header lines are limited to 8kb per line.
 #define QWUI_MAX_HEADER_LINES_LENGTH 8192
 
-QwuiHttpServerDelegate::QwuiHttpServerDelegate(QwuiRessourceProviderServer* providerServer, int socketDescriptor) :
+QwuiHttpServerDelegate::QwuiHttpServerDelegate(QwuiResourceProviderServer* providerServer, int socketDescriptor) :
     QwuiAbstractHttpServerDelegate(providerServer),
     m_socketDescriptor(socketDescriptor),
     m_requestContentLength(0)

@@ -31,7 +31,7 @@ QwuiApplicationFactory::~QwuiApplicationFactory()
 {
 }
 
-QwuiAbstractRessourceProvider* QwuiApplicationFactory::create(const QString& sessionId) const
+QwuiAbstractResourceProvider* QwuiApplicationFactory::create(const QString& sessionId) const
 {
     return m_creatorFunction(sessionId, m_args);
 }

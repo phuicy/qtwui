@@ -20,7 +20,7 @@
 #ifndef QWUIAPPLICATIONSERVER_H
 #define QWUIAPPLICATIONSERVER_H
 
-#include <QtWui/QwuiRessourceProviderServer>
+#include <QtWui/QwuiResourceProviderServer>
 #include <QtWui/QwuiApplicationCreator>
 #include <QtWui/QwuiGlobal>
 
@@ -29,7 +29,7 @@
  * The application server uses internally an HTTP server and an application factory to provide
  * application instances on demand.
  */
-class QTWUI_EXPORT QwuiApplicationServer : public QwuiRessourceProviderServer
+class QTWUI_EXPORT QwuiApplicationServer : public QwuiResourceProviderServer
 {
     Q_OBJECT
 

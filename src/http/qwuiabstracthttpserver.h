@@ -24,12 +24,12 @@
 #include <QtCore/QObject>
 #include <QtWui/QwuiGlobal>
 
-class QwuiRessourceProviderServer;
+class QwuiResourceProviderServer;
 class QwuiAbstractHttpServerDelegate;
 
 /**
  * \brief Base class for the implementation of an HTTP server.
- * An HTTP server needs a ressource provider server that will provide the ressources depending on the mime type.
+ * An HTTP server needs a resource provider server that will provide the resources depending on the mime type.
  * There are two operating modes for a server: Queuing the requests and treating them sequentially or using a
  * different thread for each connection.
  */
@@ -47,8 +47,8 @@ public:
     QwuiAbstractHttpServer(QObject* parent = NULL);
     virtual ~QwuiAbstractHttpServer();
 
-    void setRessourceProviderServer(QwuiRessourceProviderServer* server);
-    QwuiRessourceProviderServer* ressourceProviderServer() const;
+    void setResourceProviderServer(QwuiResourceProviderServer* server);
+    QwuiResourceProviderServer* resourceProviderServer() const;
     void setRequestProcessingType(RequestProcessingType t);
     RequestProcessingType requestProcessingType() const;
 
@@ -70,7 +70,7 @@ protected:
     void process(QwuiAbstractHttpServerDelegate* delegate);
 
 private:
-    QwuiRessourceProviderServer* m_server;
+    QwuiResourceProviderServer* m_server;
     RequestProcessingType m_type;
 };
 

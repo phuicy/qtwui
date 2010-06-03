@@ -18,30 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIMESSAGERESSOURCE_H
-#define QWUIMESSAGERESSOURCE_H
+#include <QtWui/QwuiAbstractResourceProviderFactory>
 
-#include <QtWui/QwuiAbstractRessource>
-#include <QtWui/QwuiGlobal>
-
-/**
- * \brief A simple ressource that wraps a message.
- * Use this to wrap a static string as a ressource.
- */
-class QTWUI_EXPORT QwuiMessageRessource : public QwuiAbstractRessource
+QwuiAbstractResourceProviderFactory::QwuiAbstractResourceProviderFactory()
 {
-public:
-    QwuiMessageRessource(const QString& path = QString::null);
-    virtual ~QwuiMessageRessource();
+}
 
-    virtual QString mimeType() const;
-    virtual qint64 length() const;
-    virtual void sendToDevice(QIODevice* dev) const;
-    virtual void setMessage(const QString& message);
-    QString message() const;
-
-private:
-    QString m_message;
-};
-
-#endif // QWUIMESSAGERESSOURCE_H
+QwuiAbstractResourceProviderFactory::~QwuiAbstractResourceProviderFactory()
+{
+}

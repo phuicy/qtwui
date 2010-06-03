@@ -18,12 +18,29 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtWui/QwuiAbstractRessourceProviderFactory>
+#ifndef QWUIABSTRACTRESSOURCEPROVIDERFACTORY_H
+#define QWUIABSTRACTRESSOURCEPROVIDERFACTORY_H
 
-QwuiAbstractRessourceProviderFactory::QwuiAbstractRessourceProviderFactory()
-{
-}
+#include <QtCore/QString>
+#include <QtWui/QwuiGlobal>
 
-QwuiAbstractRessourceProviderFactory::~QwuiAbstractRessourceProviderFactory()
+class QwuiAbstractResourceProvider;
+
+/**
+ * \brief Abstract class defining the interface for a resource provider factory.
+ * Subclasses must implement the create() method to return a QwuiAbstractResourceProvider.
+ */
+class QTWUI_EXPORT QwuiAbstractResourceProviderFactory
 {
-}
+public:
+    QwuiAbstractResourceProviderFactory();
+    virtual ~QwuiAbstractResourceProviderFactory();
+
+    /**
+     * @param sessionId the session identifier for the resource provider.
+     * @return a new resource provider.
+     */
+    virtual QwuiAbstractResourceProvider* create(const QString& sessionId) const = 0;
+};
+
+#endif // QWUIABSTRACTRESSOURCEPROVIDERFACTORY_H

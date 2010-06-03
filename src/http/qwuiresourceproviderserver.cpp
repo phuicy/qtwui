@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtWui/QwuiRessourceProviderServer>
+#include <QtWui/QwuiResourceProviderServer>
 #include <QtCore/QTimer>
 #include <QtCore/QReadWriteLock>
 #include <QtCore/QWriteLocker>
@@ -28,9 +28,9 @@
 #include <QtCore/QSemaphore>
 #include <QtCore/QThread>
 #include <QtCore/QCoreApplication>
-#include <QtWui/QwuiAbstractRessourceProviderFactory>
+#include <QtWui/QwuiAbstractResourceProviderFactory>
 #include <QtWui/QwuiAbstractHttpServer>
-#include <QtWui/QwuiAbstractRessourceProvider>
+#include <QtWui/QwuiAbstractResourceProvider>
 
 class QwuiObjectThreadChangeEvent : public QEvent
 {
@@ -71,7 +71,7 @@ private:
     QSemaphore* m_semaphore;
 };
 
-QwuiRessourceProviderServer::QwuiRessourceProviderServer(QObject* parent) :
+QwuiResourceProviderServer::QwuiResourceProviderServer(QObject* parent) :
     QObject(parent),
     m_factory(NULL),
     m_server(NULL),
@@ -85,7 +85,7 @@ QwuiRessourceProviderServer::QwuiRessourceProviderServer(QObject* parent) :
     m_sessionCleanupTimer->start(30000); // Cleanup sessions every 30 seconds.
 }
 
-QwuiRessourceProviderServer::~QwuiRessourceProviderServer()
+QwuiResourceProviderServer::~QwuiResourceProviderServer()
 {
     delete m_factory;
     delete m_server;
@@ -93,42 +93,42 @@ QwuiRessourceProviderServer::~QwuiRessourceProviderServer()
     delete m_lock;
 }
 
-void QwuiRessourceProviderServer::setRessourceProviderFactory(QwuiAbstractRessourceProviderFactory* factory)
+void QwuiResourceProviderServer::setResourceProviderFactory(QwuiAbstractResourceProviderFactory* factory)
 {
     delete m_factory;
     m_factory = factory;
 }
 
-QwuiAbstractRessourceProviderFactory* QwuiRessourceProviderServer::ressourceProviderFactory() const
+QwuiAbstractResourceProviderFactory* QwuiResourceProviderServer::resourceProviderFactory() const
 {
     return m_factory;
 }
 
-void QwuiRessourceProviderServer::setHttpServer(QwuiAbstractHttpServer* server)
+void QwuiResourceProviderServer::setHttpServer(QwuiAbstractHttpServer* server)
 {
     delete m_server;
     m_server = server;
 }
 
-QwuiAbstractHttpServer* QwuiRessourceProviderServer::httpServer() const
+QwuiAbstractHttpServer* QwuiResourceProviderServer::httpServer() const
 {
     return m_server;
 }
 
-void QwuiRessourceProviderServer::setDefaultSessionLifeTime(int secs)
+void QwuiResourceProviderServer::setDefaultSessionLifeTime(int secs)
 {
     m_defaultSessionLifeTime = secs;
 }
 
-int QwuiRessourceProviderServer::defaultSessionLifeTime() const
+int QwuiResourceProviderServer::defaultSessionLifeTime() const
 {
     return m_defaultSessionLifeTime;
 }
 
-QwuiAbstractRessourceProvider* QwuiRessourceProviderServer::takeSession(const QString& sessionId)
+QwuiAbstractResourceProvider* QwuiResourceProviderServer::takeSession(const QString& sessionId)
 {
     QReadLocker locker(m_lock);
-    QHash<QString, QwuiAbstractRessourceProvider*>::Iterator it = m_sessions.find(sessionId);
+    QHash<QString, QwuiAbstractResourceProvider*>::Iterator it = m_sessions.find(sessionId);
     if (it != m_sessions.end()) {
         pullToCurrentThread(it.value());
         return it.value();
@@ -136,7 +136,7 @@ QwuiAbstractRessourceProvider* QwuiRessourceProviderServer::takeSession(const QS
     return NULL;
 }
 
-void QwuiRessourceProviderServer::releaseSession(QwuiAbstractRessourceProvider* session)
+void QwuiResourceProviderServer::releaseSession(QwuiAbstractResourceProvider* session)
 {
     if (session != NULL) {
         if (session->keepSessions()) {
@@ -148,11 +148,11 @@ void QwuiRessourceProviderServer::releaseSession(QwuiAbstractRessourceProvider* 
     }
 }
 
-QwuiAbstractRessourceProvider* QwuiRessourceProviderServer::newSession()
+QwuiAbstractResourceProvider* QwuiResourceProviderServer::newSession()
 {
     if (m_factory != NULL) {
         QWriteLocker locker(m_lock);
-        QwuiAbstractRessourceProvider* provider = m_factory->create(QUuid::createUuid());
+        QwuiAbstractResourceProvider* provider = m_factory->create(QUuid::createUuid());
         provider->setSessionLifeTime(m_defaultSessionLifeTime);
         provider->resetSessionTimeoutDate();
         if (provider->keepSessions()) {
@@ -163,7 +163,7 @@ QwuiAbstractRessourceProvider* QwuiRessourceProviderServer::newSession()
     return NULL;
 }
 
-bool QwuiRessourceProviderServer::start()
+bool QwuiResourceProviderServer::start()
 {
     if (m_server != NULL) {
         return m_server->start();
@@ -171,7 +171,7 @@ bool QwuiRessourceProviderServer::start()
     return false;
 }
 
-void QwuiRessourceProviderServer::customEvent(QEvent* event)
+void QwuiResourceProviderServer::customEvent(QEvent* event)
 {
     if (event->type() == (QEvent::Type) QwuiObjectThreadChangeEvent::ObjectThreadChange) {
         QwuiObjectThreadChangeEvent* e = static_cast<QwuiObjectThreadChangeEvent*>(event);
@@ -181,7 +181,7 @@ void QwuiRessourceProviderServer::customEvent(QEvent* event)
     }
 }
 
-void QwuiRessourceProviderServer::pullToCurrentThread(QObject* obj)
+void QwuiResourceProviderServer::pullToCurrentThread(QObject* obj)
 {
     if (obj->thread() != QThread::currentThread()) {
         QSemaphore sem(0);
@@ -191,10 +191,10 @@ void QwuiRessourceProviderServer::pullToCurrentThread(QObject* obj)
     }
 }
 
-void QwuiRessourceProviderServer::cleanupSessions()
+void QwuiResourceProviderServer::cleanupSessions()
 {
     QWriteLocker locker(m_lock);
-    QHash<QString, QwuiAbstractRessourceProvider*>::Iterator it = m_sessions.begin();
+    QHash<QString, QwuiAbstractResourceProvider*>::Iterator it = m_sessions.begin();
     while (it != m_sessions.end()) {
         if (it.value()->isSessionTimedOut() || !it.value()->keepSessions()) {
             delete it.value();

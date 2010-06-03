@@ -18,55 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtWui/QwuiFileRessource>
-#include <QtCore/QUrl>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
+#ifndef QWUIFILERESSOURCE_H
+#define QWUIFILERESSOURCE_H
 
-#define READ_BUFFER_SIZE 4096
+#include <QtWui/QwuiAbstractResource>
+#include <QtWui/QwuiGlobal>
 
-QwuiFileRessource::QwuiFileRessource(const QString& path) :
-    QwuiAbstractRessource(path)
+/**
+ * \brief This class makes it possible to send a file to the client.
+ */
+class QTWUI_EXPORT QwuiFileResource : public QwuiAbstractResource
 {
-}
+public:
+    /**
+     * @param path path of the file.
+     */
+    QwuiFileResource(const QString& path);
+    virtual ~QwuiFileResource();
 
-QwuiFileRessource::~QwuiFileRessource()
-{
-}
+    virtual QString mimeType() const;
+    virtual qint64 length() const;
+    virtual void sendToDevice(QIODevice* dev) const;
+};
 
-QString QwuiFileRessource::mimeType() const
-{
-    return "";
-    //return "application/octet-stream";
-}
-
-qint64 QwuiFileRessource::length() const
-{
-    QUrl fileUrl(path());
-    QFileInfo fi(fileUrl.path());
-    if (fi.exists() && fi.isFile()) {
-        return fi.size();
-    }
-    return -1;
-}
-
-void QwuiFileRessource::sendToDevice(QIODevice* dev) const
-{
-    QUrl fileUrl(path());
-    if (exists()) {
-        QFile file(fileUrl.path());
-        if (file.open(QIODevice::ReadOnly)) {
-            char data[READ_BUFFER_SIZE];
-            qint64 bytesRead = file.read(data, READ_BUFFER_SIZE);
-            while (bytesRead != 0) {
-                if (!dev->isOpen()) {
-                    return;
-                }
-                if (dev->write(data, bytesRead) != bytesRead) {
-                    return;
-                }
-                bytesRead = file.read(data, READ_BUFFER_SIZE);
-            }
-        }
-    }
-}
+#endif // QWUIFILERESSOURCE_H

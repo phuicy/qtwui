@@ -63,5 +63,5 @@ QString QwuiHttpServer::error() const
 
 void QwuiHttpServer::incommingConnection(int socketDescriptor)
 {
-    process(new QwuiHttpServerDelegate(ressourceProviderServer(), socketDescriptor));
+    process(new QwuiHttpServerDelegate(resourceProviderServer(), socketDescriptor));
 }

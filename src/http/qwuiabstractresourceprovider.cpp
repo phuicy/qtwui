@@ -18,29 +18,57 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIABSTRACTRESSOURCEPROVIDERFACTORY_H
-#define QWUIABSTRACTRESSOURCEPROVIDERFACTORY_H
+#include <QtWui/QwuiAbstractResourceProvider>
 
-#include <QtCore/QString>
-#include <QtWui/QwuiGlobal>
-
-class QwuiAbstractRessourceProvider;
-
-/**
- * \brief Abstract class defining the interface for a ressource provider factory.
- * Subclasses must implement the create() method to return a QwuiAbstractRessourceProvider.
- */
-class QTWUI_EXPORT QwuiAbstractRessourceProviderFactory
+QwuiAbstractResourceProvider::QwuiAbstractResourceProvider(const QString& sessionId) :
+    QObject(NULL),
+    m_keepSessions(false),
+    m_sessionLifeTime(1800),
+    m_sessionId(sessionId)
 {
-public:
-    QwuiAbstractRessourceProviderFactory();
-    virtual ~QwuiAbstractRessourceProviderFactory();
+    resetSessionTimeoutDate();
+}
 
-    /**
-     * @param sessionId the session identifier for the ressource provider.
-     * @return a new ressource provider.
-     */
-    virtual QwuiAbstractRessourceProvider* create(const QString& sessionId) const = 0;
-};
+QwuiAbstractResourceProvider::~QwuiAbstractResourceProvider()
+{
+}
 
-#endif // QWUIABSTRACTRESSOURCEPROVIDERFACTORY_H
+QString QwuiAbstractResourceProvider::sessionId() const
+{
+    return m_sessionId;
+}
+
+bool QwuiAbstractResourceProvider::keepSessions() const
+{
+    return m_keepSessions;
+}
+
+void QwuiAbstractResourceProvider::setKeepSessions(bool keep)
+{
+    m_keepSessions = keep;
+}
+
+QDateTime QwuiAbstractResourceProvider::sessionTimeoutDate() const
+{
+    return m_sessionTimeoutDate;
+}
+
+void QwuiAbstractResourceProvider::resetSessionTimeoutDate()
+{
+    m_sessionTimeoutDate = QDateTime::currentDateTime().addSecs(m_sessionLifeTime);
+}
+
+bool QwuiAbstractResourceProvider::isSessionTimedOut() const
+{
+    return m_sessionTimeoutDate <= QDateTime::currentDateTime();
+}
+
+int QwuiAbstractResourceProvider::sessionLifeTime() const
+{
+    return m_sessionLifeTime;
+}
+
+void QwuiAbstractResourceProvider::setSessionLifeTime(int secs)
+{
+    m_sessionLifeTime = secs;
+}

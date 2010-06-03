@@ -18,35 +18,31 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QWUIBUFFEREDRESSOURCE_H
-#define QWUIBUFFEREDRESSOURCE_H
+#include <QtWui/QwuiBufferedResource>
+#include <QtCore/QIODevice>
 
-#include <QtWui/QwuiAbstractRessource>
-#include <QtCore/QByteArray>
-#include <QtWui/QwuiGlobal>
-
-/**
- * \brief A ressource that wraps a simple byte array.
- * This class makes it possible to send a buffer of data to the client.
- */
-class QTWUI_EXPORT QwuiBufferedRessource : public QwuiAbstractRessource
+QwuiBufferedResource::QwuiBufferedResource(const QString& path, const QString& mimeType, const QByteArray& source) :
+    QwuiAbstractResource(path),
+    m_mimeType(mimeType),
+    m_source(source)
 {
-public:
-    /**
-     * @param path path identifying the buffer content.
-     * @param mimeType MIME-type of the buffer content.
-     * @param source buffer data.
-     */
-    QwuiBufferedRessource(const QString& path, const QString& mimeType, const QByteArray& source);
-    virtual ~QwuiBufferedRessource();
+}
 
-    virtual QString mimeType() const;
-    virtual qint64 length() const;
-    virtual void sendToDevice(QIODevice* dev) const;
+QwuiBufferedResource::~QwuiBufferedResource()
+{
+}
 
-private:
-    QString m_mimeType;
-    QByteArray m_source;
-};
+QString QwuiBufferedResource::mimeType() const
+{
+    return m_mimeType;
+}
 
-#endif // QWUIBUFFEREDRESSOURCE_H
+qint64 QwuiBufferedResource::length() const
+{
+    return m_source.length();
+}
+
+void QwuiBufferedResource::sendToDevice(QIODevice* dev) const
+{
+    dev->write(m_source);
+}

@@ -18,31 +18,55 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtWui/QwuiBufferedRessource>
-#include <QtCore/QIODevice>
+#include <QtWui/QwuiFileResource>
+#include <QtCore/QUrl>
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 
-QwuiBufferedRessource::QwuiBufferedRessource(const QString& path, const QString& mimeType, const QByteArray& source) :
-    QwuiAbstractRessource(path),
-    m_mimeType(mimeType),
-    m_source(source)
+#define READ_BUFFER_SIZE 4096
+
+QwuiFileResource::QwuiFileResource(const QString& path) :
+    QwuiAbstractResource(path)
 {
 }
 
-QwuiBufferedRessource::~QwuiBufferedRessource()
+QwuiFileResource::~QwuiFileResource()
 {
 }
 
-QString QwuiBufferedRessource::mimeType() const
+QString QwuiFileResource::mimeType() const
 {
-    return m_mimeType;
+    return "";
+    //return "application/octet-stream";
 }
 
-qint64 QwuiBufferedRessource::length() const
+qint64 QwuiFileResource::length() const
 {
-    return m_source.length();
+    QUrl fileUrl(path());
+    QFileInfo fi(fileUrl.path());
+    if (fi.exists() && fi.isFile()) {
+        return fi.size();
+    }
+    return -1;
 }
 
-void QwuiBufferedRessource::sendToDevice(QIODevice* dev) const
+void QwuiFileResource::sendToDevice(QIODevice* dev) const
 {
-    dev->write(m_source);
+    QUrl fileUrl(path());
+    if (exists()) {
+        QFile file(fileUrl.path());
+        if (file.open(QIODevice::ReadOnly)) {
+            char data[READ_BUFFER_SIZE];
+            qint64 bytesRead = file.read(data, READ_BUFFER_SIZE);
+            while (bytesRead != 0) {
+                if (!dev->isOpen()) {
+                    return;
+                }
+                if (dev->write(data, bytesRead) != bytesRead) {
+                    return;
+                }
+                bytesRead = file.read(data, READ_BUFFER_SIZE);
+            }
+        }
+    }
 }
