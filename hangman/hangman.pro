@@ -20,7 +20,7 @@ mac: {
     include(../src/kernel/kernel.pri)
     include(../src/webgets/webgets.pri)
 } else
-unix:TARGETDEPS += ../bin/libQtWui.so
+linux:TARGETDEPS += ../bin/libQtWui.so
 win32:TARGETDEPS += ../bin/QtWui.dll
 
 MOC_DIR = .tmp/moc
