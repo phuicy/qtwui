@@ -51,7 +51,6 @@ private:
 private:
     QString m_tag;
     QwuiWebget* m_webget;
-    bool m_emptyTag;
     QString m_text;
     QHash<QString, QString> m_attributes;
     QList<QwuiTag*> m_children;

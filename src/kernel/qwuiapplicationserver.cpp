@@ -23,6 +23,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtWui/QwuiHttpServer>
 #include <QtWui/QwuiApplicationFactory>
+#include <QtCore/QDebug>
 
 QwuiApplicationServer::QwuiApplicationServer(QwuiApplicationCreator creatorFunction, QObject* parent) :
     QwuiResourceProviderServer(parent)
@@ -50,6 +51,6 @@ void QwuiApplicationServer::exec()
 void QwuiApplicationServer::initialize()
 {
     if (!start()) {
-        qWarning(qobject_cast<QwuiHttpServer*>(httpServer())->error().toAscii().data());
+        qWarning() << qobject_cast<QwuiHttpServer*>(httpServer())->error();
     }
 }

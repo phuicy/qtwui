@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include <QtWui/QwuiFileResourceProvider>
-#include <QtNetwork/QHttpRequestHeader>
+#include "http/qwuihttpheader.h"
 #include <QtWui/QwuiFileResource>
 
 QwuiFileResourceProvider::QwuiFileResourceProvider(const QString& sessionId) :
@@ -32,7 +32,7 @@ QwuiFileResourceProvider::~QwuiFileResourceProvider()
 {
 }
 
-QwuiAbstractResource* QwuiFileResourceProvider::provide(const QHttpRequestHeader& header, const QString& postContent)
+QwuiAbstractResource* QwuiFileResourceProvider::provide(const QWuiHttpRequestHeader& header, const QString& postContent)
 {
     Q_UNUSED(postContent);
 

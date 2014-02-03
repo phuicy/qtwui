@@ -48,7 +48,7 @@ public:
      */
     QString rootDirectory() const;
 
-    QwuiAbstractResource* provide(const QHttpRequestHeader& header, const QString& postContent);
+    QwuiAbstractResource* provide(const QWuiHttpRequestHeader& header, const QString& postContent);
 
 private:
     QString m_rootDir;

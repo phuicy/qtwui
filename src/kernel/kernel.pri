@@ -1,31 +1,33 @@
+INCLUDEPATH += $$PWD
+
 SOURCES += \
-    kernel/qwuiapplication.cpp \
-    kernel/qwuiapplicationfactory.cpp \
-    kernel/qwuiapplicationserver.cpp \
-    kernel/qwuiboxlayout.cpp \
-    kernel/qwuibufferedresource.cpp \
-    kernel/qwuifileresource.cpp \
-    kernel/qwuifileresourceprovider.cpp \
-    kernel/qwuigridlayout.cpp \
-    kernel/qwuilayout.cpp \
-    kernel/qwuilayoutitem.cpp \
-    kernel/qwuiparameters.cpp \
-    kernel/qwuistackedlayout.cpp \
-    kernel/qwuitag.cpp
+    $$PWD/qwuiapplication.cpp \
+    $$PWD/qwuiapplicationfactory.cpp \
+    $$PWD/qwuiapplicationserver.cpp \
+    $$PWD/qwuiboxlayout.cpp \
+    $$PWD/qwuibufferedresource.cpp \
+    $$PWD/qwuifileresource.cpp \
+    $$PWD/qwuifileresourceprovider.cpp \
+    $$PWD/qwuigridlayout.cpp \
+    $$PWD/qwuilayout.cpp \
+    $$PWD/qwuilayoutitem.cpp \
+    $$PWD/qwuiparameters.cpp \
+    $$PWD/qwuistackedlayout.cpp \
+    $$PWD/qwuitag.cpp
 
 HEADERS += \
-    kernel/qwuiapplication.h \
-    kernel/qwuiapplicationcreator.h \
-    kernel/qwuiapplicationfactory.h \
-    kernel/qwuiapplicationserver.h \
-    kernel/qwuiboxlayout.h \
-    kernel/qwuibufferedresource.h \
-    kernel/qwuifileresource.h \
-    kernel/qwuifileresourceprovider.h \
-    kernel/qwuiglobal.h \
-    kernel/qwuigridlayout.h \
-    kernel/qwuilayout.h \
-    kernel/qwuilayoutitem.h \
-    kernel/qwuiparameters.h \
-    kernel/qwuistackedlayout.h \
-    kernel/qwuitag.h
+    $$PWD/qwuiapplication.h \
+    $$PWD/qwuiapplicationcreator.h \
+    $$PWD/qwuiapplicationfactory.h \
+    $$PWD/qwuiapplicationserver.h \
+    $$PWD/qwuiboxlayout.h \
+    $$PWD/qwuibufferedresource.h \
+    $$PWD/qwuifileresource.h \
+    $$PWD/qwuifileresourceprovider.h \
+    $$PWD/qwuiglobal.h \
+    $$PWD/qwuigridlayout.h \
+    $$PWD/qwuilayout.h \
+    $$PWD/qwuilayoutitem.h \
+    $$PWD/qwuiparameters.h \
+    $$PWD/qwuistackedlayout.h \
+    $$PWD/qwuitag.h

@@ -28,7 +28,7 @@
 #include <QtWui/QwuiGlobal>
 
 class QIODevice;
-class QHttpRequestHeader;
+class QWuiHttpRequestHeader;
 class QwuiWebget;
 class QwuiFileResourceProvider;
 
@@ -51,7 +51,7 @@ public:
      * @param postContent HTTP post content.
      * @return The resource corresponding to the HTTP request.
      */
-    QwuiAbstractResource* provide(const QHttpRequestHeader& header, const QString& postContent);
+    QwuiAbstractResource* provide(const QWuiHttpRequestHeader& header, const QString& postContent);
 
     /**
      * @param w the main webget for the web application.

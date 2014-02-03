@@ -45,7 +45,7 @@ public:
     virtual QString error() const;
 
 private slots:
-    void incommingConnection(int socketDescriptor);
+    void incommingConnection(qintptr socketDescriptor);
 
 private:
     QwuiTcpServer* m_server;

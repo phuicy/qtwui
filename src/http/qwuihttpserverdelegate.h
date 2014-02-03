@@ -33,15 +33,15 @@ class QTWUI_EXPORT QwuiHttpServerDelegate : public QwuiAbstractHttpServerDelegat
     Q_OBJECT
 
 public:
-    QwuiHttpServerDelegate(QwuiResourceProviderServer* providerServer = NULL, int socketDescriptor = 0);
+    QwuiHttpServerDelegate(QwuiResourceProviderServer* providerServer = NULL, qintptr socketDescriptor = 0);
     virtual ~QwuiHttpServerDelegate();
 
 protected:
     virtual QIODevice* createDevice();
     virtual void deleteDevice(QIODevice* device);
-    virtual QHttpRequestHeader readHttpRequestHeader();
+    virtual QWuiHttpRequestHeader readHttpRequestHeader();
     virtual QString readHttpRequestContent();
-    virtual void writeHttpResponseHeader(const QHttpResponseHeader& responseHeader);
+    virtual void writeHttpResponseHeader(const QWuiHttpResponseHeader& responseHeader);
 
 private:
     int m_socketDescriptor;

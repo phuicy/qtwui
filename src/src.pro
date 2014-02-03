@@ -43,3 +43,13 @@ DISTFILES += \
     ../stylesheets/qwuiwebget.css
 
 INCLUDEPATH += ../include
+
+OTHER_FILES += \
+    ../scripts/create-include-files.rb \
+    ../javascript/prototype.js \
+    ../javascript/qtwui.js \
+    ../stylesheets/qtwui.css \
+    ../stylesheets/qwuilabel.css \
+    ../stylesheets/qwuimainwebget.css \
+    ../stylesheets/qwuiscrollarea.css \
+    ../stylesheets/qwuiwebget.css

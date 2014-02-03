@@ -28,7 +28,7 @@
 // Http request header lines are limited to 8kb per line.
 #define QWUI_MAX_HEADER_LINES_LENGTH 8192
 
-QwuiHttpServerDelegate::QwuiHttpServerDelegate(QwuiResourceProviderServer* providerServer, int socketDescriptor) :
+QwuiHttpServerDelegate::QwuiHttpServerDelegate(QwuiResourceProviderServer* providerServer, qintptr socketDescriptor) :
     QwuiAbstractHttpServerDelegate(providerServer),
     m_socketDescriptor(socketDescriptor),
     m_requestContentLength(0)
@@ -58,7 +58,7 @@ void QwuiHttpServerDelegate::deleteDevice(QIODevice* device)
 }
 
 
-QHttpRequestHeader QwuiHttpServerDelegate::readHttpRequestHeader()
+QWuiHttpRequestHeader QwuiHttpServerDelegate::readHttpRequestHeader()
 {
     QTextStream stream(device());
     QString headerStr;
@@ -69,7 +69,7 @@ QHttpRequestHeader QwuiHttpServerDelegate::readHttpRequestHeader()
         current = device()->readLine(QWUI_MAX_HEADER_LINES_LENGTH);
     }
 
-    QHttpRequestHeader header(headerStr);
+    QWuiHttpRequestHeader header(headerStr);
     m_requestContentLength = header.contentLength();
 
     return header;
@@ -80,7 +80,7 @@ QString QwuiHttpServerDelegate::readHttpRequestContent()
     return QString(device()->read(m_requestContentLength));
 }
 
-void QwuiHttpServerDelegate::writeHttpResponseHeader(const QHttpResponseHeader& responseHeader)
+void QwuiHttpServerDelegate::writeHttpResponseHeader(const QWuiHttpResponseHeader& responseHeader)
 {
     QTextStream stream(device());
     stream << responseHeader.toString();

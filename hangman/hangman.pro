@@ -9,6 +9,17 @@ LIBS += \
     -L../bin \
     -lQtWui
 
+mac: {
+    QT += \
+        core \
+        network \
+        xml
+
+    INCLUDEPATH += ../src
+    include(../src/http/http.pri)
+    include(../src/kernel/kernel.pri)
+    include(../src/webgets/webgets.pri)
+} else
 unix:TARGETDEPS += ../bin/libQtWui.so
 win32:TARGETDEPS += ../bin/QtWui.dll
 

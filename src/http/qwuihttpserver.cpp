@@ -28,7 +28,7 @@ QwuiHttpServer::QwuiHttpServer(QObject* parent) :
     m_port(80)
 {
     m_server = new QwuiTcpServer(this);
-    connect(m_server, SIGNAL(newConnection(int)), this, SLOT(incommingConnection(int)));
+    connect(m_server, SIGNAL(newConnection(qintptr)), this, SLOT(incommingConnection(qintptr)));
 }
 
 QwuiHttpServer::~QwuiHttpServer()
@@ -61,7 +61,7 @@ QString QwuiHttpServer::error() const
     return m_lastError;
 }
 
-void QwuiHttpServer::incommingConnection(int socketDescriptor)
+void QwuiHttpServer::incommingConnection(qintptr socketDescriptor)
 {
     process(new QwuiHttpServerDelegate(resourceProviderServer(), socketDescriptor));
 }

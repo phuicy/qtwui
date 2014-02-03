@@ -29,7 +29,7 @@ QwuiTcpServer::~QwuiTcpServer()
 {
 }
 
-void QwuiTcpServer::incomingConnection(int socketDescriptor)
+void QwuiTcpServer::incomingConnection(qintptr socketDescriptor)
 {
     emit newConnection(socketDescriptor);
 }

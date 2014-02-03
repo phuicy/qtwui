@@ -20,7 +20,8 @@
 
 #include <QtWui/QwuiParameters>
 #include <QtCore/QUrl>
-#include <QtNetwork/QHttpRequestHeader>
+#include <QtCore/QUrlQuery>
+#include "http/qwuihttpheader.h"
 
 QwuiParameters::QwuiParameters()
 {
@@ -30,14 +31,19 @@ QwuiParameters::~QwuiParameters()
 {
 }
 
-void QwuiParameters::init(const QHttpRequestHeader& header, const QString& postContent)
+void QwuiParameters::init(const QWuiHttpRequestHeader& header, const QString& postContent)
 {
     clear();
 
     m_postContent = postContent;
 
     QUrl url(header.path());
-    QList<QPair<QString, QString> > items = url.queryItems();
+    QList<QPair<QString, QString> > items =
+        #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+                QUrlQuery(url).queryItems();
+        #else
+                url.queryItems();
+        #endif
     QList<QPair<QString, QString> >::ConstIterator it = items.begin();
     QList<QPair<QString, QString> >::ConstIterator itEnd = items.end();
     for (; it != itEnd; ++it) {

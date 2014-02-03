@@ -26,8 +26,13 @@
 
 /**
  * \brief A simple subclass of QTcpServer.
- * This class provides only a signal newConnection(int) with the incoming connection socket descriptor as parameter.
+ * This class provides only a signal newConnection(qintptr) with the incoming connection socket descriptor as parameter.
  */
+
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+    #define qintptr int
+#endif
+
 class QTWUI_EXPORT QwuiTcpServer : public QTcpServer
 {
     Q_OBJECT
@@ -37,10 +42,10 @@ public:
     virtual ~QwuiTcpServer();
 
 signals:
-    void newConnection(int socketDescriptor);
+    void newConnection(qintptr socketDescriptor);
 
 protected:
-    virtual void incomingConnection(int socketDescriptor);
+    virtual void incomingConnection(qintptr socketDescriptor);
 };
 
 #endif // QWUITCPSERVER_H

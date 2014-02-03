@@ -38,6 +38,7 @@ public:
     bool play(QChar c);
     void setWordsList(const QStringList wl);
     QStringList wordsList() const;
+    QString currentWord() const;
     QString usedCharacters() const;
     QString foundWord() const;
     bool isFinished();

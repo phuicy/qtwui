@@ -121,23 +121,24 @@ void HangMan::letterClicked(const QString& link)
 {
     if (!link.isEmpty()) {
         m_game->play(link[link.length() - 1]);
+        updateImage(m_game->errorCount());
+        m_image->setImage(m_errorsImage);
         if (m_game->isFinished()) {
             if (m_game->hasWon()) {
                 m_letterBox->setText("<h1>Victory !</h1>");
             } else {
                 m_letterBox->setText("<h1>Defeat !</h1>");
             }
+            m_word->setText(QString("<h2>WORD WAS %1</h2>").arg(m_game->currentWord()));
         } else {
+            QString foundWord(m_game->foundWord());
+            QString displayedWord;
+            for (int i = 0; i < foundWord.length(); ++i) {
+                displayedWord += foundWord[i] + " ";
+            }
+            m_word->setText(QString("<h2>%1</h2>").arg(displayedWord));
             updateCharacters(m_game->usedCharacters());
         }
-        updateImage(m_game->errorCount());
-        m_image->setImage(m_errorsImage);
-        QString foundWord(m_game->foundWord());
-        QString displayedWord;
-        for (int i = 0; i < foundWord.length(); ++i) {
-            displayedWord += foundWord[i] + " ";
-        }
-        m_word->setText(QString("<h2>%1</h2>").arg(displayedWord));
     }
 }
 

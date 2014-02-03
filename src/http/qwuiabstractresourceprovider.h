@@ -25,7 +25,7 @@
 #include <QtCore/QDateTime>
 #include <QtWui/QwuiGlobal>
 
-class QHttpRequestHeader;
+class QWuiHttpRequestHeader;
 class QwuiAbstractResource;
 
 /**
@@ -51,7 +51,7 @@ public:
      * @param postContent HTTP post content.
      * @return a QwuiAbstractResource object corresponding to the HTTP request.
      */
-    virtual QwuiAbstractResource* provide(const QHttpRequestHeader& header, const QString& postContent) = 0;
+    virtual QwuiAbstractResource* provide(const QWuiHttpRequestHeader& header, const QString& postContent) = 0;
 
     /**
      * @return the current session identifier.

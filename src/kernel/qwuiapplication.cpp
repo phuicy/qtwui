@@ -24,7 +24,8 @@
 #include <QtCore/QBuffer>
 #include <QtCore/QByteArray>
 #include <QtCore/QUrl>
-#include <QtNetwork/QHttpRequestHeader>
+#include <QUrlQuery>
+#include <QtWui/QwuiHttpHeader>
 #include <QtWui/QwuiFileResourceProvider>
 #include <QtWui/QwuiWebget>
 #include <QtWui/QwuiBufferedResource>
@@ -46,7 +47,7 @@ QwuiApplication::~QwuiApplication()
     delete m_fileProvider;
 }
 
-QwuiAbstractResource* QwuiApplication::provide(const QHttpRequestHeader& header, const QString& postContent)
+QwuiAbstractResource* QwuiApplication::provide(const QWuiHttpRequestHeader& header, const QString& postContent)
 {
     QUrl url(header.path());
 
@@ -57,7 +58,14 @@ QwuiAbstractResource* QwuiApplication::provide(const QHttpRequestHeader& header,
 
         m_parameters.init(header, postContent);
 
-        QString call = url.queryItemValue("call");
+
+        QString call =
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+            QUrlQuery(url).queryItemValue("call");
+    #else
+            url.queryItemValue("call");
+    #endif
+
         if (call.isEmpty()) {
             call = m_mainWebget->webName() + ".render";
         }

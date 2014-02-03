@@ -26,7 +26,7 @@
 #include <QtXml/QDomDocument>
 #include <QtWui/QwuiGlobal>
 
-class QHttpRequestHeader;
+class QWuiHttpRequestHeader;
 
 /**
  * \brief Parameters received from the client by the web server.
@@ -42,7 +42,7 @@ public:
      * @param header HTTP request header
      * @param postContent HTTP post content.
      */
-    void init(const QHttpRequestHeader& header, const QString& postContent = QString::null);
+    void init(const QWuiHttpRequestHeader& header, const QString& postContent = QString::null);
 
     /**
      * Clears the instance.

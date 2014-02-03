@@ -152,7 +152,13 @@ QwuiAbstractResourceProvider* QwuiResourceProviderServer::newSession()
 {
     if (m_factory != NULL) {
         QWriteLocker locker(m_lock);
-        QwuiAbstractResourceProvider* provider = m_factory->create(QUuid::createUuid());
+        QwuiAbstractResourceProvider* provider = m_factory->create(
+            #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+                    QUuid::createUuid().toString()
+            #else
+                    QUuid::createUuid()
+            #endif
+            );
         provider->setSessionLifeTime(m_defaultSessionLifeTime);
         provider->resetSessionTimeoutDate();
         if (provider->keepSessions()) {

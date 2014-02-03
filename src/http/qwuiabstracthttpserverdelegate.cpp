@@ -23,13 +23,11 @@
 #include <QtCore/QLocale>
 #include <QtCore/QTimer>
 #include <QtCore/QTextStream>
-#include <QtNetwork/QHttpHeader>
-#include <QtNetwork/QHttpRequestHeader>
-#include <QtNetwork/QHttpResponseHeader>
 #include <QtWui/QwuiAbstractResource>
 #include <QtWui/QwuiAbstractResourceProvider>
 #include <QtWui/QwuiResourceProviderServer>
 #include <QtWui/QwuiMessageResource>
+#include <QtCore/QDebug>
 
 QwuiAbstractHttpServerDelegate::QwuiAbstractHttpServerDelegate(QwuiResourceProviderServer* providerServer) :
     QThread(NULL),
@@ -66,7 +64,7 @@ void QwuiAbstractHttpServerDelegate::run()
     exec();
 }
 
-void QwuiAbstractHttpServerDelegate::handleRequest(const QHttpRequestHeader& header)
+void QwuiAbstractHttpServerDelegate::handleRequest(const QWuiHttpRequestHeader& header)
 {
     handleHeadRequest(header);
     if (m_resource->exists()) {
@@ -76,11 +74,11 @@ void QwuiAbstractHttpServerDelegate::handleRequest(const QHttpRequestHeader& hea
     }
 }
 
-void QwuiAbstractHttpServerDelegate::handleHeadRequest(const QHttpRequestHeader& header)
+void QwuiAbstractHttpServerDelegate::handleHeadRequest(const QWuiHttpRequestHeader& header)
 {
     Q_UNUSED(header);
 
-    QHttpResponseHeader responseHeader;
+    QWuiHttpResponseHeader responseHeader;
 
     QDateTime dt = QDateTime::currentDateTime().toUTC();
     QString dtString = m_en_USLocale->toString(dt.date(), "ddd, dd MMM yyyy") + " " + m_en_USLocale->toString(dt.time(), "hh:mm:ss") + " GMT";
@@ -106,12 +104,12 @@ void QwuiAbstractHttpServerDelegate::handleHeadRequest(const QHttpRequestHeader&
     writeHttpResponseHeader(responseHeader);
 }
 
-void QwuiAbstractHttpServerDelegate::setSessionId(QHttpHeader& header, const QString& sessionId) const
+void QwuiAbstractHttpServerDelegate::setSessionId(QWuiHttpHeader& header, const QString& sessionId) const
 {
     header.addValue("Set-Cookie", QString("QtWuiSessionId=") + sessionId + "; Path=/; Version=1");
 }
 
-QString QwuiAbstractHttpServerDelegate::sessionId(const QHttpHeader& header) const
+QString QwuiAbstractHttpServerDelegate::sessionId(const QWuiHttpHeader& header) const
 {
     QStringList cookies = header.allValues("cookie");
     QStringList::ConstIterator it = cookies.begin();
@@ -151,7 +149,9 @@ void QwuiAbstractHttpServerDelegate::doRun()
         return;
     }
 
-    QHttpRequestHeader header = readHttpRequestHeader();
+    QWuiHttpRequestHeader header = readHttpRequestHeader();
+
+    qDebug() << header.path();
 
     QString sessId = sessionId(header);
 

@@ -99,6 +99,11 @@ QStringList Game::wordsList() const
     return m_wordsList;
 }
 
+QString Game::currentWord() const
+{
+    return m_current;
+}
+
 QString Game::usedCharacters() const
 {
     return m_usedCharacters;

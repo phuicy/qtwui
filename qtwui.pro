@@ -9,3 +9,5 @@ SUBDIRS += \
     src \
 #    testapp \
     hangman
+
+CONFIG += ORDERED

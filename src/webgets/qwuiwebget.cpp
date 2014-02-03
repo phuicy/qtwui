@@ -123,7 +123,7 @@ QString QwuiWebget::invoke(const QString& call)
                     }
                 }
             }
-            if (QMetaObject::invokeMethod(this, nextPath.toAscii(), QArgument<QString>("QString&", mimeType))) {
+            if (QMetaObject::invokeMethod(this, nextPath.toLatin1(), QArgument<QString>("QString&", mimeType))) {
                 return mimeType;
             }
         }

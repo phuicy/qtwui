@@ -22,11 +22,10 @@
 #define QWUIABSTRACTHTTPSERVERWORKINGTHREAD_H
 
 #include <QtCore/QThread>
-#include <QtNetwork/QHttpRequestHeader>
+#include "qwuihttpheader.h"
 #include <QtWui/QwuiGlobal>
 
 class QIODevice;
-class QHttpResponseHeader;
 class QLocale;
 class QTimer;
 class QwuiAbstractResource;
@@ -51,15 +50,15 @@ protected:
     QIODevice* device() const;
     virtual QIODevice* createDevice() = 0;
     virtual void deleteDevice(QIODevice* device) = 0;
-    virtual QHttpRequestHeader readHttpRequestHeader() = 0;
+    virtual QWuiHttpRequestHeader readHttpRequestHeader() = 0;
     virtual QString readHttpRequestContent() = 0;
-    virtual void writeHttpResponseHeader(const QHttpResponseHeader& responseHeader) = 0;
+    virtual void writeHttpResponseHeader(const QWuiHttpResponseHeader& responseHeader) = 0;
     virtual void run();
-    virtual void handleRequest(const QHttpRequestHeader& header);
-    virtual void handleHeadRequest(const QHttpRequestHeader& header);
+    virtual void handleRequest(const QWuiHttpRequestHeader& header);
+    virtual void handleHeadRequest(const QWuiHttpRequestHeader& header);
 
-    void setSessionId(QHttpHeader& header, const QString& sessionId) const;
-    QString sessionId(const QHttpHeader& header) const;
+    void setSessionId(QWuiHttpHeader& header, const QString& sessionId) const;
+    QString sessionId(const QWuiHttpHeader& header) const;
 
 protected slots:
     virtual void doRun();
