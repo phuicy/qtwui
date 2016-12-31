@@ -123,7 +123,7 @@ void TestWebget::coucou(QString& mimeType)
     mimeType = "text/plain";
     QString s("Hello World from %1 method !");
     s = s.arg(webPath());
-    device()->write(s.toAscii(), s.length());
+    device()->write(s.toLatin1(), s.length());
 }
 
 void TestWebget::empty(QString& mimeType)
@@ -139,13 +139,13 @@ void TestWebget::ajaxcall(QString& mimeType)
     QString s2("<li>Item %1</li>");
     QString s3("</ul>");
 
-    device()->write(s2.arg(++m_items).toAscii(), s2.length());
-    //dev->write(s1.toAscii(), s1.length());
+    device()->write(s2.arg(++m_items).toLatin1(), s2.length());
+    //dev->write(s1.toLatin1(), s1.length());
     /*++m_items;
     for (int i = 0; i < m_items; ++i) {
-        dev->write(s2.toAscii(), s2.length());
+        dev->write(s2.toLatin1(), s2.length());
     }*/
-    //dev->write(s3.toAscii(), s3.length());
+    //dev->write(s3.toLatin1(), s3.length());
 }
 
 void TestWebget::linkClicked()
@@ -164,7 +164,7 @@ void TestWebget::linkClicked()
 
 void TestWebget::link2Clicked(const QString& link)
 {
-    qDebug(link.toAscii());
+    qDebug(link.toLatin1());
     if (link == "link") {
         m_label1->setText("Yeeeeehhhaaaahh !!!!");
     } else if (link == "swap") {

@@ -20,10 +20,12 @@
 
 #include "HangMan.h"
 #include <QtCore/QCoreApplication>
+#include <QTimer>
 #include <QtWui/QwuiBoxLayout>
 #include <QtWui/QwuiLabel>
 #include <QtGui/QPainter>
 #include "Game.h"
+#include "iostream"
 
 HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
     QwuiWebget(parent, webName),
@@ -32,7 +34,8 @@ HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
     m_image(NULL),
     m_letterBox(NULL),
     m_game(NULL),
-    m_errorsImage(300, 300, QImage::Format_ARGB32)
+    m_errorsImage(300, 300, QImage::Format_ARGB32),
+    i(0)
 {
     m_game = new Game(this);
     QStringList wl;
@@ -42,29 +45,38 @@ HangMan::HangMan(QwuiWebget* parent, const QString& webName) :
     m_game->setWordsList(wl);
 
     QwuiBoxLayout* l = new QwuiVBoxLayout(this);
+    
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
 
     m_title = new QwuiLabel(this, "m_title");
-    m_word = new QwuiLabel(this, "m_word");
-    m_image = new QwuiLabel(this, "m_image");
-    m_letterBox = new QwuiLabel(this, "m_letterBox");
-    connect(m_letterBox, SIGNAL(clicked(const QString&)), this, SLOT(letterClicked(const QString&)));
-    connect(m_title, SIGNAL(clicked(const QString&)), this, SLOT(newGame(const QString&)));
+    update = new QwuiLabel(this,"update");
 
     l->addWebget(m_title, 1);
-    l->addWebget(m_word, 1);
-    l->addWebget(m_image, 5);
-    l->addWebget(m_letterBox, 2);
+    l->addWebget(update, 1);
 
-    m_title->setText("<h1>Hangman</h1><br /><h4><a href=\"new_game\">New Game</a> <a href=\"kill_server\">Kill server</a></h4>");
+
+    m_title->setText("<h1>Hangman</h1>");
     m_title->setAlignment(Qt::AlignHCenter);
-    m_word->setAlignment(Qt::AlignHCenter);
-    m_image->setAlignment(Qt::AlignHCenter);
-    m_letterBox->setAlignment(Qt::AlignHCenter);
-    newGame("new_game");
+    update->setText("<h2>Go</h2>");
+    update->setAlignment(Qt::AlignHCenter);
+
+   timer->start(1000);
+
 }
 
 HangMan::~HangMan()
 {
+    timer->stop();
+}
+
+void HangMan::showTime()
+{
+    QString ss= QString::number(i);
+    update->setText(ss);
+    update->update();
+    ++i;
+    std::cout << i << std::endl;
 }
 
 void HangMan::updateImage(int steps)

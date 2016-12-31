@@ -41,14 +41,19 @@ private:
 private slots:
     void letterClicked(const QString& link);
     void newGame(const QString& link);
+    void showTime();
+
 
 private:
     QwuiLabel* m_title;
+    QwuiLabel* update;
     QwuiLabel* m_word;
     QwuiLabel* m_image;
     QwuiLabel* m_letterBox;
     Game* m_game;
     QImage m_errorsImage;
+    int i;
+    QTimer *timer;
 };
 
 #endif // HANGMAN_H
